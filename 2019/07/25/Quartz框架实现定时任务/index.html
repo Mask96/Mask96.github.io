@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Quartz,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="Technology blog and life sharing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
+<meta name="keywords" content="Quartz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quartz框架实现定时任务">
+<meta property="og:url" content="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="Technology blog and life sharing">
+<meta property="og:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-25T08:40:47.543Z">
+<meta property="og:updated_time" content="2019-07-25T10:31:24.691Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类">
-<meta name="twitter:description" content="Technology blog and life sharing">
+<meta name="twitter:title" content="Quartz框架实现定时任务">
+<meta name="twitter:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/">
 
 
 
 
 
-  <title>分类 | Mask</title>
+  <title>Quartz框架实现定时任务 | Mask</title>
   
 
 
@@ -292,40 +293,188 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mask">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 2 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工作记录/">工作记录</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Quartz框架实现定时任务</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T17:55:31+08:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
+<h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
+<ol>
+<li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void execute(JobExecutionContext context) </span><br></pre></td></tr></table></figure></li>
+<li>JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度程序所要执行的内容，另外 JobDetail 还包含了这个任务调度的方案和策略。 </li>
+<li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
+<li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
+</ol>
+<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  // define the job and tie it to our HelloJob class</span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(&quot;myJob&quot;, &quot;group1&quot;)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Trigger the job to run now, and then every 40 seconds</span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(&quot;myTrigger&quot;, &quot;group1&quot;)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(40) //每40s执行一次</span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Tell quartz to schedule the job using our trigger</span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
+<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class HelloJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">    public HelloJob() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void execute(JobExecutionContext context)</span><br><span class="line">      throws JobExecutionException</span><br><span class="line">    &#123;</span><br><span class="line">      System.err.println(&quot;Hello!  HelloJob is executing.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class TimedRegister implements ApplicationListener&lt;ApplicationReadyEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // Grab the Scheduler instance from the Factory</span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            // and start it off</span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            // define the job and tie it to our HelloJob class</span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(&quot;job1&quot;, &quot;jobGroup1&quot;)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(&quot;0 0 10 * * ?&quot;))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;TimedRegister daily job error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>以上需要注意几点：</strong></p>
+<ol>
+<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
+</li>
+<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。<br>　　<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br></pre></td></tr></table></figure><br>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。<br>　<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException &#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(&quot;findMessage&quot;);</span><br><span class="line">        logger.info(&quot;get findMessage instance success&quot;);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(&quot;send ding from mysql is success&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure></p>
+</li>
+</ol>
+<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　 　// define the job and tie it to our DumbJob class</span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(&quot;myJob&quot;, &quot;group1&quot;) // name &quot;myJob&quot;, group &quot;group1&quot;</span><br><span class="line">    .usingJobData(&quot;jobSays&quot;, &quot;Hello World!&quot;)</span><br><span class="line">    .usingJobData(&quot;myFloatValue&quot;, 3.141f)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure><br>  然后在job的具体类中将其取出，如下：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class DumbJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">  public DumbJob() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void execute(JobExecutionContext context)</span><br><span class="line">    throws JobExecutionException</span><br><span class="line">  &#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(&quot;jobSays&quot;);</span><br><span class="line">    float myFloatValue = dataMap.getFloat(&quot;myFloatValue&quot;);</span><br><span class="line"></span><br><span class="line">    System.err.println(&quot;Instance &quot; + key + &quot; of DumbJob says: &quot; + jobSays + &quot;, and val is: &quot; + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Quartz/" rel="tag"># Quartz</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/25/工作周报/" rel="next" title="工作周报">
+                <i class="fa fa-chevron-left"></i> 工作周报
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -334,6 +483,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -354,8 +507,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -437,6 +599,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz简单使用"><span class="nav-number">1.</span> <span class="nav-text">Quartz简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Scheduler"><span class="nav-number">1.1.</span> <span class="nav-text">配置Scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现jobDetail"><span class="nav-number">1.2.</span> <span class="nav-text">实现jobDetail</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz和Spring-boot结合"><span class="nav-number">2.</span> <span class="nav-text">Quartz和Spring boot结合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz中的JobDataMap使用指南"><span class="nav-number">3.</span> <span class="nav-text">Quartz中的JobDataMap使用指南</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

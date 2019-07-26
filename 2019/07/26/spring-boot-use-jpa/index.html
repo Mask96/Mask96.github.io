@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="jpa,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Technology blog and life sharing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mask">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="SpringBoot中使用JPA访问数据库JPA概念  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）  优">
+<meta name="keywords" content="jpa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot中使用JPA访问数据库">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/spring-boot-use-jpa/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="Technology blog and life sharing">
+<meta property="og:description" content="SpringBoot中使用JPA访问数据库JPA概念  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）  优">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-26T03:48:54.900Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mask">
-<meta name="twitter:description" content="Technology blog and life sharing">
+<meta name="twitter:title" content="SpringBoot中使用JPA访问数据库">
+<meta name="twitter:description" content="SpringBoot中使用JPA访问数据库JPA概念  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）  优">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/26/spring-boot-use-jpa/">
 
 
 
 
 
-  <title>Mask</title>
+  <title>SpringBoot中使用JPA访问数据库 | Mask</title>
   
 
 
@@ -153,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -289,9 +290,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -321,9 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/26/spring-boot-use-jpa/" itemprop="url">SpringBoot中使用JPA访问数据库</a></h1>
+          <h1 class="post-title" itemprop="name headline">SpringBoot中使用JPA访问数据库</h1>
         
 
         <div class="post-meta">
@@ -395,9 +394,7 @@
       
 
       
-        
-          
-            <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
+        <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
 <h2 id="SpringBoot使用JPA"><a href="#SpringBoot使用JPA" class="headerlink" title="SpringBoot使用JPA"></a>SpringBoot使用JPA</h2><h3 id="加入依赖"><a href="#加入依赖" class="headerlink" title="加入依赖"></a>加入依赖</h3><p>  Spring boot有着jpa的起步依赖，将以下依赖添加到pom中。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
@@ -420,8 +417,6 @@
 <p>Spring data jpa官方文档：<a href="https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/</a><br>学习自Kite__博客：<a href="https://blog.csdn.net/daguanjia11/article/details/80026908" target="_blank" rel="noopener">https://blog.csdn.net/daguanjia11/article/details/80026908</a></p>
 </blockquote>
 
-          
-        
       
     </div>
     
@@ -436,367 +431,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mask">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mask">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/25/Quartz框架实现定时任务/" itemprop="url">Quartz框架实现定时任务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T17:55:31+08:00">
-                2019-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/jpa/" rel="tag"># jpa</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
-<h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
-<ol>
-<li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span> </span></span><br></pre></td></tr></table></figure></li>
-<li>JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度程序所要执行的内容，另外 JobDetail 还包含了这个任务调度的方案和策略。 </li>
-<li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
-<li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
-</ol>
-<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = <span class="keyword">new</span> org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Trigger the job to run now, and then every 40 seconds</span></span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(<span class="string">"myTrigger"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(<span class="number">40</span>) <span class="comment">//每40s执行一次</span></span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Tell quartz to schedule the job using our trigger</span></span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
-<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      System.err.println(<span class="string">"Hello!  HelloJob is executing."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimedRegister</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ApplicationReadyEvent</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ApplicationReadyEvent applicationReadyEvent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// Grab the Scheduler instance from the Factory</span></span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// and start it off</span></span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(<span class="string">"job1"</span>, <span class="string">"jobGroup1"</span>)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(<span class="string">"trigger1"</span>, <span class="string">"triggerGroup1"</span>)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(<span class="string">"0 0 10 * * ?"</span>))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"TimedRegister daily job error"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>以上需要注意几点：</strong></p>
-<ol>
-<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
-</li>
-<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br></pre></td></tr></table></figure>
-<p>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext jobExecutionContext)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(<span class="string">"findMessage"</span>);</span><br><span class="line">        logger.info(<span class="string">"get findMessage instance success"</span>);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(<span class="string">"send ding from mysql is success"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　 　<span class="comment">// define the job and tie it to our DumbJob class</span></span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>) <span class="comment">// name "myJob", group "group1"</span></span><br><span class="line">    .usingJobData(<span class="string">"jobSays"</span>, <span class="string">"Hello World!"</span>)</span><br><span class="line">    .usingJobData(<span class="string">"myFloatValue"</span>, <span class="number">3.141f</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
-<p>  然后在job的具体类中将其取出，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DumbJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DumbJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(<span class="string">"jobSays"</span>);</span><br><span class="line">    <span class="keyword">float</span> myFloatValue = dataMap.getFloat(<span class="string">"myFloatValue"</span>);</span><br><span class="line"></span><br><span class="line">    System.err.println(<span class="string">"Instance "</span> + key + <span class="string">" of DumbJob says: "</span> + jobSays + <span class="string">", and val is: "</span> + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/工作周报/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mask">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mask">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/25/工作周报/" itemprop="url">工作周报</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T17:34:49+08:00">
-                2019-07-25
-              </time>
+              <a href="/2019/07/25/Quartz框架实现定时任务/" rel="next" title="Quartz框架实现定时任务">
+                <i class="fa fa-chevron-left"></i> Quartz框架实现定时任务
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工作记录/" itemprop="url" rel="index">
-                    <span itemprop="name">工作记录</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="工作日报"><a href="#工作日报" class="headerlink" title="工作日报"></a>工作日报</h1><h2 id="七月"><a href="#七月" class="headerlink" title="七月"></a>七月</h2><h3 id="第二周"><a href="#第二周" class="headerlink" title="第二周"></a>第二周</h3><h4 id="2019-7-18-周四"><a href="#2019-7-18-周四" class="headerlink" title="2019.7.18 周四"></a>2019.7.18 周四</h4><ol>
-<li>完成定时内重复消息过滤（JudgeMessage.class）的单元测试。</li>
-<li>完成定时任务类，使用quartz框架。可以使指定任务定时执行，也可以隔断时间执行。</li>
-<li>完成mysql中两个表的消息查询，并设置定时任务，间隔为一天执行一次，每次执行时查询一天的数据，并且将重复的数据过滤掉。</li>
-<li>钉钉发送消息有时间条数限制，获取了错误情况下返回值，并在发送消息过程中做了休眠操作。</li>
-</ol>
-<h4 id="2019-7-19-周五"><a href="#2019-7-19-周五" class="headerlink" title="2019.7.19 周五"></a>2019.7.19 周五</h4><ol>
-<li>完成了钉钉发送条数超限制的单元测试。</li>
-<li>复查程序，补充logger。</li>
-<li>修改了quartz中添加任务的逻辑。</li>
-<li>项目整体复查并上测试环境。</li>
-</ol>
-<h4 id="周报"><a href="#周报" class="headerlink" title="周报"></a>周报</h4><p>完成的工作：</p>
-<ol>
-<li>为上周的RabbitMq接收信息实现了一个消息过滤机制（六个小时内重复消息不再发送，当消息超过100000条时清空有效时间外的信息）</li>
-<li>使用jpa完成从mysql中获取24小时内计算出的商机信息，过滤掉重复的消息，并配置成为markdown发布到钉钉机器人中。</li>
-<li>完成一个基于quartz的定时任务，在每日10点执行上面任务2。</li>
-<li>完成大部分的单元测试，补充了logger，并发布到测试环境。</li>
-</ol>
-<p>本周工作总结：</p>
-<ol>
-<li>本周在完成mqsql部分内容时，学习了jpa来获取mysql中的数据的具体方法。</li>
-<li>在完成定时发布时，学习了使用quartz来创建定时任务。</li>
-<li>学习并且感受了优秀的单元测试实现和作用。</li>
-</ol>
-<h3 id="第三周"><a href="#第三周" class="headerlink" title="第三周"></a>第三周</h3><h4 id="2019-7-22-周一"><a href="#2019-7-22-周一" class="headerlink" title="2019.7.22 周一"></a>2019.7.22 周一</h4><ol>
-<li>开始准备CMDB的前段开发工作</li>
-<li>学习了HTML，CSS（内联元素，块元素，五种选择器，三种css布局）</li>
-<li>初步学习了JavaScript的初级使用，如弹窗和初步的DOM，通过js获取或者改变页面中元素。</li>
-</ol>
-<h4 id="2019-7-23-周二"><a href="#2019-7-23-周二" class="headerlink" title="2019.7.23 周二"></a>2019.7.23 周二</h4><ol>
-<li>测试飞虎的rancher使用文档</li>
-<li>排查mysql部分发送消息只有20条不再休眠后重新发送的bug，并做了一定的修补方案。</li>
-<li>开会评估CMDB开发，培训git使用技巧。</li>
-</ol>
-<h4 id="2019-7-24-周三"><a href="#2019-7-24-周三" class="headerlink" title="2019.7.24 周三"></a>2019.7.24 周三</h4><ol>
-<li>进一步对js进行了学习，对BOM（浏览器对象模型）和DOM（文档对象模型，html划分为树结构，通过访问父节点、子节点、兄弟节点来操作标签）有了一定的学习和了解。</li>
-<li>排查了devops-notify-center的日志，23日无问题。</li>
-</ol>
-<h4 id="2019-7-25-周四"><a href="#2019-7-25-周四" class="headerlink" title="2019.7.25 周四"></a>2019.7.25 周四</h4><ol>
-<li>完成hexo+next的个人博客搭建，建立了双ssh（公司gitlab和个人github）</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -806,10 +470,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -817,6 +482,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -837,8 +506,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -920,6 +598,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot中使用JPA访问数据库"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot中使用JPA访问数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JPA概念"><span class="nav-number">1.1.</span> <span class="nav-text">JPA概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot使用JPA"><span class="nav-number">1.2.</span> <span class="nav-text">SpringBoot使用JPA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加入依赖"><span class="nav-number">1.2.1.</span> <span class="nav-text">加入依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置数据源"><span class="nav-number">1.2.2.</span> <span class="nav-text">配置数据源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义实体类"><span class="nav-number">1.2.3.</span> <span class="nav-text">定义实体类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单主键"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">单主键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复合主键"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">复合主键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Repository"><span class="nav-number">1.2.4.</span> <span class="nav-text">创建Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Repository查询数据"><span class="nav-number">1.2.5.</span> <span class="nav-text">使用Repository查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加自定义方法查询"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">添加自定义方法查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加自定义sql语句查询"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">添加自定义sql语句查询</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1053,6 +747,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

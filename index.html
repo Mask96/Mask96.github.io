@@ -892,8 +892,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-31T18:35:23+08:00" content="2019-07-31">
-                  2019-07-31
+                <time itemprop="dateUpdated" datetime="2019-08-01T18:33:26+08:00" content="2019-08-01">
+                  2019-08-01
                 </time>
             </span>
           
@@ -1024,10 +1024,15 @@
 </ol>
 <h4 id="2019-7-31-周三"><a href="#2019-7-31-周三" class="headerlink" title="2019.7.31 周三"></a>2019.7.31 周三</h4><ol>
 <li>优化了导航栏点击事件，从点击文字修改到点击目录栏块，用户体验更佳。通过将<a>标签的padding增加从而撑大点击块。</a></li>
-<li>完成了服务器页面的静态部分，在elementUI块状Input纠结了很久，因为修改不到具体的css样式，通过!important也没效果，可以通过取消<style scoped>中的scoped来实现，但是这样容易造成全局样式污染，最后找到了from表单输入组件解决问题。</li>
+<li>完成了服务器页面的静态部分，在elementUI块状Input纠结了很久，因为修改不到具体的css样式，通过!important也没效果，可以通过取消<code>&lt;style scoped&gt;</code>中的scoped来实现，但是这样容易造成全局样式污染，最后找到了from表单输入组件解决问题。</li>
 <li>完成了Application部分静态页面的设计，同样由标题，搜索和table展示三部分组成。</li>
 </ol>
-</style></li></ol>
+<h4 id="2019-8-1-周四"><a href="#2019-8-1-周四" class="headerlink" title="2019.8.1 周四"></a>2019.8.1 周四</h4><ol>
+<li>学习了vue的生命周期，可以通过生命周期中的八个方法来在网页加载等的过程中执行部分操作。同时学习了vue中的样式绑定，可以绑定style或是class，而且可以通过绑定对象或是数组来实现。（vue课程3.6）</li>
+<li>完成了Application的新增弹出框的静态页面设计，并做了部分输入判断以保证数据合法性。弹出框通过dialog嵌套一个From表单来实现，具体的输入判定在From表单的rules中实现。</li>
+<li>修改了部分bug，包括app.vue和host.vue中的部分bug，app部分是因为在导航中有个<code>@select=&quot;handleSelect&quot;</code>而在methods中没有对其进行注册。而在host中的错误是因为想使用Element中Table的斑马条纹属性，文档写：“stripe属性可以创建带斑马纹的表格。它接受一个Boolean，默认为false，设置为true即为启用。” 所以我在table的属性中写了<code>stripe = &quot;true&quot;</code>，然后报错说stripe期望接收一个boolean而不是string，实际使用只需要在属性中写一个<code>stripe</code>即相当于为true，而不写则默认为false，不需要额外写值。</li>
+</ol>
+
           
         
       

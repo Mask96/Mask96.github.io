@@ -347,7 +347,7 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-08-05T10:04:12+08:00" content="2019-08-05">
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:51+08:00" content="2019-08-05">
                   2019-08-05
                 </time>
             </span>
@@ -404,40 +404,14 @@
 
       
         
-          
-            <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
-<h1 id="具体解决"><a href="#具体解决" class="headerlink" title="具体解决"></a>具体解决</h1><h2 id="Element中Table的点击事件"><a href="#Element中Table的点击事件" class="headerlink" title="Element中Table的点击事件"></a>Element中Table的点击事件</h2><p>Element的文档中给出如下几种可以实现的方法：</p>
-<img src="/2019/08/02/vue路由传参方法/element.png" title="文档截图">
-<p>这里我们采用row-click的事件，对应用户点击该行所有单元格都会进行跳转。代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table</span><br><span class="line">        :data=&quot;tableData&quot;</span><br><span class="line">        :header-cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot;</span><br><span class="line">        :cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot;</span><br><span class="line">        @row-click=&quot;handleTable&quot;</span><br><span class="line">      &gt;</span><br><span class="line">&lt;/el-table&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    methods: &#123;handleTable: function(row) &#123;</span><br><span class="line">      this.$router.push(&#123;</span><br><span class="line">          name: &apos;AppContent&apos;,</span><br><span class="line">          params: &#123;</span><br><span class="line">            appname: row.appname</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      console.log(row.appname);</span><br><span class="line">      this.$router.replace(&#123; name: &quot;AppContent&quot; &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里需要注意量点，在设置这个以后，点击table中的编辑和删除后都会执行跳转操作，这明显不是我希望执行的，所以在删除和编辑的button点击事件加一个.stop，代码修改如下：<br><code>&lt;el-button size=&quot;mini&quot; @click.stop=&quot;handleEdit(scope.$index, scope.row)&quot;&gt;编辑&lt;/el-button&gt;</code><br>其次是，返回的row并不是index，而是一个对象，其中包含了一行数据的所有内容，所以在传参数的时候通过row.appname来获取参数。</p>
-<h2 id="路由跳转"><a href="#路由跳转" class="headerlink" title="路由跳转"></a>路由跳转</h2><p>之前使用的都是导航中的点击跳转，实质上是一个<code>&lt;a&gt;</code>标签，如下：<br><code>&lt;router-link :to=&quot;{ name: &#39;Home&#39;}&quot;&gt;主页&lt;/router-link&gt;</code><br>而现在使用的是js中的跳转，通过在methods中实现，代码如下：<br><code>this.$router.replace({ name: &quot;AppContent&quot; });</code><br>其中AppContent即是路由的name。</p>
-<h1 id="Vue路由传参的三种方法"><a href="#Vue路由传参的三种方法" class="headerlink" title="Vue路由传参的三种方法"></a>Vue路由传参的三种方法</h1><h2 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h2><p>传入参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getDescribe(id) &#123;</span><br><span class="line">    //   直接调用$router.push 实现携带参数的跳转</span><br><span class="line">    this.$router.push(&#123;</span><br><span class="line">    path: `/describe/$&#123;id&#125;`,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>对应的路由配置如下：<br>很显然，需要在path中添加/:id来对应 $router.push 中path携带的参数。在子组件中可以使用来获取传递的参数值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     path: &apos;/describe/:id&apos;,</span><br><span class="line">     name: &apos;Describe&apos;,</span><br><span class="line">     component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在新的页面获取传递的参数方法为：<code>this.$route.params.id</code></p>
-<h2 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h2><p>父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。<br>传入参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.$router.push(&#123;</span><br><span class="line">   name: &apos;Describe&apos;,</span><br><span class="line">   params: &#123;</span><br><span class="line">     id: id</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>对应路由配置: 这里可以添加:/id 也可以不添加，不添加数据会在url后面显示，不添加数据就不会显示。</p>
-<p>对应的路由配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     path: &apos;/describe&apos;,</span><br><span class="line">     name: &apos;Describe&apos;,</span><br><span class="line">     component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>子组件中: 这样来获取参数<code>this.$route.params.id</code></p>
-<h2 id="方案三："><a href="#方案三：" class="headerlink" title="方案三："></a>方案三：</h2><p>父组件：使用path来匹配路由，然后通过query来传递参数。这种情况下 query传递的参数会显示在url后面?id=？<br>传入参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.$router.push(&#123;</span><br><span class="line">      path: &apos;/describe&apos;,</span><br><span class="line">      query: &#123;</span><br><span class="line">        id: id</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>对应路由配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: &apos;/describe&apos;,</span><br><span class="line">  name: &apos;Describe&apos;,</span><br><span class="line">  component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对应子组件: 这样来获取参数<code>this.$route.query.id</code></p>
-<p>这里我采用了第二种方式。这样就可以解决这个问题。</p>
-
-          
+          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/02/vue路由传参方法/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -527,8 +501,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-26T18:18:26+08:00" content="2019-07-26">
-                  2019-07-26
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:23:40+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -584,56 +558,14 @@
 
       
         
-          
-            <h1 id="HashMap概述"><a href="#HashMap概述" class="headerlink" title="HashMap概述"></a>HashMap概述</h1><h2 id="HashMap是什么"><a href="#HashMap是什么" class="headerlink" title="HashMap是什么"></a>HashMap是什么</h2><p>HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。</p>
-<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; //默认初始化大小 16 </span><br><span class="line">static final float DEFAULT_LOAD_FACTOR = 0.75f;     //负载因子0.75</span><br><span class="line">static final Entry&lt;?,?&gt;[] EMPTY_TABLE = &#123;&#125;;         //初始化的默认数组</span><br><span class="line">transient int size;     //HashMap中元素的数量</span><br><span class="line">int threshold;          //判断是否需要调整HashMap的容量</span><br></pre></td></tr></table></figure>
-
-<p>如上，在新建一个hashmap时，初始大小为16个bucket。当bucket的使用率达到0.75负载因子以上的时候，hashmap会自动扩容，将bucket扩为之前的2倍。因为扩容时一个费时的操作，所以如果既定了HashMap大小最好可以直接在构造时为其赋初始值大小。</p>
-<h1 id="HashMap原理"><a href="#HashMap原理" class="headerlink" title="HashMap原理"></a>HashMap原理</h1><h2 id="HashMap结构"><a href="#HashMap结构" class="headerlink" title="HashMap结构"></a>HashMap结构</h2><p>HashMap 内部结构：可以看作是数组和链表结合组成的复合结构，数组被分为一个个桶（bucket），每个桶存储有一个或多个Entry对象（每个Entry对象包含三部分key、value，next，桶中有多个entity时以链表的方式存储），通过哈希值决定了Entry对象（键值对）在这个数组的寻址；哈希值相同的Entry对象（键值对），则以链表形式存储。如果链表大小超过树形转换的阈值（TREEIFY_THRESHOLD= 8），链表就会被改造为树形结构。</p>
-<ul>
-<li>数组：存储区间连续，占用内存严重，寻址容易，插入删除困难；</li>
-<li>链表：存储区间离散，占用内存比较宽松，寻址困难，插入删除容易；</li>
-<li>Hashmap综合应用了这两种数据结构，实现了寻址容易，插入删除也容易。</li>
-</ul>
-<p>结构图如下：</p>
-<img src="/2019/07/26/hashmap/hashmap1.png" title="结构图1">
-
-<p>当链表大小超过阈值后，将链表转为红黑树结构如下：</p>
-<img src="/2019/07/26/hashmap/hashmap3.png" title="链表转为红黑树">
-
-<h2 id="HashMap存储过程"><a href="#HashMap存储过程" class="headerlink" title="HashMap存储过程"></a>HashMap存储过程</h2><p>每一个存储对象（键值对）都用一个entity来存储，在进行存储的时候，先对key进行哈希运算得出要存储位置的数组下标，通过hash运算得出来要存放在哪个bucket中，然后看这个bucket中是否有entity，如果没有就直接放在该bucket中，如果有则将新的entity的next只想旧entity，然后将新的entity放在该bucket中。<br>例如：<br>第一个键值对A进来。通过计算其key的hash得到的index=0。记做:Entry[0] = A。<br>第二个键值对B，通过计算其index也等于0， HashMap会将B.next =A,Entry[0] =B,<br>第三个键值对 C,index也等于0,那么C.next = B,Entry[0] = C；<br>这样我们发现index=0的地方事实上存取了A,B,C三个键值对,它们通过next这个属性链接在一起。 对于不同的元素，可能计算出了相同的函数值，这样就产生了“冲突”，这就需要解决冲突，“直接定址”与“解决冲突”是哈希表的两大特点。<br>存储过程图如下：</p>
-<img src="/2019/07/26/hashmap/hashmap4.png" title="put存储过程">
-
-<h2 id="HashMap查询过程"><a href="#HashMap查询过程" class="headerlink" title="HashMap查询过程"></a>HashMap查询过程</h2><p>1、指定key 通过hash函数得到key的hash值<br><code>int hash=key.hashCode();</code><br>2、调用内部方法 getNode()，得到桶号(一般为hash值对桶数求模)<br><code>int index =hash%Entry[].length;</code><br>jdk1.6版本后使用位运算替代模运算，int index=hash&amp;( Entry[].length - 1）;<br>3、比较桶的内部元素是否与key相等，若都不相等，则没有找到。相等，则取出相等记录的value。<br>4、如果得到 key 所在的桶的头结点恰好是红黑树节点，就调用红黑树节点的 getTreeNode() 方法，否则就遍历链表节点。getTreeNode 方法使通过调用树形节点的 find()方法进行查找。由于之前添加时已经保证这个树是有序的，因此查找时基本就是折半查找，效率很高。<br>5、如果对比节点的哈希值和要查找的哈希值相等，就会判断 key 是否相等，相等就直接返回；不相等就从子树中递归查找。</p>
-<p><strong>HashMap查询时间复杂度为O(1)的原因</strong><br>因为查询的过程可以简化：</p>
-<ol>
-<li>先根据key值通过hash计算出index索引值。</li>
-<li>查找数组中的索引位置，得到相应的键值对链表或红黑树</li>
-<li>根据key值，遍历键值对链表，找到相应的键值对，</li>
-<li>从键值对中取出value值。</li>
-</ol>
-<p>其中以上的1.2.4都是时间复杂度为O(1)，所以hashmap查询的复杂度主要取决与第3步，而遍历这里的链表或红黑树是常数级别的，所以可以趋近于时间复杂度为O（1）。HashMap是使用链地址法来解决冲突的。</p>
-<p>解决hash冲突常见的几种方法：<br>a. 链地址法：将哈希表的每个单元作为链表的头结点，所有哈希地址为 i 的元素构成一个同义词链表。即发生冲突时就把该关键字链在以该单元为头结点的链表的尾部。<br>b. 开放定址法：即发生冲突时，去寻找下一个空的哈希地址。只要哈希表足够大，总能找到空的哈希地址。<br>c. 再哈希法：即发生冲突时，由其他的函数再计算一次哈希值。<br>d. 建立公共溢出区：将哈希表分为基本表和溢出表，发生冲突时，将冲突的元素放入溢出表。</p>
-<h1 id="HashMap应用"><a href="#HashMap应用" class="headerlink" title="HashMap应用"></a>HashMap应用</h1><h2 id="HashMap线程不安全"><a href="#HashMap线程不安全" class="headerlink" title="HashMap线程不安全"></a>HashMap线程不安全</h2><ol>
-<li>put的时候导致的多线程数据不一致。这个问题比较好想象，比如有两个线程A和B，首先A希望插入一个key-value对到HashMap中，首先计算记录所要落到的桶的索引坐标，然后获取到该桶里面的链表头结点，此时线程A的时间片用完了，而此时线程B被调度得以执行，和线程A一样执行，只不过线程B成功将记录插到了桶里面，假设线程A插入的记录计算出来的桶索引和线程B要插入的记录计算出来的桶索引是一样的，那么当线程B成功插入之后，线程A再次被调度运行时，它依然持有过期的链表头但是它对此一无所知，以至于它认为它应该这样做，如此一来就覆盖了线程B插入的记录，这样线程B插入的记录就凭空消失了，造成了数据不一致的行为。</li>
-<li>另外一个比较明显的线程不安全的问题是HashMap的在超过负载因子0.75时会扩容，这个过程叫做rehash。在这个过程中，会将hashmap中的元素全部重新分配一次。可是多个线程同时进行时，可能会造成资源争夺从而引起死锁。</li>
-</ol>
-<h2 id="HashMap的遍历"><a href="#HashMap的遍历" class="headerlink" title="HashMap的遍历"></a>HashMap的遍历</h2><p>和查找查找一样，遍历操作也是大家使用频率比较高的一个操作。对于 遍历 HashMap，我们一般都会用下面的方式：</p>
-<figure class="highlight plain"><figcaption><span>key : map.keySet()) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><figcaption><span>entry : map.entrySet()) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从上面代码片段中可以看出，大家一般都是对 HashMap 的 key 集合或 Entry 集合进行遍历。上面代码片段中用 foreach 遍历 keySet 方法产生的集合，在编译时会转换成用迭代器遍历，等价于：</p>
-<figure class="highlight plain"><figcaption><span>keys </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator ite = keys.iterator();</span><br><span class="line">while (ite.hasNext()) &#123;</span><br><span class="line">    Object key = ite.next();</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在遍历 HashMap 的过程中会发现，多次对 HashMap 进行遍历时，遍历结果顺序都是一致的。但这个顺序和插入的顺序一般都是不一致的。具体流程图如下：</p>
-
-
-<blockquote>
-<p>本文参考自：<br><a href="https://segmentfault.com/a/1190000012926722" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722</a><br><a href="https://blog.csdn.net/visant/article/details/80045154" target="_blank" rel="noopener">https://blog.csdn.net/visant/article/details/80045154</a><br><a href="https://www.cnblogs.com/java-jun-world2099/p/9258605.html" target="_blank" rel="noopener">https://www.cnblogs.com/java-jun-world2099/p/9258605.html</a><br><a href="https://www.cnblogs.com/zhaoxinshanwei/p/8478145.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoxinshanwei/p/8478145.html</a></p>
-</blockquote>
-
-          
+          <h1 id="HashMap概述"><a href="#HashMap概述" class="headerlink" title="HashMap概述"></a>HashMap概述</h1><h2 id="HashMap是什么"><a href="#HashMap是什么" class="headerlink" title="HashMap是什么"></a>HashMap是什么</h2><p>HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/26/hashmap/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -723,8 +655,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-26T11:48:54+08:00" content="2019-07-26">
-                  2019-07-26
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:41+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -780,34 +712,17 @@
 
       
         
-          
-            <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
-<h2 id="SpringBoot使用JPA"><a href="#SpringBoot使用JPA" class="headerlink" title="SpringBoot使用JPA"></a>SpringBoot使用JPA</h2><h3 id="加入依赖"><a href="#加入依赖" class="headerlink" title="加入依赖"></a>加入依赖</h3><p>  Spring boot有着jpa的起步依赖，将以下依赖添加到pom中。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据源"><a href="#配置数据源" class="headerlink" title="配置数据源"></a>配置数据源</h3><p>  添加了依赖之后，还需要在<strong>application.properties</strong>配置文件中添加依赖数据库的具体信息，如下：<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql:<span class="comment">//url/databaseName</span></span><br><span class="line">spring.datasource.username=xxxx</span><br><span class="line">spring.datasource.password=xxxx</span><br><span class="line">spring.datasource.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure></p>
-<h3 id="定义实体类"><a href="#定义实体类" class="headerlink" title="定义实体类"></a>定义实体类</h3><h4 id="单主键"><a href="#单主键" class="headerlink" title="单主键"></a>单主键</h4><p>  将需要访问的数据库中的表定义为一个实体类，在类前加上注释@Entity(name = “xxx”)其中xxx为对应的数据库中的表名称，将主键注释为@Id，将列的字段注视为@Column，并为其分别设置get和set方法。如下：<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@Entity</span>(name = <span class="string">"xxxx"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BVCodeEntity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="meta">@Column</span></span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure></p>
-<h4 id="复合主键"><a href="#复合主键" class="headerlink" title="复合主键"></a>复合主键</h4><p>  在数据库中，有可能是复合主键，这时如果直接通过给多个字段值都注释为@Id是不对的，需要给他创建一个复合主键类并实现Serializable，从而能使其序列化。同时在他对应的类中，还需要给他写构造方法。例如一个表中，主键为code和systemCode，复合主键类代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 复合主键类，存放联合主键属性，实现序列化接口</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompositeKeyforResult</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span>  String code;</span><br><span class="line">    <span class="keyword">private</span> String systemCode;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSystemCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> systemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSystemCode</span><span class="params">(String systemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.systemCode = systemCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>  以上就是创建了一个复合主键类，他的表对应的实体类在注释中加入@IdClass把刚才定义好的复合主键类导入，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span>(name = <span class="string">"xxx"</span>)</span><br><span class="line"><span class="meta">@IdClass</span>(CompositeKeyforResult.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BVResultEntity</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String systemCode;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@Column</span></span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line">   </span><br><span class="line">    <span class="meta">@Column</span></span><br><span class="line">    <span class="keyword">private</span> String staName;</span><br><span class="line">    <span class="meta">@Column</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">BVResultEntity</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BVResultEntity</span><span class="params">(String systemCode, String deviceId, String code, Date bizTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.systemCode = systemCode;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSystemCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> systemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSystemCode</span><span class="params">(String systemCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.systemCode = systemCode;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStaName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> staName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStaName</span><span class="params">(String staName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.staName = staName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getCreateTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateTime</span><span class="params">(Date createTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.createTime = createTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建Repository"><a href="#创建Repository" class="headerlink" title="创建Repository"></a>创建Repository</h3><p>  在创建Repository中，继承自JpaRepository并把前面创建的实体Entity传入</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BVRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">BVResultEntity</span>,<span class="title">Integer</span>&gt;</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用Repository查询数据"><a href="#使用Repository查询数据" class="headerlink" title="使用Repository查询数据"></a>使用Repository查询数据</h3><p>  在需要获取数据库数据时，要先注入要查询表的对应的repository，然后即可以通过repository来获取一些数据库的信息。如下：<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">BVRepository bvRepository;</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取列表</span></span><br><span class="line"><span class="keyword">return</span> studentRepository.findAll();</span><br><span class="line"></span><br><span class="line"><span class="comment">//排序,创建Sort对象的第二个参数，是java对象的属性，而不是mysql数据表的列名</span></span><br><span class="line">Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.DESC,<span class="string">"code"</span>);</span><br><span class="line"><span class="keyword">return</span> bvtRepository.findAll(sort);</span><br><span class="line"></span><br><span class="line"><span class="comment">//分页(+排序)</span></span><br><span class="line">Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.ASC, <span class="string">"code"</span>);</span><br><span class="line">Pageable pageable = PageRequest.of(pageNumber -<span class="number">1</span>, <span class="number">5</span>, sort);</span><br><span class="line"><span class="keyword">return</span> bvRepository.findAll(pageable).getContent();</span><br></pre></td></tr></table></figure></p>
-<h4 id="添加自定义方法查询"><a href="#添加自定义方法查询" class="headerlink" title="添加自定义方法查询"></a>添加自定义方法查询</h4><p>  我们还可以在repository中添加一些自定义的语句，hibernate会自动为其装配sql语句。如添加一个findByXXX()，但是这里有个需要注意，其中的ByXXX中XXX需要和java中对象的属性保持一致，如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BVCodeRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">BVCodeEntity</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> BVCodeEntity <span class="title">findByCode</span><span class="params">(String code)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="添加自定义sql语句查询"><a href="#添加自定义sql语句查询" class="headerlink" title="添加自定义sql语句查询"></a>添加自定义sql语句查询</h4><p>  有一些特殊的情况，只是通过自定义方法是不够精细的查询数据库的，这时候还可以使用直接的SQL语句来进行查询。<br>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BVResultRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">BVResultEntity</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Query</span>(value =<span class="string">"select * from XXX where create_time &gt;=(NOW() - interval 24 hour)"</span>, nativeQuery = <span class="keyword">true</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;BVResultEntity&gt; <span class="title">findDailyResult</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>    查询24小时内创建的数据，其中nativeQuery设为true表明使用原始的Sql语句。输出为一个Entity的list。</p>
-<blockquote>
-<p>Spring data jpa官方文档：<a href="https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/</a><br>学习自Kite__博客：<a href="https://blog.csdn.net/daguanjia11/article/details/80026908" target="_blank" rel="noopener">https://blog.csdn.net/daguanjia11/article/details/80026908</a></p>
-</blockquote>
-
-          
+          <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/26/spring-boot-use-jpa/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -894,8 +809,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-25T18:47:48+08:00" content="2019-07-25">
-                  2019-07-25
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:29+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -951,8 +866,7 @@
 
       
         
-          
-            <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
+          <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
 <h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
 <ol>
 <li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span> </span></span><br></pre></td></tr></table></figure></li>
@@ -960,29 +874,13 @@
 <li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
 <li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
 </ol>
-<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = <span class="keyword">new</span> org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Trigger the job to run now, and then every 40 seconds</span></span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(<span class="string">"myTrigger"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(<span class="number">40</span>) <span class="comment">//每40s执行一次</span></span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Tell quartz to schedule the job using our trigger</span></span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
-<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      System.err.println(<span class="string">"Hello!  HelloJob is executing."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimedRegister</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ApplicationReadyEvent</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ApplicationReadyEvent applicationReadyEvent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// Grab the Scheduler instance from the Factory</span></span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// and start it off</span></span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(<span class="string">"job1"</span>, <span class="string">"jobGroup1"</span>)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(<span class="string">"trigger1"</span>, <span class="string">"triggerGroup1"</span>)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(<span class="string">"0 0 10 * * ?"</span>))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"TimedRegister daily job error"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>以上需要注意几点：</strong></p>
-<ol>
-<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
-</li>
-<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br></pre></td></tr></table></figure>
-<p>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext jobExecutionContext)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(<span class="string">"findMessage"</span>);</span><br><span class="line">        logger.info(<span class="string">"get findMessage instance success"</span>);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(<span class="string">"send ding from mysql is success"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　 　<span class="comment">// define the job and tie it to our DumbJob class</span></span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>) <span class="comment">// name "myJob", group "group1"</span></span><br><span class="line">    .usingJobData(<span class="string">"jobSays"</span>, <span class="string">"Hello World!"</span>)</span><br><span class="line">    .usingJobData(<span class="string">"myFloatValue"</span>, <span class="number">3.141f</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
-<p>  然后在job的具体类中将其取出，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DumbJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DumbJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(<span class="string">"jobSays"</span>);</span><br><span class="line">    <span class="keyword">float</span> myFloatValue = dataMap.getFloat(<span class="string">"myFloatValue"</span>);</span><br><span class="line"></span><br><span class="line">    System.err.println(<span class="string">"Instance "</span> + key + <span class="string">" of DumbJob says: "</span> + jobSays + <span class="string">", and val is: "</span> + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/25/Quartz框架实现定时任务/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1072,7 +970,7 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-08-05T18:21:03+08:00" content="2019-08-05">
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:23:50+08:00" content="2019-08-05">
                   2019-08-05
                 </time>
             </span>
@@ -1129,8 +1027,7 @@
 
       
         
-          
-            <h1 id="七月"><a href="#七月" class="headerlink" title="七月"></a>七月</h1><h2 id="第二周"><a href="#第二周" class="headerlink" title="第二周"></a>第二周</h2><h3 id="2019-7-18-周四"><a href="#2019-7-18-周四" class="headerlink" title="2019.7.18 周四"></a>2019.7.18 周四</h3><ol>
+          <h1 id="七月"><a href="#七月" class="headerlink" title="七月"></a>七月</h1><h2 id="第二周"><a href="#第二周" class="headerlink" title="第二周"></a>第二周</h2><h3 id="2019-7-18-周四"><a href="#2019-7-18-周四" class="headerlink" title="2019.7.18 周四"></a>2019.7.18 周四</h3><ol>
 <li>完成定时内重复消息过滤（JudgeMessage.class）的单元测试。</li>
 <li>完成定时任务类，使用quartz框架。可以使指定任务定时执行，也可以隔断时间执行。</li>
 <li>完成mysql中两个表的消息查询，并设置定时任务，间隔为一天执行一次，每次执行时查询一天的数据，并且将重复的数据过滤掉。</li>
@@ -1140,108 +1037,17 @@
 <li>完成了钉钉发送条数超限制的单元测试。</li>
 <li>复查程序，补充logger。</li>
 <li>修改了quartz中添加任务的逻辑。</li>
-<li>项目整体复查并上测试环境。</li>
-</ol>
-<h3 id="周报"><a href="#周报" class="headerlink" title="周报"></a>周报</h3><p>完成的工作：</p>
-<ol>
-<li>为上周的RabbitMq接收信息实现了一个消息过滤机制（六个小时内重复消息不再发送，当消息超过100000条时清空有效时间外的信息）</li>
-<li>使用jpa完成从mysql中获取24小时内计算出的商机信息，过滤掉重复的消息，并配置成为markdown发布到钉钉机器人中。</li>
-<li>完成一个基于quartz的定时任务，在每日10点执行上面任务2。</li>
-<li>完成大部分的单元测试，补充了logger，并发布到测试环境。</li>
-</ol>
-<p>本周工作总结：</p>
-<ol>
-<li>本周在完成mqsql部分内容时，学习了jpa来获取mysql中的数据的具体方法。</li>
-<li>在完成定时发布时，学习了使用quartz来创建定时任务。</li>
-<li>学习并且感受了优秀的单元测试实现和作用。</li>
-</ol>
-<h2 id="第三周"><a href="#第三周" class="headerlink" title="第三周"></a>第三周</h2><h3 id="2019-7-22-周一"><a href="#2019-7-22-周一" class="headerlink" title="2019.7.22 周一"></a>2019.7.22 周一</h3><ol>
-<li>开始准备CMDB的前段开发工作</li>
-<li>学习了HTML，CSS（内联元素，块元素，五种选择器，三种css布局）</li>
-<li>初步学习了JavaScript的初级使用，如弹窗和初步的DOM，通过js获取或者改变页面中元素。</li>
-</ol>
-<h3 id="2019-7-23-周二"><a href="#2019-7-23-周二" class="headerlink" title="2019.7.23 周二"></a>2019.7.23 周二</h3><ol>
-<li>测试飞虎的rancher使用文档</li>
-<li>排查mysql部分发送消息只有20条不再休眠后重新发送的bug，并做了一定的修补方案。</li>
-<li>开会评估CMDB开发，培训git使用技巧。</li>
-</ol>
-<h3 id="2019-7-24-周三"><a href="#2019-7-24-周三" class="headerlink" title="2019.7.24 周三"></a>2019.7.24 周三</h3><ol>
-<li>进一步对js进行了学习，对BOM（浏览器对象模型）和DOM（文档对象模型，html划分为树结构，通过访问父节点、子节点、兄弟节点来操作标签）有了一定的学习和了解。</li>
-<li>排查了devops-notify-center的日志，23日无问题。</li>
-</ol>
-<h3 id="2019-7-25-周四"><a href="#2019-7-25-周四" class="headerlink" title="2019.7.25 周四"></a>2019.7.25 周四</h3><ol>
-<li>完成hexo+next的个人博客搭建，建立了双ssh（公司gitlab和个人github）</li>
-</ol>
-<h3 id="2019-7-26-周五"><a href="#2019-7-26-周五" class="headerlink" title="2019.7.26 周五"></a>2019.7.26 周五</h3><ol>
-<li>复查了devops-notify-center的日志，上午十点出现返回302found的错误，暂未解决。</li>
-<li>继续学习了JavaScript部分内容。</li>
-<li>学习并总结了HashMap的原理以及线程不安全等内容。</li>
-</ol>
-<h3 id="周报-1"><a href="#周报-1" class="headerlink" title="周报"></a>周报</h3><p>完成的工作：</p>
-<ol>
-<li>参与了CMDB的前期开发讨论，参与了团队内部的Git分享会。</li>
-<li>复查了devops-notify-center发商机消息时偶尔只发20条，后续返回302found不再发送内容的问题，做了一定的修改无果。==暂时未解决==。</li>
-<li>学习了Html，CSS和JavaScript等内容，对BOM和DOM进行了学习。</li>
-<li>测试了rancher的使用文档。</li>
-</ol>
-<p>本周工作总结：</p>
-<ol>
-<li>本周开发内容不多，主要是在处理之前项目出现的偶然问题。以及进行了前端内容的学习。</li>
-</ol>
-<h2 id="第四周"><a href="#第四周" class="headerlink" title="第四周"></a>第四周</h2><h3 id="2019-7-29-周一"><a href="#2019-7-29-周一" class="headerlink" title="2019.7.29 周一"></a>2019.7.29 周一</h3><ol>
-<li>学习了js中的原型链等内容。 </li>
-<li>开始基于vue搭建CMBD前端页面，用Vue.js + Vue Router创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。通过ElementUI组件式可以实现快速开发，使用axios请求rest接口。</li>
-<li>熟悉了恺哥给的demo，准备明天开始从首页进行正式开发。<blockquote>
-<p>阮大佬 <a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html</a></p>
-</blockquote>
-</li>
-</ol>
-<h3 id="2019-7-30-周二"><a href="#2019-7-30-周二" class="headerlink" title="2019.7.30 周二"></a>2019.7.30 周二</h3><ol>
-<li>对vue的部分基本概念进行了学习，包括v-if、v-for、@click等基本语句，以及vue的组件等概念。</li>
-<li>完成了主页的静态页面部分，使用了ElementUI中的导航以及卡片组件，并为CMDB和服务器两个标签设置了跳转。</li>
-<li>完成了服务器页面的标题栏部分静态页面设计。</li>
-<li>进一步了解MVVM和MVC的差别，一个主要针对数据进行操作，一个主要正对C、通过C对数据和视图分别操作，相比之下MVVM的数据直接控制视图、而把逻辑交给VM（即vue）的模式更加简便、节省代码量。</li>
-</ol>
-<h3 id="2019-7-31-周三"><a href="#2019-7-31-周三" class="headerlink" title="2019.7.31 周三"></a>2019.7.31 周三</h3><ol>
-<li>优化了导航栏点击事件，从点击文字修改到点击目录栏块，用户体验更佳。通过将<code>&lt;a&gt;</code>标签的padding增加从而撑大点击块。</li>
-<li>完成了服务器页面的静态部分，在elementUI块状Input纠结了很久，因为修改不到具体的css样式，通过!important也没效果，可以通过取消<code>&lt;style scoped&gt;</code>中的scoped来实现，但是这样容易造成全局样式污染，最后找到了from表单输入组件解决问题。</li>
-<li>完成了Application部分静态页面的设计，同样由标题，搜索和table展示三部分组成。</li>
-</ol>
-<h3 id="2019-8-1-周四"><a href="#2019-8-1-周四" class="headerlink" title="2019.8.1 周四"></a>2019.8.1 周四</h3><ol>
-<li>学习了vue的生命周期，可以通过生命周期中的八个方法来在网页加载等的过程中执行部分操作。同时学习了vue中的样式绑定，可以绑定style或是class，而且可以通过绑定对象或是数组来实现。（vue课程3.6）</li>
-<li>完成了Application的新增弹出框的静态页面设计，并做了部分输入判断以保证数据合法性。弹出框通过dialog嵌套一个From表单来实现，具体的输入判定在From表单的rules中实现。</li>
-<li>修改了部分bug，包括app.vue和host.vue中的部分bug，app部分是因为在导航中有个<code>@select=&quot;handleSelect&quot;</code>而在methods中没有对其进行注册。而在host中的错误是因为想使用Element中Table的斑马条纹属性，文档写：“stripe属性可以创建带斑马纹的表格。它接受一个Boolean，默认为false，设置为true即为启用。” 所以我在table的属性中写了<code>stripe = &quot;true&quot;</code>，然后报错说stripe期望接收一个boolean而不是string，实际使用只需要在属性中写一个<code>stripe</code>即相当于为true，而不写则默认为false，不需要额外写值。</li>
-</ol>
-<h3 id="2019-8-2-周五"><a href="#2019-8-2-周五" class="headerlink" title="2019.8.2 周五"></a>2019.8.2 周五</h3><ol>
-<li>尝试修改新建弹窗中的部分布局，通过将Form属性设为<code>inline = ”true“</code>可以时整个表单每项不单独占行，然后可以通过设置单行元素为块状可以使不想并列的单行展示，但是长度无法控制（下次试试穿刺注入样式“&gt;&gt;&gt;”）。使用两层Form嵌套，可以实现较好的样式，但是两个表单嵌套会在输入验证时造成内部Form输入不验证。==（暂未解决）==</li>
-<li>完成了application部分的详情页跳转，通过Table的<code>row-click</code>事件，在其中添加一个路由跳转，并在跳转时通过路由params传参数，将appname传入详情页并在加载时进行网络操作。</li>
-<li>完成了appContent详情页的静态设计。</li>
-</ol>
-<h3 id="周报-2"><a href="#周报-2" class="headerlink" title="周报"></a>周报</h3><p>完成的工作：</p>
-<ol>
-<li>开始了CMDB的前端开发，基于vue搭建CMBD前端页面，通过Vue Router创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router在哪里渲染它们。通过ElementUI组件式可以实现快速开发，使用axios进行网络操作。</li>
-<li>完成了主页和导航部分的静态部分，完成了导航部分的路由跳转。</li>
-<li>完成了服务器页面和应用程序页面的静态部分，并完成了应用程序部分的新增弹出框的静态页面，并做了输入判断以保证数据合法性。实现了应用程序页面的详情跳转并传入具体appname参数以供查询操作。完成了详情页面的设计。</li>
-</ol>
-<p>本周工作总结：</p>
-<ol>
-<li>本周开始了CMDB的前端开发，从开发的过程中将上周学习的js内容和这周的学习的VUE相互比对印证。体会到了MVVM模式较MVC模式的便捷，MVVM主要针对数据进行操作，MVC主要正对C、通过C对数据和视图分别操作，相比之下MVVM的数据直接控制视图、而把逻辑交给VM（即vue）的模式更加简便、节省代码量。</li>
-<li>遇到问题需要先思考，不能真的死磕，但是需要死磕的精神。</li>
-</ol>
-<h1 id="八月"><a href="#八月" class="headerlink" title="八月"></a>八月</h1><h2 id="第五周"><a href="#第五周" class="headerlink" title="第五周"></a>第五周</h2><h3 id="2019-8-5-周一"><a href="#2019-8-5-周一" class="headerlink" title="2019.8.5 周一"></a>2019.8.5 周一</h3><ol>
-<li>了解了跨域问题的原因，是因为浏览器同源策略。<blockquote>
-<p>同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的重要安全机制。<br>如何判断是否在不同的源：1.不同协议（http和https）。2.不同端口（<a href="http://80是默认的和http://81····)。3.不同域名（http://news····和http://store·····）" target="_blank" rel="noopener">http://80是默认的和http://81····)。3.不同域名（http://news····和http://store·····）</a><br>同源策略可以阻止两种风险，一是限制了不同源的接口请求，二是限制了不同源的Dom查询操作。而解决跨域问题可以使用CORS策略。<br>参考自：&gt; <a href="https://segmentfault.com/a/1190000015597029?utm_source=tag-newest" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015597029?utm_source=tag-newest</a></p>
-</blockquote>
-</li>
-<li>完成了服务器部分的弹出页面的静态部分和输入数据的验证规则，并实现了跳转到服务器详情页并传入host_id参数，同时完成了服务器详情页面的静态部分。</li>
-<li>完成了应用程序部分get列表的网络操作，实现了初次的前后端联调。</li>
-<li>发现可以使用Easy Mock来模拟接口，进行测试，明天使用该方法先进行前后端联调。</li>
-</ol>
-
-          
+<li>项目整体复查并上测试环境。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/25/工作周报/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
-    </div>
+    </li></ol></div>
     
     
     

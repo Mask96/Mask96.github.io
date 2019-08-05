@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。 基本属性12345static final int DEFAULT_INITIAL_CAPACITY">
+<meta name="description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
 <meta name="keywords" content="数据结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap原理以及线程不安全">
 <meta property="og:url" content="http://yoursite.com/2019/07/26/hashmap/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。 基本属性12345static final int DEFAULT_INITIAL_CAPACITY">
+<meta property="og:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap1.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap3.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap4.png">
-<meta property="og:updated_time" content="2019-07-26T10:18:26.717Z">
+<meta property="og:updated_time" content="2019-08-05T10:23:40.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap原理以及线程不安全">
-<meta name="twitter:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。 基本属性12345static final int DEFAULT_INITIAL_CAPACITY">
+<meta name="twitter:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
 <meta name="twitter:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap1.png">
 
 
@@ -350,8 +350,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-26T18:18:26+08:00" content="2019-07-26">
-                  2019-07-26
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:23:40+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -407,6 +407,7 @@
 
       
         <h1 id="HashMap概述"><a href="#HashMap概述" class="headerlink" title="HashMap概述"></a>HashMap概述</h1><h2 id="HashMap是什么"><a href="#HashMap是什么" class="headerlink" title="HashMap是什么"></a>HashMap是什么</h2><p>HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。</p>
+<a id="more"></a>
 <h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; //默认初始化大小 16 </span><br><span class="line">static final float DEFAULT_LOAD_FACTOR = 0.75f;     //负载因子0.75</span><br><span class="line">static final Entry&lt;?,?&gt;[] EMPTY_TABLE = &#123;&#125;;         //初始化的默认数组</span><br><span class="line">transient int size;     //HashMap中元素的数量</span><br><span class="line">int threshold;          //判断是否需要调整HashMap的容量</span><br></pre></td></tr></table></figure>
 
 <p>如上，在新建一个hashmap时，初始大小为16个bucket。当bucket的使用率达到0.75负载因子以上的时候，hashmap会自动扩容，将bucket扩为之前的2倍。因为扩容时一个费时的操作，所以如果既定了HashMap大小最好可以直接在构造时为其赋初始值大小。</p>

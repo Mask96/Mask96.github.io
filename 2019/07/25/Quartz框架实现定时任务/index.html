@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Mask">
 <meta property="og:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-25T10:47:48.063Z">
+<meta property="og:updated_time" content="2019-08-05T10:24:29.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Quartz框架实现定时任务">
 <meta name="twitter:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
@@ -346,8 +346,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-25T18:47:48+08:00" content="2019-07-25">
-                  2019-07-25
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:29+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -410,6 +410,8 @@
 <li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
 <li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
 </ol>
+<a id="more"></a>
+
 <h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = <span class="keyword">new</span> org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Trigger the job to run now, and then every 40 seconds</span></span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(<span class="string">"myTrigger"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(<span class="number">40</span>) <span class="comment">//每40s执行一次</span></span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Tell quartz to schedule the job using our trigger</span></span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
 <h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>

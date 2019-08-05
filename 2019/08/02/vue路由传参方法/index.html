@@ -88,7 +88,7 @@
 <meta property="og:description" content="需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/08/02/vue路由传参方法/element.png">
-<meta property="og:updated_time" content="2019-08-05T02:04:12.446Z">
+<meta property="og:updated_time" content="2019-08-05T10:24:51.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue路由传参方法">
 <meta name="twitter:description" content="需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分">
@@ -348,7 +348,7 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-08-05T10:04:12+08:00" content="2019-08-05">
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:51+08:00" content="2019-08-05">
                   2019-08-05
                 </time>
             </span>
@@ -405,6 +405,8 @@
 
       
         <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
+<a id="more"></a>
+
 <h1 id="具体解决"><a href="#具体解决" class="headerlink" title="具体解决"></a>具体解决</h1><h2 id="Element中Table的点击事件"><a href="#Element中Table的点击事件" class="headerlink" title="Element中Table的点击事件"></a>Element中Table的点击事件</h2><p>Element的文档中给出如下几种可以实现的方法：</p>
 <img src="/2019/08/02/vue路由传参方法/element.png" title="文档截图">
 <p>这里我们采用row-click的事件，对应用户点击该行所有单元格都会进行跳转。代码如下：</p>

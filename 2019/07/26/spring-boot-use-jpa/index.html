@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Mask">
 <meta property="og:description" content="SpringBoot中使用JPA访问数据库JPA概念  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）  优">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-26T03:48:54.900Z">
+<meta property="og:updated_time" content="2019-08-05T10:24:41.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot中使用JPA访问数据库">
 <meta name="twitter:description" content="SpringBoot中使用JPA访问数据库JPA概念  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）  优">
@@ -346,8 +346,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-07-26T11:48:54+08:00" content="2019-07-26">
-                  2019-07-26
+                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:41+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -402,7 +402,7 @@
       
 
       
-        <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
+        <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。<br>  <a id="more"></a></p>
 <h2 id="SpringBoot使用JPA"><a href="#SpringBoot使用JPA" class="headerlink" title="SpringBoot使用JPA"></a>SpringBoot使用JPA</h2><h3 id="加入依赖"><a href="#加入依赖" class="headerlink" title="加入依赖"></a>加入依赖</h3><p>  Spring boot有着jpa的起步依赖，将以下依赖添加到pom中。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 

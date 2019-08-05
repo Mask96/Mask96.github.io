@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="#需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致">
+<meta name="description" content="需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分">
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue路由传参方法">
 <meta property="og:url" content="http://yoursite.com/2019/08/02/vue路由传参方法/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="#需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致">
+<meta property="og:description" content="需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/08/02/vue路由传参方法/element.png">
-<meta property="og:updated_time" content="2019-08-02T10:39:32.062Z">
+<meta property="og:updated_time" content="2019-08-05T02:04:12.446Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue路由传参方法">
-<meta name="twitter:description" content="#需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致">
+<meta name="twitter:description" content="需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分">
 <meta name="twitter:image" content="http://yoursite.com/2019/08/02/vue路由传参方法/element.png">
 
 
@@ -348,8 +348,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; post.updated
-                <time itemprop="dateUpdated" datetime="2019-08-02T18:39:32+08:00" content="2019-08-02">
-                  2019-08-02
+                <time itemprop="dateUpdated" datetime="2019-08-05T10:04:12+08:00" content="2019-08-05">
+                  2019-08-05
                 </time>
             </span>
           
@@ -404,24 +404,22 @@
       
 
       
-        <p>#需求说明<br>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
-<p>#具体解决</p>
-<p>##Element中Table的点击事件<br>Element的文档中给出如下几种可以实现的方法：</p>
+        <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
+<h1 id="具体解决"><a href="#具体解决" class="headerlink" title="具体解决"></a>具体解决</h1><h2 id="Element中Table的点击事件"><a href="#Element中Table的点击事件" class="headerlink" title="Element中Table的点击事件"></a>Element中Table的点击事件</h2><p>Element的文档中给出如下几种可以实现的方法：</p>
 <img src="/2019/08/02/vue路由传参方法/element.png" title="文档截图">
 <p>这里我们采用row-click的事件，对应用户点击该行所有单元格都会进行跳转。代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table</span><br><span class="line">        :data=&quot;tableData&quot;</span><br><span class="line">        :header-cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot;</span><br><span class="line">        :cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot;</span><br><span class="line">        @row-click=&quot;handleTable&quot;</span><br><span class="line">      &gt;</span><br><span class="line">&lt;/el-table&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    methods: &#123;handleTable: function(row) &#123;</span><br><span class="line">      this.$router.push(&#123;</span><br><span class="line">          name: &apos;AppContent&apos;,</span><br><span class="line">          params: &#123;</span><br><span class="line">            appname: row.appname</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      console.log(row.appname);</span><br><span class="line">      this.$router.replace(&#123; name: &quot;AppContent&quot; &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 <p>这里需要注意量点，在设置这个以后，点击table中的编辑和删除后都会执行跳转操作，这明显不是我希望执行的，所以在删除和编辑的button点击事件加一个.stop，代码修改如下：<br><code>&lt;el-button size=&quot;mini&quot; @click.stop=&quot;handleEdit(scope.$index, scope.row)&quot;&gt;编辑&lt;/el-button&gt;</code><br>其次是，返回的row并不是index，而是一个对象，其中包含了一行数据的所有内容，所以在传参数的时候通过row.appname来获取参数。</p>
-<p>##路由跳转<br>之前使用的都是导航中的点击跳转，实质上是一个<code>&lt;a&gt;</code>标签，如下：<br><code>&lt;router-link :to=&quot;{ name: &#39;Home&#39;}&quot;&gt;主页&lt;/router-link&gt;</code><br>而现在使用的是js中的跳转，通过在methods中实现，代码如下：<br><code>this.$router.replace({ name: &quot;AppContent&quot; });</code><br>其中AppContent即是路由的name。</p>
-<p>#Vue路由传参的三种方法</p>
-<p>##方案一：<br>传入参数：</p>
+<h2 id="路由跳转"><a href="#路由跳转" class="headerlink" title="路由跳转"></a>路由跳转</h2><p>之前使用的都是导航中的点击跳转，实质上是一个<code>&lt;a&gt;</code>标签，如下：<br><code>&lt;router-link :to=&quot;{ name: &#39;Home&#39;}&quot;&gt;主页&lt;/router-link&gt;</code><br>而现在使用的是js中的跳转，通过在methods中实现，代码如下：<br><code>this.$router.replace({ name: &quot;AppContent&quot; });</code><br>其中AppContent即是路由的name。</p>
+<h1 id="Vue路由传参的三种方法"><a href="#Vue路由传参的三种方法" class="headerlink" title="Vue路由传参的三种方法"></a>Vue路由传参的三种方法</h1><h2 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h2><p>传入参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getDescribe(id) &#123;</span><br><span class="line">    //   直接调用$router.push 实现携带参数的跳转</span><br><span class="line">    this.$router.push(&#123;</span><br><span class="line">    path: `/describe/$&#123;id&#125;`,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>对应的路由配置如下：<br>很显然，需要在path中添加/:id来对应 $router.push 中path携带的参数。在子组件中可以使用来获取传递的参数值。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     path: &apos;/describe/:id&apos;,</span><br><span class="line">     name: &apos;Describe&apos;,</span><br><span class="line">     component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在新的页面获取传递的参数方法为：<code>this.$route.params.id</code></p>
-<p>##方案二：<br>父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。<br>传入参数：</p>
+<h2 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h2><p>父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。<br>传入参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.$router.push(&#123;</span><br><span class="line">   name: &apos;Describe&apos;,</span><br><span class="line">   params: &#123;</span><br><span class="line">     id: id</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
 
 <p>对应路由配置: 这里可以添加:/id 也可以不添加，不添加数据会在url后面显示，不添加数据就不会显示。</p>
@@ -429,14 +427,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     path: &apos;/describe&apos;,</span><br><span class="line">     name: &apos;Describe&apos;,</span><br><span class="line">     component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>子组件中: 这样来获取参数<code>this.$route.params.id</code></p>
-<p>##方案三：<br>父组件：使用path来匹配路由，然后通过query来传递参数。这种情况下 query传递的参数会显示在url后面?id=？<br>传入参数：</p>
+<h2 id="方案三："><a href="#方案三：" class="headerlink" title="方案三："></a>方案三：</h2><p>父组件：使用path来匹配路由，然后通过query来传递参数。这种情况下 query传递的参数会显示在url后面?id=？<br>传入参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.$router.push(&#123;</span><br><span class="line">      path: &apos;/describe&apos;,</span><br><span class="line">      query: &#123;</span><br><span class="line">        id: id</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
 
 <p>对应路由配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: &apos;/describe&apos;,</span><br><span class="line">  name: &apos;Describe&apos;,</span><br><span class="line">  component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>对应子组件: 这样来获取参数<code>this.$route.query.id</code></p>
-<p>这里我采用了第二种方式。</p>
+<p>这里我采用了第二种方式。这样就可以解决这个问题。</p>
 
       
     </div>
@@ -527,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -610,6 +617,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求说明"><span class="nav-number">1.</span> <span class="nav-text">需求说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体解决"><span class="nav-number">2.</span> <span class="nav-text">具体解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Element中Table的点击事件"><span class="nav-number">2.1.</span> <span class="nav-text">Element中Table的点击事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由跳转"><span class="nav-number">2.2.</span> <span class="nav-text">路由跳转</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue路由传参的三种方法"><span class="nav-number">3.</span> <span class="nav-text">Vue路由传参的三种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案一："><span class="nav-number">3.1.</span> <span class="nav-text">方案一：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案二："><span class="nav-number">3.2.</span> <span class="nav-text">方案二：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案三："><span class="nav-number">3.3.</span> <span class="nav-text">方案三：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Mask">
 <meta property="og:description" content="七月第二周2019.7.18 周四 完成定时内重复消息过滤（JudgeMessage.class）的单元测试。 完成定时任务类，使用quartz框架。可以使指定任务定时执行，也可以隔断时间执行。 完成mysql中两个表的消息查询，并设置定时任务，间隔为一天执行一次，每次执行时查询一天的数据，并且将重复的数据过滤掉。 钉钉发送消息有时间条数限制，获取了错误情况下返回值，并在发送消息过程中做了休眠操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-07T10:27:10.854Z">
+<meta property="og:updated_time" content="2019-08-09T10:23:43.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工作周报">
 <meta name="twitter:description" content="七月第二周2019.7.18 周四 完成定时内重复消息过滤（JudgeMessage.class）的单元测试。 完成定时任务类，使用quartz框架。可以使指定任务定时执行，也可以隔断时间执行。 完成mysql中两个表的消息查询，并设置定时任务，间隔为一天执行一次，每次执行时查询一天的数据，并且将重复的数据过滤掉。 钉钉发送消息有时间条数限制，获取了错误情况下返回值，并在发送消息过程中做了休眠操作">
@@ -346,8 +346,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-08-07T18:27:10+08:00" content="2019-08-07">
-                  2019-08-07
+                <time itemprop="dateUpdated" datetime="2019-08-09T18:23:43+08:00" content="2019-08-09">
+                  2019-08-09
                 </time>
             </span>
           
@@ -520,6 +520,32 @@
 <li>完成了hostlist的查询测试，在axios网络操作中添加参数，通过了0-4参数的测试以及模糊测试。</li>
 <li>Host首页接口改为后端上线接口，测通。并完成了table中的跳转和host详情页面的数据获取和展示，这里修改传参数host_id为数据库中的id值nid，在详情页面中通过url/nid来实现访问和数据获取展示等。</li>
 <li>修改了周二的问题3，将新增和编辑公用一个弹窗，在编辑时将row对象传入，通过判断传入参数是否为未定义来确定时新增还是编辑。这里在每次点开新的列表时有一个问题，每次点击编辑时需要获取到该条信息的内容，而新增时则需要为空。通过采用element中form组件的<code>this.$refs.ruleForm.resetFields();</code>resetFields()方法。但是这样也会报错（该方法未定义），原因是因为在该方法中弹窗还未启动，弹窗实力还未初始化，所以实例的方法自然也是未定义。最终解决的方法：通过watch()来对弹窗状态的进行判断，每当弹出框关闭的时候，执行清楚方法，将数据对象都清空并且执行resetFields()方法。（执行该方法目的为了防止打开新增弹窗时就进行数据验证判断）</li>
+</ol>
+<h3 id="2019-8-8-周四"><a href="#2019-8-8-周四" class="headerlink" title="2019.8.8 周四"></a>2019.8.8 周四</h3><ol>
+<li>完成了Host部分的post新增操作，造成问题的原因包括（1、与接口期望提交的字段不同，ruleForm和期望提交的字段中对负责人的描述不同。2、接口有个字段给的选择参数和表单中返回的value参数不同、区分大小写。3、没有content_type造成的问题，传输数据的格式都是application.json）</li>
+<li>通过在路由的<code>index.json</code>中添加一个传参值<code>path: &#39;/host/content/:nID&#39;</code>，修复了content页面中刷新造成数据丢失的问题。</li>
+<li>实现了delete的删除操作。</li>
+<li>完成了db部分的静态页面设计。</li>
+<li>修改put的更新操作，暂未解决，返回code500。</li>
+<li>未解决：刷新table的问题，新增和删除后都需要刷行执行刷新table的操作，element的table数据通过<code>:data</code>进行绑定，查看文档说是动态绑定，但并没有随tableData[]数据的变化而动态变化，需要添加一个刷新方法来实现。</li>
+</ol>
+<h3 id="2019-8-9-周五"><a href="#2019-8-9-周五" class="headerlink" title="2019.8.9 周五"></a>2019.8.9 周五</h3><ol>
+<li>修复了刷新table的问题，<code>:data</code>是动态绑定，在refresh（）中做一个网络查询操作，即可实现。</li>
+<li>完成了Host部分的put操作。原因（1.url没有以”/“结尾，2.在打开编辑弹窗时加载的是details的内容，所以负责人字段加载的是contact_name而需要传入的是一个nid，沟通要求提供一个查询的接口获取nid再传入，之后再次修改，要求details内容就返回一个负责人的id）</li>
+<li>完成了Host部分的分页功能，使用了一个element的pagination，封装了一个choosePage()方法用来执行get操作，在选择、上页和下页的方法中都调用该方法，即可实现。</li>
+<li>完成了db部分的获取列表和查询功能。</li>
+</ol>
+<h3 id="周报-3"><a href="#周报-3" class="headerlink" title="周报"></a>周报</h3><p>完成的工作：</p>
+<ol>
+<li>完成了CMDB的Host部分的整体开发，包括Host的列表页面以及table分页，对host的查询（包括模糊查询），对Host数据的修改以及删除Host数据。</li>
+<li>完成了Host点击跳转详情页面的功能。并在详情页面展示具体功能。</li>
+<li>在开发中，使用EasyMock来模拟接口并生成模拟数据，来测试网络操作。</li>
+<li>完成了DB的部分内容，包括获取列表和查询功能。</li>
+</ol>
+<p>本周工作总结：</p>
+<ol>
+<li>本周CMDB的开发加入正轨，通过对Host部分的整体开发，熟悉了axios的增删改查的具体使用，掌握了一些前端调试的技巧和方法。</li>
+<li>对VUE框架的了解不断加深，在下周的DB开发过程肯定会更加的熟练和高效。</li>
 </ol>
 
       
@@ -713,7 +739,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#七月"><span class="nav-number">1.</span> <span class="nav-text">七月</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二周"><span class="nav-number">1.1.</span> <span class="nav-text">第二周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-18-周四"><span class="nav-number">1.1.1.</span> <span class="nav-text">2019.7.18 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-19-周五"><span class="nav-number">1.1.2.</span> <span class="nav-text">2019.7.19 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报"><span class="nav-number">1.1.3.</span> <span class="nav-text">周报</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三周"><span class="nav-number">1.2.</span> <span class="nav-text">第三周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-22-周一"><span class="nav-number">1.2.1.</span> <span class="nav-text">2019.7.22 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-23-周二"><span class="nav-number">1.2.2.</span> <span class="nav-text">2019.7.23 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-24-周三"><span class="nav-number">1.2.3.</span> <span class="nav-text">2019.7.24 周三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-25-周四"><span class="nav-number">1.2.4.</span> <span class="nav-text">2019.7.25 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-26-周五"><span class="nav-number">1.2.5.</span> <span class="nav-text">2019.7.26 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报-1"><span class="nav-number">1.2.6.</span> <span class="nav-text">周报</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四周"><span class="nav-number">1.3.</span> <span class="nav-text">第四周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-29-周一"><span class="nav-number">1.3.1.</span> <span class="nav-text">2019.7.29 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-30-周二"><span class="nav-number">1.3.2.</span> <span class="nav-text">2019.7.30 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-31-周三"><span class="nav-number">1.3.3.</span> <span class="nav-text">2019.7.31 周三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-1-周四"><span class="nav-number">1.3.4.</span> <span class="nav-text">2019.8.1 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-2-周五"><span class="nav-number">1.3.5.</span> <span class="nav-text">2019.8.2 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报-2"><span class="nav-number">1.3.6.</span> <span class="nav-text">周报</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八月"><span class="nav-number">2.</span> <span class="nav-text">八月</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五周"><span class="nav-number">2.1.</span> <span class="nav-text">第五周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-5-周一"><span class="nav-number">2.1.1.</span> <span class="nav-text">2019.8.5 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-6-周二"><span class="nav-number">2.1.2.</span> <span class="nav-text">2019.8.6 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-7-周三"><span class="nav-number">2.1.3.</span> <span class="nav-text">2019.8.7 周三</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#七月"><span class="nav-number">1.</span> <span class="nav-text">七月</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二周"><span class="nav-number">1.1.</span> <span class="nav-text">第二周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-18-周四"><span class="nav-number">1.1.1.</span> <span class="nav-text">2019.7.18 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-19-周五"><span class="nav-number">1.1.2.</span> <span class="nav-text">2019.7.19 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报"><span class="nav-number">1.1.3.</span> <span class="nav-text">周报</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三周"><span class="nav-number">1.2.</span> <span class="nav-text">第三周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-22-周一"><span class="nav-number">1.2.1.</span> <span class="nav-text">2019.7.22 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-23-周二"><span class="nav-number">1.2.2.</span> <span class="nav-text">2019.7.23 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-24-周三"><span class="nav-number">1.2.3.</span> <span class="nav-text">2019.7.24 周三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-25-周四"><span class="nav-number">1.2.4.</span> <span class="nav-text">2019.7.25 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-26-周五"><span class="nav-number">1.2.5.</span> <span class="nav-text">2019.7.26 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报-1"><span class="nav-number">1.2.6.</span> <span class="nav-text">周报</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四周"><span class="nav-number">1.3.</span> <span class="nav-text">第四周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-29-周一"><span class="nav-number">1.3.1.</span> <span class="nav-text">2019.7.29 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-30-周二"><span class="nav-number">1.3.2.</span> <span class="nav-text">2019.7.30 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-7-31-周三"><span class="nav-number">1.3.3.</span> <span class="nav-text">2019.7.31 周三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-1-周四"><span class="nav-number">1.3.4.</span> <span class="nav-text">2019.8.1 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-2-周五"><span class="nav-number">1.3.5.</span> <span class="nav-text">2019.8.2 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报-2"><span class="nav-number">1.3.6.</span> <span class="nav-text">周报</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八月"><span class="nav-number">2.</span> <span class="nav-text">八月</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五周"><span class="nav-number">2.1.</span> <span class="nav-text">第五周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-5-周一"><span class="nav-number">2.1.1.</span> <span class="nav-text">2019.8.5 周一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-6-周二"><span class="nav-number">2.1.2.</span> <span class="nav-text">2019.8.6 周二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-7-周三"><span class="nav-number">2.1.3.</span> <span class="nav-text">2019.8.7 周三</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-8-周四"><span class="nav-number">2.1.4.</span> <span class="nav-text">2019.8.8 周四</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-8-9-周五"><span class="nav-number">2.1.5.</span> <span class="nav-text">2019.8.9 周五</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周报-3"><span class="nav-number">2.1.6.</span> <span class="nav-text">周报</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

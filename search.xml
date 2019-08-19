@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[CMDBweb总结]]></title>
+    <url>%2F2019%2F08%2F19%2FCMDBweb%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[CMDBweb思维导图]]></content>
+      <categories>
+        <category>工作记录</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[vue路由传参方法]]></title>
     <url>%2F2019%2F08%2F02%2Fvue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[需求说明最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。 具体解决Element中Table的点击事件Element的文档中给出如下几种可以实现的方法： 这里我们采用row-click的事件，对应用户点击该行所有单元格都会进行跳转。代码如下： 12345678910111213141516171819&lt;el-table :data=&quot;tableData&quot; :header-cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot; :cell-style=&quot;&#123; textAlign:&apos;center&apos; &#125;&quot; @row-click=&quot;handleTable&quot; &gt;&lt;/el-table&gt;&lt;script&gt; methods: &#123;handleTable: function(row) &#123; this.$router.push(&#123; name: &apos;AppContent&apos;, params: &#123; appname: row.appname &#125; &#125;) console.log(row.appname); this.$router.replace(&#123; name: &quot;AppContent&quot; &#125;); &#125;,&lt;/script&gt; 这里需要注意量点，在设置这个以后，点击table中的编辑和删除后都会执行跳转操作，这明显不是我希望执行的，所以在删除和编辑的button点击事件加一个.stop，代码修改如下：&lt;el-button size=&quot;mini&quot; @click.stop=&quot;handleEdit(scope.$index, scope.row)&quot;&gt;编辑&lt;/el-button&gt;其次是，返回的row并不是index，而是一个对象，其中包含了一行数据的所有内容，所以在传参数的时候通过row.appname来获取参数。 路由跳转之前使用的都是导航中的点击跳转，实质上是一个&lt;a&gt;标签，如下：&lt;router-link :to=&quot;{ name: &#39;Home&#39;}&quot;&gt;主页&lt;/router-link&gt;而现在使用的是js中的跳转，通过在methods中实现，代码如下：this.$router.replace({ name: &quot;AppContent&quot; });其中AppContent即是路由的name。 Vue路由传参的三种方法方案一：传入参数： 12345getDescribe(id) &#123; // 直接调用$router.push 实现携带参数的跳转 this.$router.push(&#123; path: `/describe/$&#123;id&#125;`,&#125;) 对应的路由配置如下：很显然，需要在path中添加/:id来对应 $router.push 中path携带的参数。在子组件中可以使用来获取传递的参数值。 12345&#123; path: &apos;/describe/:id&apos;, name: &apos;Describe&apos;, component: Describe&#125; 在新的页面获取传递的参数方法为：this.$route.params.id 方案二：父组件中：通过路由属性中的name来确定匹配的路由，通过params来传递参数。传入参数： 123456this.$router.push(&#123; name: &apos;Describe&apos;, params: &#123; id: id &#125; &#125;) 对应路由配置: 这里可以添加:/id 也可以不添加，不添加数据会在url后面显示，不添加数据就不会显示。 对应的路由配置如下： 12345&#123; path: &apos;/describe&apos;, name: &apos;Describe&apos;, component: Describe&#125; 子组件中: 这样来获取参数this.$route.params.id 方案三：父组件：使用path来匹配路由，然后通过query来传递参数。这种情况下 query传递的参数会显示在url后面?id=？传入参数： 123456this.$router.push(&#123; path: &apos;/describe&apos;, query: &#123; id: id &#125; &#125;) 对应路由配置： 12345&#123; path: &apos;/describe&apos;, name: &apos;Describe&apos;, component: Describe&#125; 对应子组件: 这样来获取参数this.$route.query.id 这里我采用了第二种方式。这样就可以解决这个问题。]]></content>

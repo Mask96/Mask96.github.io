@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap1.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap3.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap4.png">
-<meta property="og:updated_time" content="2019-08-05T10:23:40.091Z">
+<meta property="og:updated_time" content="2019-08-23T01:49:30.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap原理以及线程不安全">
 <meta name="twitter:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
@@ -350,8 +350,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-08-05T18:23:40+08:00" content="2019-08-05">
-                  2019-08-05
+                <time itemprop="dateUpdated" datetime="2019-08-23T09:49:30+08:00" content="2019-08-23">
+                  2019-08-23
                 </time>
             </span>
           
@@ -441,12 +441,12 @@
 <li>另外一个比较明显的线程不安全的问题是HashMap的在超过负载因子0.75时会扩容，这个过程叫做rehash。在这个过程中，会将hashmap中的元素全部重新分配一次。可是多个线程同时进行时，可能会造成资源争夺从而引起死锁。</li>
 </ol>
 <h2 id="HashMap的遍历"><a href="#HashMap的遍历" class="headerlink" title="HashMap的遍历"></a>HashMap的遍历</h2><p>和查找查找一样，遍历操作也是大家使用频率比较高的一个操作。对于 遍历 HashMap，我们一般都会用下面的方式：</p>
-<figure class="highlight plain"><figcaption><span>key : map.keySet()) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(Object key : map.keySet()) &#123;</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><figcaption><span>entry : map.entrySet()) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(HashMap.Entry entry : map.entrySet()) &#123;</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>从上面代码片段中可以看出，大家一般都是对 HashMap 的 key 集合或 Entry 集合进行遍历。上面代码片段中用 foreach 遍历 keySet 方法产生的集合，在编译时会转换成用迭代器遍历，等价于：</p>
-<figure class="highlight plain"><figcaption><span>keys </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator ite = keys.iterator();</span><br><span class="line">while (ite.hasNext()) &#123;</span><br><span class="line">    Object key = ite.next();</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Set keys = map.keySet();</span><br><span class="line">Iterator ite = keys.iterator();</span><br><span class="line">while (ite.hasNext()) &#123;</span><br><span class="line">    Object key = ite.next();</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在遍历 HashMap 的过程中会发现，多次对 HashMap 进行遍历时，遍历结果顺序都是一致的。但这个顺序和插入的顺序一般都是不一致的。具体流程图如下：</p>
 
@@ -573,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

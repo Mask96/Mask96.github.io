@@ -304,6 +304,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/06/vue多环境启动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mask">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/06/vue多环境启动/" itemprop="url">vue多环境启动</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-06T18:07:08+08:00">
+                2019-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+          
+            <span class="post-updated">
+              &nbsp; | &nbsp; 更新于
+                <time itemprop="dateUpdated" datetime="2019-09-09T10:01:53+08:00" content="2019-09-09">
+                  2019-09-09
+                </time>
+            </span>
+          
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue多环境启动的解决方法"><a href="#Vue多环境启动的解决方法" class="headerlink" title="Vue多环境启动的解决方法"></a>Vue多环境启动的解决方法</h1><h2 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h2><p>在vue项目开发中，因为本地、测试、生产三个环节中常常对应不同的接口，所以需要解决如何在运行三种不同的环境时就获取到三种不同的接口的问题。</p>
+<h2 id="Vue-Cli-3版本"><a href="#Vue-Cli-3版本" class="headerlink" title="Vue Cli 3版本"></a>Vue Cli 3版本</h2><p>Vue Cli文档：</p>
+<blockquote>
+<p><a href="https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve</a><br>在Vue Cli 2版本或更早的版本，项目目录中包括build和config文件夹。而这次开发使用的是3.0以上的版本，不生成这两个文件夹，所以这里只介绍3.0以上的版本的解决方法。项目目录如下：</p>
+</blockquote>
+<img src="/2019/09/06/vue多环境启动/项目目录.png" title="项目目录">
+
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>通过为<code>.env</code>文件增加后缀来设置某个模式下特有的环境变量。<br>通过传递 –mode 选项参数为命令行覆写默认的模式。</p>
+<h2 id="新建-env文件"><a href="#新建-env文件" class="headerlink" title="新建.env文件"></a>新建.env文件</h2><p>在项目的根目录新建2个文件，分别对应开发（dev），生产（prod）<br>文件命名： .env.dev , .env.prod。如下：</p>
+<img src="/2019/09/06/vue多环境启动/新建文件.png" title="新建文件">
+
+<p>在每个文件中写具体的参数。接下来是不同文件里面的代码情况。</p>
+<p>.env.dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV = &apos;development&apos;</span><br><span class="line">VUE_APP_CURRENTMODE = &apos;dev&apos;</span><br><span class="line">VUE_APP_BASEURL = &apos;本地开发的基础api地址&apos;</span><br></pre></td></tr></table></figure>
+
+<p>.env.test （本次没有设置test文件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV = &apos;production&apos;</span><br><span class="line">VUE_APP_CURRENTMODE = &apos;test&apos;</span><br><span class="line">VUE_APP_BASEURL = &apos;测试环境api地址&apos;</span><br></pre></td></tr></table></figure>
+
+<p>.env.prod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV = &apos;production&apos;</span><br><span class="line">VUE_APP_CURRENTMODE = &apos;prod&apos;</span><br><span class="line">VUE_APP_BASEURL = &apos;正式环境api地址&apos;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改package-json脚本"><a href="#修改package-json脚本" class="headerlink" title="修改package.json脚本"></a>修改package.json脚本</h2><p>在根目录下的package.json文件进行以下修改。</p>
+<img src="/2019/09/06/vue多环境启动/修改文件.png" title="修改文件">
+<p>其中前面的key部分，就是命令执行时 <code>npm run xxxxx</code>的部分，而后面的则是vue cli执行的内容，下面是是文档中的部分内容。</p>
+<img src="/2019/09/06/vue多环境启动/文档1.png" title="vue-cli-service serve">
+<img src="/2019/09/06/vue多环境启动/文档2.png" title="vue-cli-service build">
+<p>其中mode后接的是要部署的环境，具体的名称就是第一步创建的.env.xxx中的xxx名称。如这里就是prod和dev。同时这里在两种不同的环境分别设置了serve命令和build命令。</p>
+<p>（serve和build有一定的区别，serve是直接在本地执行。而build是进行打包，创建出一个dist文件夹，其中的index文件是入口。）</p>
+<h2 id="使用api"><a href="#使用api" class="headerlink" title="使用api"></a>使用api</h2><p>在.env.prod和.env.dev中定义了VUE_APP_XXXXX的变量，在调用时，直接使用<code>process.env.VUE_APP_BASEURL</code>即可。在这里我把他绑定在原型链上以方便全局使用。如下：</p>
+<img src="/2019/09/06/vue多环境启动/使用方法.png" title="vue-cli-service 使用方法">
+<p>这样使用时可以通过this.BaseUrl来调用地址，而这个值就是设置的多环境变量赋值给他的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>要设置多环境分为以下几步：</p>
+<ol>
+<li>创建对应环境的.env.xxxx</li>
+<li>在package.json文件中设置对应的命令（mode）</li>
+<li>通过<code>process.env.VUE_APP_BASEURL</code>来调用具体的设置值。（启动命令不同，环境不同，对应的baseUrl也不同，实现目的功能。）</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/vue基础笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1435,7 +1621,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/09/06/vue多环境启动/文档1.png">
 <meta property="og:image" content="http://yoursite.com/2019/09/06/vue多环境启动/文档2.png">
 <meta property="og:image" content="http://yoursite.com/2019/09/06/vue多环境启动/使用方法.png">
-<meta property="og:updated_time" content="2019-09-09T02:01:53.703Z">
+<meta property="og:updated_time" content="2019-09-09T02:06:31.371Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue多环境启动">
 <meta name="twitter:description" content="Vue多环境启动的解决方法问题分析：在vue项目开发中，因为本地、测试、生产三个环节中常常对应不同的接口，所以需要解决如何在运行三种不同的环境时就获取到三种不同的接口的问题。 Vue Cli 3版本Vue Cli文档：  https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve在Vue Cli 2版本或更早的版本，项">
@@ -353,7 +353,7 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-09-09T10:01:53+08:00" content="2019-09-09">
+                <time itemprop="dateUpdated" datetime="2019-09-09T10:06:31+08:00" content="2019-09-09">
                   2019-09-09
                 </time>
             </span>
@@ -414,6 +414,7 @@
 <blockquote>
 <p><a href="https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve</a><br>在Vue Cli 2版本或更早的版本，项目目录中包括build和config文件夹。而这次开发使用的是3.0以上的版本，不生成这两个文件夹，所以这里只介绍3.0以上的版本的解决方法。项目目录如下：</p>
 </blockquote>
+<a id="more"></a>
 <img src="/2019/09/06/vue多环境启动/项目目录.png" title="项目目录">
 
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>通过为<code>.env</code>文件增加后缀来设置某个模式下特有的环境变量。<br>通过传递 –mode 选项参数为命令行覆写默认的模式。</p>

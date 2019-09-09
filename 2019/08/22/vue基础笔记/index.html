@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/22/vue基础笔记/mvvm.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/22/vue基础笔记/mvvm1.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/22/vue基础笔记/lifecycle.png">
-<meta property="og:updated_time" content="2019-08-30T08:47:14.187Z">
+<meta property="og:updated_time" content="2019-09-09T05:34:56.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue基础笔记">
 <meta name="twitter:description" content="VUE起步vue是一个基于MVVM模式的前端框架，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。这个框架的中文文档就很好了，这里只是记录一些本人学习和使用vue时的备忘和笔记。  官方文档：https://cn.vuejs.org/v2/guide/">
@@ -350,8 +350,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-08-30T16:47:14+08:00" content="2019-08-30">
-                  2019-08-30
+                <time itemprop="dateUpdated" datetime="2019-09-09T13:34:56+08:00" content="2019-09-09">
+                  2019-09-09
                 </time>
             </span>
           
@@ -460,7 +460,45 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;</span><br><span class="line">  activeClass: &apos;active&apos;,</span><br><span class="line">  errorClass: &apos;text-danger&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是这样的写法会使这两个样式固定显示，如果想通过data来对其进行控制展示与否的话，可以在数组中传对象，如：<code>&lt;div v-bind:class=&quot;[{ active: isActive }, errorClass]&quot;&gt;&lt;/div&gt;</code>。这样的话，可以在data中控制isActive的true和false来控制显示。</p>
-<h3 id="style绑定"><a href="#style绑定" class="headerlink" title="style绑定"></a>style绑定</h3><p>style绑定即是内联元素的绑定，同样通过v-bind进行绑定。看着很像css但是实则是js对象，绑定如下：<code>&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &#39;px&#39; }&quot;&gt;&lt;/div&gt;</code>，在这个</p>
+<h3 id="style绑定"><a href="#style绑定" class="headerlink" title="style绑定"></a>style绑定</h3><p>style绑定即是内联元素的绑定，同样通过v-bind进行绑定。看着很像css但是实则是js对象，绑定如下：<code>&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &#39;px&#39; }&quot;&gt;&lt;/div&gt;</code>。</p>
+<h2 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h2><h3 id="v-if"><a href="#v-if" class="headerlink" title="v-if"></a>v-if</h3><p>v-if绑定的是data中某一值，然后通过该值的true或false来决定该模块是否渲染。v-if还有对应的多重判断，通过<code>v-if</code>、<code>v-else-if</code>以及<code>v-else</code>可以实现多个模块通过条件的判断值显示其中某部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-if=&quot;type === &apos;A&apos;&quot;&gt;</span><br><span class="line">  A</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div v-else-if=&quot;type === &apos;B&apos;&quot;&gt;</span><br><span class="line">  B</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div v-else-if=&quot;type === &apos;C&apos;&quot;&gt;</span><br><span class="line">  C</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div v-else&gt;</span><br><span class="line">  Not A/B/C</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>因为vue中会复用可以复用的元素来实现高效加载，但是如果有不希望去复用的元素，可以通过给他设置一个key值来避免其复用。</p>
+<h3 id="v-show"><a href="#v-show" class="headerlink" title="v-show"></a>v-show</h3><p>v-show的使用和v-if基本相同，不过v-show的元素始终渲染保留在dom中，v-show控制的只是其css中的dispay的属性。</p>
+<h3 id="两者对比"><a href="#两者对比" class="headerlink" title="两者对比"></a>两者对比</h3><blockquote>
+<p>v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。<br>v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。<br>相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。<br>一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。</p>
+</blockquote>
+<h1 id="便签笔记"><a href="#便签笔记" class="headerlink" title="便签笔记"></a>便签笔记</h1><ol>
+<li><p>v-on用来绑定事件 v-on:click=“方法名”</p>
+</li>
+<li><p>v-for用来遍历数组进行循环</p>
+</li>
+<li><p>v-model用来进行数据的双向绑定</p>
+</li>
+<li><p>mvvm m是data v是样式等，而methods等方法是对数据进行操作，属于vm。在data修改时，页面上的view会自动跟随变化。面向数据（data）编程。</p>
+</li>
+<li><p>component{}：用来注册全局组件。在子组件注册时写好其模版和接收的父组件的值。</p>
+</li>
+<li><p>v-bind：绑定数据给组件的子组件传递。子组件通过props:[]来接收绑定的数据。简写为“：”。</p>
+</li>
+<li><p>子组件通过props:[]来接收绑定的数据。通过template来编写组件的样式。</p>
+</li>
+<li><p>v-on监听事件，</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">this.$emit(“delete”);  //发送一个delete事件</span><br><span class="line">@delete=“handleItemDelete” //监听delete事件，一旦事件触发、执行handleItemDelete方法。</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>父组件向子组件传值可以使用v-bind，在子组件中使用props获取参数。而子组件向父组件传值可以通过父组件监听子组件发出的事件来实现。</p>
+</li>
+<li><p>每一个vue组件都是一个vue实例，在项目的根目录下有一个初始的vue实例，然后通过组件装配来完成项目。</p>
+</li>
+<li><p>插值表达式。v-text。功能一样。v-html也类似，但是会对html标签执行</p>
+</li>
+<li><p>计算属性 computed:{}，属性通过计算得出并返回。计算属性是内置缓存的，当他用来计算的值不发生变化时他的值不做重新计算，只有当变化时才重新计算</p>
+</li>
+</ol>
 
       
     </div>
@@ -657,7 +695,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VUE起步"><span class="nav-number">1.</span> <span class="nav-text">VUE起步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明式渲染"><span class="nav-number">1.1.</span> <span class="nav-text">声明式渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM"><span class="nav-number">1.2.</span> <span class="nav-text">MVVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化应用的构建"><span class="nav-number">1.3.</span> <span class="nav-text">组件化应用的构建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue基础"><span class="nav-number">2.</span> <span class="nav-text">Vue基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue实例"><span class="nav-number">2.1.</span> <span class="nav-text">Vue实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期函数："><span class="nav-number">2.2.</span> <span class="nav-text">生命周期函数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue的模版语法："><span class="nav-number">2.3.</span> <span class="nav-text">vue的模版语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算属性和监听器："><span class="nav-number">2.4.</span> <span class="nav-text">计算属性和监听器：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算属性"><span class="nav-number">2.4.1.</span> <span class="nav-text">计算属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器"><span class="nav-number">2.4.2.</span> <span class="nav-text">监听器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class和style的绑定"><span class="nav-number">2.5.</span> <span class="nav-text">class和style的绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class绑定"><span class="nav-number">2.5.1.</span> <span class="nav-text">class绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#style绑定"><span class="nav-number">2.5.2.</span> <span class="nav-text">style绑定</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VUE起步"><span class="nav-number">1.</span> <span class="nav-text">VUE起步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明式渲染"><span class="nav-number">1.1.</span> <span class="nav-text">声明式渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM"><span class="nav-number">1.2.</span> <span class="nav-text">MVVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化应用的构建"><span class="nav-number">1.3.</span> <span class="nav-text">组件化应用的构建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue基础"><span class="nav-number">2.</span> <span class="nav-text">Vue基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue实例"><span class="nav-number">2.1.</span> <span class="nav-text">Vue实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期函数："><span class="nav-number">2.2.</span> <span class="nav-text">生命周期函数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue的模版语法："><span class="nav-number">2.3.</span> <span class="nav-text">vue的模版语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算属性和监听器："><span class="nav-number">2.4.</span> <span class="nav-text">计算属性和监听器：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算属性"><span class="nav-number">2.4.1.</span> <span class="nav-text">计算属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器"><span class="nav-number">2.4.2.</span> <span class="nav-text">监听器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class和style的绑定"><span class="nav-number">2.5.</span> <span class="nav-text">class和style的绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class绑定"><span class="nav-number">2.5.1.</span> <span class="nav-text">class绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#style绑定"><span class="nav-number">2.5.2.</span> <span class="nav-text">style绑定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件渲染"><span class="nav-number">2.6.</span> <span class="nav-text">条件渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#v-if"><span class="nav-number">2.6.1.</span> <span class="nav-text">v-if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#v-show"><span class="nav-number">2.6.2.</span> <span class="nav-text">v-show</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两者对比"><span class="nav-number">2.6.3.</span> <span class="nav-text">两者对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#便签笔记"><span class="nav-number">3.</span> <span class="nav-text">便签笔记</span></a></li></ol></div>
             
 
           </div>

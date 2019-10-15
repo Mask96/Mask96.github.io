@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据结构,">
+  <meta name="keywords" content="stream,">
 
 
 
@@ -79,22 +79,20 @@
 
 
 
-<meta name="description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
-<meta name="keywords" content="数据结构">
+<meta name="description" content="什么是Stream在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bu">
+<meta name="keywords" content="stream">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HashMap原理以及线程不安全">
-<meta property="og:url" content="http://yoursite.com/2019/07/26/hashmap/index.html">
+<meta property="og:title" content="java8中的stream使用方法">
+<meta property="og:url" content="http://yoursite.com/2019/10/15/java8中的stream使用方法/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
+<meta property="og:description" content="什么是Stream在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap1.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap3.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap4.png">
-<meta property="og:updated_time" content="2019-08-23T01:49:30.145Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/15/java8中的stream使用方法/流管道构成.png">
+<meta property="og:updated_time" content="2019-10-15T07:44:18.385Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HashMap原理以及线程不安全">
-<meta name="twitter:description" content="HashMap概述HashMap是什么HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。">
-<meta name="twitter:image" content="http://yoursite.com/2019/07/26/hashmap/hashmap1.png">
+<meta name="twitter:title" content="java8中的stream使用方法">
+<meta name="twitter:description" content="什么是Stream在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bu">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/15/java8中的stream使用方法/流管道构成.png">
 
 
 
@@ -124,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/26/hashmap/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/15/java8中的stream使用方法/">
 
 
 
 
 
-  <title>HashMap原理以及线程不安全 | Mask</title>
+  <title>java8中的stream使用方法 | Mask</title>
   
 
 
@@ -309,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/hashmap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/java8中的stream使用方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mask">
@@ -326,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">HashMap原理以及线程不安全</h1>
+          <h1 class="post-title" itemprop="name headline">java8中的stream使用方法</h1>
         
 
         <div class="post-meta">
@@ -338,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T17:04:58+08:00">
-                2019-07-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T14:36:40+08:00">
+                2019-10-15
               </time>
             
 
@@ -350,8 +348,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-08-23T09:49:30+08:00" content="2019-08-23">
-                  2019-08-23
+                <time itemprop="dateUpdated" datetime="2019-10-15T15:44:18+08:00" content="2019-10-15">
+                  2019-10-15
                 </time>
             </span>
           
@@ -406,54 +404,75 @@
       
 
       
-        <h1 id="HashMap概述"><a href="#HashMap概述" class="headerlink" title="HashMap概述"></a>HashMap概述</h1><h2 id="HashMap是什么"><a href="#HashMap是什么" class="headerlink" title="HashMap是什么"></a>HashMap是什么</h2><p>HashMap基于Map接口实现，元素以键值对的方式存储，并且允许使用null键和null值，　因为key不允许重复，因此只能有一个键为null,另外HashMap不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。同时HashMap是线程不安全的。</p>
-<a id="more"></a>
-<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; //默认初始化大小 16 </span><br><span class="line">static final float DEFAULT_LOAD_FACTOR = 0.75f;     //负载因子0.75</span><br><span class="line">static final Entry&lt;?,?&gt;[] EMPTY_TABLE = &#123;&#125;;         //初始化的默认数组</span><br><span class="line">transient int size;     //HashMap中元素的数量</span><br><span class="line">int threshold;          //判断是否需要调整HashMap的容量</span><br></pre></td></tr></table></figure>
-
-<p>如上，在新建一个hashmap时，初始大小为16个bucket。当bucket的使用率达到0.75负载因子以上的时候，hashmap会自动扩容，将bucket扩为之前的2倍。因为扩容时一个费时的操作，所以如果既定了HashMap大小最好可以直接在构造时为其赋初始值大小。</p>
-<h1 id="HashMap原理"><a href="#HashMap原理" class="headerlink" title="HashMap原理"></a>HashMap原理</h1><h2 id="HashMap结构"><a href="#HashMap结构" class="headerlink" title="HashMap结构"></a>HashMap结构</h2><p>HashMap 内部结构：可以看作是数组和链表结合组成的复合结构，数组被分为一个个桶（bucket），每个桶存储有一个或多个Entry对象（每个Entry对象包含三部分key、value，next，桶中有多个entity时以链表的方式存储），通过哈希值决定了Entry对象（键值对）在这个数组的寻址；哈希值相同的Entry对象（键值对），则以链表形式存储。如果链表大小超过树形转换的阈值（TREEIFY_THRESHOLD= 8），链表就会被改造为树形结构。</p>
-<ul>
-<li>数组：存储区间连续，占用内存严重，寻址容易，插入删除困难；</li>
-<li>链表：存储区间离散，占用内存比较宽松，寻址困难，插入删除容易；</li>
-<li>Hashmap综合应用了这两种数据结构，实现了寻址容易，插入删除也容易。</li>
-</ul>
-<p>结构图如下：</p>
-<img src="/2019/07/26/hashmap/hashmap1.png" title="结构图1">
-
-<p>当链表大小超过阈值后，将链表转为红黑树结构如下：</p>
-<img src="/2019/07/26/hashmap/hashmap3.png" title="链表转为红黑树">
-
-<h2 id="HashMap存储过程"><a href="#HashMap存储过程" class="headerlink" title="HashMap存储过程"></a>HashMap存储过程</h2><p>每一个存储对象（键值对）都用一个entity来存储，在进行存储的时候，先对key进行哈希运算得出要存储位置的数组下标，通过hash运算得出来要存放在哪个bucket中，然后看这个bucket中是否有entity，如果没有就直接放在该bucket中，如果有则将新的entity的next只想旧entity，然后将新的entity放在该bucket中。<br>例如：<br>第一个键值对A进来。通过计算其key的hash得到的index=0。记做:Entry[0] = A。<br>第二个键值对B，通过计算其index也等于0， HashMap会将B.next =A,Entry[0] =B,<br>第三个键值对 C,index也等于0,那么C.next = B,Entry[0] = C；<br>这样我们发现index=0的地方事实上存取了A,B,C三个键值对,它们通过next这个属性链接在一起。 对于不同的元素，可能计算出了相同的函数值，这样就产生了“冲突”，这就需要解决冲突，“直接定址”与“解决冲突”是哈希表的两大特点。<br>存储过程图如下：</p>
-<img src="/2019/07/26/hashmap/hashmap4.png" title="put存储过程">
-
-<h2 id="HashMap查询过程"><a href="#HashMap查询过程" class="headerlink" title="HashMap查询过程"></a>HashMap查询过程</h2><p>1、指定key 通过hash函数得到key的hash值<br><code>int hash=key.hashCode();</code><br>2、调用内部方法 getNode()，得到桶号(一般为hash值对桶数求模)<br><code>int index =hash%Entry[].length;</code><br>jdk1.6版本后使用位运算替代模运算，int index=hash&amp;( Entry[].length - 1）;<br>3、比较桶的内部元素是否与key相等，若都不相等，则没有找到。相等，则取出相等记录的value。<br>4、如果得到 key 所在的桶的头结点恰好是红黑树节点，就调用红黑树节点的 getTreeNode() 方法，否则就遍历链表节点。getTreeNode 方法使通过调用树形节点的 find()方法进行查找。由于之前添加时已经保证这个树是有序的，因此查找时基本就是折半查找，效率很高。<br>5、如果对比节点的哈希值和要查找的哈希值相等，就会判断 key 是否相等，相等就直接返回；不相等就从子树中递归查找。</p>
-<p><strong>HashMap查询时间复杂度为O(1)的原因</strong><br>因为查询的过程可以简化：</p>
-<ol>
-<li>先根据key值通过hash计算出index索引值。</li>
-<li>查找数组中的索引位置，得到相应的键值对链表或红黑树</li>
-<li>根据key值，遍历键值对链表，找到相应的键值对，</li>
-<li>从键值对中取出value值。</li>
-</ol>
-<p>其中以上的1.2.4都是时间复杂度为O(1)，所以hashmap查询的复杂度主要取决与第3步，而遍历这里的链表或红黑树是常数级别的，所以可以趋近于时间复杂度为O（1）。HashMap是使用链地址法来解决冲突的。</p>
-<p>解决hash冲突常见的几种方法：<br>a. 链地址法：将哈希表的每个单元作为链表的头结点，所有哈希地址为 i 的元素构成一个同义词链表。即发生冲突时就把该关键字链在以该单元为头结点的链表的尾部。<br>b. 开放定址法：即发生冲突时，去寻找下一个空的哈希地址。只要哈希表足够大，总能找到空的哈希地址。<br>c. 再哈希法：即发生冲突时，由其他的函数再计算一次哈希值。<br>d. 建立公共溢出区：将哈希表分为基本表和溢出表，发生冲突时，将冲突的元素放入溢出表。</p>
-<h1 id="HashMap应用"><a href="#HashMap应用" class="headerlink" title="HashMap应用"></a>HashMap应用</h1><h2 id="HashMap线程不安全"><a href="#HashMap线程不安全" class="headerlink" title="HashMap线程不安全"></a>HashMap线程不安全</h2><ol>
-<li>put的时候导致的多线程数据不一致。这个问题比较好想象，比如有两个线程A和B，首先A希望插入一个key-value对到HashMap中，首先计算记录所要落到的桶的索引坐标，然后获取到该桶里面的链表头结点，此时线程A的时间片用完了，而此时线程B被调度得以执行，和线程A一样执行，只不过线程B成功将记录插到了桶里面，假设线程A插入的记录计算出来的桶索引和线程B要插入的记录计算出来的桶索引是一样的，那么当线程B成功插入之后，线程A再次被调度运行时，它依然持有过期的链表头但是它对此一无所知，以至于它认为它应该这样做，如此一来就覆盖了线程B插入的记录，这样线程B插入的记录就凭空消失了，造成了数据不一致的行为。</li>
-<li>另外一个比较明显的线程不安全的问题是HashMap的在超过负载因子0.75时会扩容，这个过程叫做rehash。在这个过程中，会将hashmap中的元素全部重新分配一次。可是多个线程同时进行时，可能会造成资源争夺从而引起死锁。</li>
-</ol>
-<h2 id="HashMap的遍历"><a href="#HashMap的遍历" class="headerlink" title="HashMap的遍历"></a>HashMap的遍历</h2><p>和查找查找一样，遍历操作也是大家使用频率比较高的一个操作。对于 遍历 HashMap，我们一般都会用下面的方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(Object key : map.keySet()) &#123;</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for(HashMap.Entry entry : map.entrySet()) &#123;</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从上面代码片段中可以看出，大家一般都是对 HashMap 的 key 集合或 Entry 集合进行遍历。上面代码片段中用 foreach 遍历 keySet 方法产生的集合，在编译时会转换成用迭代器遍历，等价于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Set keys = map.keySet();</span><br><span class="line">Iterator ite = keys.iterator();</span><br><span class="line">while (ite.hasNext()) &#123;</span><br><span class="line">    Object key = ite.next();</span><br><span class="line">    // do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在遍历 HashMap 的过程中会发现，多次对 HashMap 进行遍历时，遍历结果顺序都是一致的。但这个顺序和插入的顺序一般都是不一致的。具体流程图如下：</p>
-
-
+        <h1 id="什么是Stream"><a href="#什么是Stream" class="headerlink" title="什么是Stream"></a>什么是Stream</h1><p>在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。<br>而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bulk data operation)，Stream API 借助于同样新出现的 Lambda 表达式，极大的提高编程效率和程序可读性。<br>同时它提供串行和并行两种模式进行汇聚操作，并发模式能够充分利用多核处理器的优势，使用 fork/join 并行方式来拆分任务和加速处理过程。通常编写并行代码很难而且容易出错, 但使用 Stream API 无需编写一行多线程的代码，就可以很方便地写出高性能的并发程序。</p>
+<h1 id="Stream总览"><a href="#Stream总览" class="headerlink" title="Stream总览"></a>Stream总览</h1><h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><p>Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的迭代器（Iterator），单向，不可往复，数据只能遍历一次，遍历过一次后即用尽了，就好比流水从面前流过，一去不复返。<br>而和迭代器又不同的是，Stream 可以并行化操作，迭代器只能命令式地、串行化操作。顾名思义，当使用串行方式去遍历时，每个 item 读完后再读下一个 item。而使用并行去遍历时，数据会被分成多个段，其中每一个都在不同的线程中处理，然后将结果一起输出。</p>
 <blockquote>
-<p>本文参考自：<br><a href="https://segmentfault.com/a/1190000012926722" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722</a><br><a href="https://blog.csdn.net/visant/article/details/80045154" target="_blank" rel="noopener">https://blog.csdn.net/visant/article/details/80045154</a><br><a href="https://www.cnblogs.com/java-jun-world2099/p/9258605.html" target="_blank" rel="noopener">https://www.cnblogs.com/java-jun-world2099/p/9258605.html</a><br><a href="https://www.cnblogs.com/zhaoxinshanwei/p/8478145.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoxinshanwei/p/8478145.html</a></p>
+<p>Stream 的并行操作依赖于 Java7 中引入的 Fork/Join 框架（JSR166y）来拆分任务和加速处理过程。</p>
 </blockquote>
+<h2 id="流的构成"><a href="#流的构成" class="headerlink" title="流的构成"></a>流的构成</h2><p>当我们使用一个流的时候，通常包括三个基本步骤：（每次转换原有 Stream 对象不改变，返回一个新的 Stream 对象（可以有多次转换））</p>
+<ol>
+<li>获取一个数据源（source）</li>
+<li>数据转换</li>
+<li>执行操作获取想要的结果<img src="/2019/10/15/java8中的stream使用方法/流管道构成.png" title="流管道构成">
+
+</li>
+</ol>
+<h3 id="流的获取"><a href="#流的获取" class="headerlink" title="流的获取"></a>流的获取</h3><p>可以从Collection和数组，从BufferedReader获取，通过静态工厂获取，自己构建或是其他方法。</p>
+<h3 id="流的操作"><a href="#流的操作" class="headerlink" title="流的操作"></a>流的操作</h3><p>流的操作类型分为两种：<br><strong>Intermediate</strong>：一个流可以后面跟随零个或多个 intermediate 操作。其目的主要是打开流，做出某种程度的数据映射/过滤，然后返回一个新的流，交给下一个操作使用。这类操作都是惰性化的（lazy），就是说，仅仅调用到这类方法，并没有真正开始流的遍历。<br><strong>Terminal</strong>：一个流只能有一个 terminal 操作，当这个操作执行后，流就被使用“光”了，无法再被操作。所以这必定是流的最后一个操作。Terminal 操作的执行，才会真正开始流的遍历，并且会生成一个结果，或者一个 side effect。<br><strong>short-circuiting</strong>：对于一个 intermediate 操作，如果它接受的是一个无限大（infinite/unbounded）的 Stream，但返回一个有限的新 Stream。或对于一个 terminal 操作，如果它接受的是一个无限大的 Stream，但能在有限的时间计算出结果。<br>（转换操作都是 lazy 的，多个转换操作只会在 Terminal 操作的时候融合起来，一次循环完成。我们可以这样简单的理解，Stream 里有个操作函数的集合，每次转换操作就是把转换函数放入这个集合中，在 Terminal 操作的时候循环 Stream 对应的集合，然后对每个元素执行所有的函数。）</p>
+<h1 id="Stream使用方法"><a href="#Stream使用方法" class="headerlink" title="Stream使用方法"></a>Stream使用方法</h1><h2 id="流的构造与转换"><a href="#流的构造与转换" class="headerlink" title="流的构造与转换"></a>流的构造与转换</h2><p>常见的几种构造流的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 1. Individual values</span><br><span class="line">Stream stream = Stream.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);</span><br><span class="line">// 2. Arrays</span><br><span class="line">String [] strArray = new String[] &#123;&quot;a&quot;, &quot;b&quot;, &quot;c&quot;&#125;;</span><br><span class="line">stream = Stream.of(strArray);</span><br><span class="line">stream = Arrays.stream(strArray);</span><br><span class="line">// 3. Collections</span><br><span class="line">List&lt;String&gt; list = Arrays.asList(strArray);</span><br><span class="line">stream = list.stream();</span><br></pre></td></tr></table></figure>
+
+<h2 id="流的操作-1"><a href="#流的操作-1" class="headerlink" title="流的操作"></a>流的操作</h2><p>接下来，当把一个数据结构包装成 Stream 后，就要开始对里面的元素进行各类操作了。常见的操作可以归类如下。<br><strong>Intermediate：</strong><br>map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered<br><strong>Terminal：</strong><br>forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator<br><strong>Short-circuiting：</strong><br>anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit</p>
+<h3 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map/flatMap"></a>map/flatMap</h3><p>map 生成的是个 1:1 映射，每个输入元素，都按照规则转换成为另外一个元素。还有一些场景，是一对多映射关系的，这时需要 flatMap。<br>map 1:1映射 Eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--平方数--&gt;</span><br><span class="line">List&lt;Integer&gt; nums = Arrays.asList(1, 2, 3, 4);</span><br><span class="line">List&lt;Integer&gt; squareNums = nums.stream().</span><br><span class="line">map(n -&gt; n * n).</span><br><span class="line">collect(Collectors.toList());</span><br><span class="line">&lt;!--生成一个整数 list 的平方数 &#123;1, 4, 9, 16&#125;--&gt;</span><br></pre></td></tr></table></figure>
+
+<p>flatMap 1:n映射 Eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;List&lt;Integer&gt;&gt; inputStream = Stream.of(</span><br><span class="line"> Arrays.asList(1),</span><br><span class="line"> Arrays.asList(2, 3),</span><br><span class="line"> Arrays.asList(4, 5, 6)</span><br><span class="line"> );</span><br><span class="line">Stream&lt;Integer&gt; outputStream = inputStream.</span><br><span class="line">flatMap((childList) -&gt; childList.stream());</span><br></pre></td></tr></table></figure>
+
+<p>flatMap 把 input Stream 中的层级结构扁平化，就是将最底层元素抽出来放到一起，最终 output 的新 Stream 里面已经没有 List 了，都是直接的数字。</p>
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>filter 对原始 Stream 进行某项测试，通过测试的元素被留下来生成一个新 Stream。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--留下偶数--&gt;</span><br><span class="line">Integer[] sixNums = &#123;1, 2, 3, 4, 5, 6&#125;;</span><br><span class="line">Integer[] evens =</span><br><span class="line">Stream.of(sixNums).filter(n -&gt; n%2 == 0).toArray(Integer[]::new);</span><br><span class="line">&lt;!--经过条件“被 2 整除”的 filter，剩下的数字为 &#123;2, 4, 6&#125;。--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h3><p>forEach 方法接收一个 Lambda 表达式，然后在 Stream 的每一个元素上执行该表达式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--打印姓名--&gt;</span><br><span class="line">roster.stream()</span><br><span class="line"> .filter(p -&gt; p.getGender() == Person.Sex.MALE)</span><br><span class="line"> .forEach(p -&gt; System.out.println(p.getName()));</span><br></pre></td></tr></table></figure>
+
+<p>forEach 是 terminal 操作，因此它执行后，Stream 的元素就被“消费”掉了，你无法对一个 Stream 进行两次 terminal 运算。</p>
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><p>这个方法的主要作用是把 Stream 元素组合起来。它提供一个起始值（种子），然后依照运算规则（BinaryOperator），和前面 Stream 的第一个、第二个、第 n 个元素组合。从这个意义上说，字符串拼接、数值的 sum、min、max、average 都是特殊的 reduce。例如 Stream 的 sum 就相当于<br><code>Integer sum = integers.reduce(0, (a, b) -&gt; a+b);</code><br>或<br><code>Integer sum = integers.reduce(0, Integer::sum);</code><br>也有没有起始值的情况，这时会把 Stream 的前面两个元素组合起来，返回的是 Optional。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 字符串连接，concat = &quot;ABCD&quot;</span><br><span class="line">String concat = Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;).reduce(&quot;&quot;, String::concat); </span><br><span class="line">// 求最小值，minValue = -3.0</span><br><span class="line">double minValue = Stream.of(-1.5, 1.0, -3.0, -2.0).reduce(Double.MAX_VALUE, Double::min); </span><br><span class="line">// 求和，sumValue = 10, 有起始值</span><br><span class="line">int sumValue = Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);</span><br><span class="line">// 求和，sumValue = 10, 无起始值</span><br><span class="line">sumValue = Stream.of(1, 2, 3, 4).reduce(Integer::sum).get();</span><br><span class="line">// 过滤，字符串连接，concat = &quot;ace&quot;</span><br><span class="line">concat = Stream.of(&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;D&quot;, &quot;e&quot;, &quot;F&quot;).</span><br><span class="line"> filter(x -&gt; x.compareTo(&quot;Z&quot;) &gt; 0).</span><br><span class="line"> reduce(&quot;&quot;, String::concat);</span><br></pre></td></tr></table></figure>
+
+<p>上面代码例如第一个示例的 reduce()，第一个参数（空白字符）即为起始值，第二个参数（String::concat）为 BinaryOperator。这类有起始值的 reduce() 都返回具体的对象。</p>
+<h3 id="limit-skip"><a href="#limit-skip" class="headerlink" title="limit/skip"></a>limit/skip</h3><p>limit 返回 Stream 的前面 n 个元素；skip 则是扔掉前 n 个元素（它是由一个叫 subStream 的方法改名而来）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; personList2 = persons.stream().</span><br><span class="line">map(Person::getName).limit(10).skip(3).collect(Collectors.toList());</span><br><span class="line"> System.out.println(personList2);</span><br><span class="line">&lt;!--输出：[name4, name5, name6, name7, name8, name9, name10]--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h3><p>对 Stream 的排序通过 sorted 进行，它比数组的排序更强之处在于你可以首先对 Stream 进行各类 map、filter、limit、skip 甚至 distinct 来减少元素数量后，再排序，这能帮助程序明显缩短执行时间。</p>
+<h3 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h3><p>Stream 有三个 match 方法，从语义上说：</p>
+<ol>
+<li>allMatch：Stream 中全部元素符合传入的 predicate，返回 true</li>
+<li>anyMatch：Stream 中只要有一个元素符合传入的 predicate，返回 true</li>
+<li>noneMatch：Stream 中没有一个元素符合传入的 predicate，返回 true<br>它们都不是要遍历全部元素才能返回结果。例如 allMatch 只要一个元素不满足条件，就 skip 剩下的所有元素，返回 false。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Person&gt; persons = new ArrayList();</span><br><span class="line">persons.add(new Person(1, &quot;name&quot; + 1, 10));</span><br><span class="line">persons.add(new Person(2, &quot;name&quot; + 2, 21));</span><br><span class="line">persons.add(new Person(3, &quot;name&quot; + 3, 34));</span><br><span class="line">persons.add(new Person(4, &quot;name&quot; + 4, 6));</span><br><span class="line">persons.add(new Person(5, &quot;name&quot; + 5, 55));</span><br><span class="line">boolean isAllAdult = persons.stream().</span><br><span class="line"> allMatch(p -&gt; p.getAge() &gt; 18);</span><br><span class="line">System.out.println(&quot;All are adult? &quot; + isAllAdult);</span><br><span class="line">boolean isThereAnyChild = persons.stream().</span><br><span class="line"> anyMatch(p -&gt; p.getAge() &lt; 12);</span><br><span class="line">System.out.println(&quot;Any child? &quot; + isThereAnyChild);</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">All are adult? false</span><br><span class="line">Any child? true</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>总之，Stream 的特性可以归纳为：</p>
+<ul>
+<li>不是数据结构</li>
+<li>它没有内部存储，它只是用操作管道从 source（数据结构、数组、generator function、IO channel）抓取数据。</li>
+<li>它也绝不修改自己所封装的底层数据结构的数据。例如 Stream 的 filter 操作会产生一个不包含被过滤元素的新 Stream，而不是从 source 删除那些元素。</li>
+<li>所有 Stream 的操作必须以 lambda 表达式为参数</li>
+<li>不支持索引访问</li>
+<li>你可以请求第一个元素，但无法请求第二个，第三个，或最后一个。不过请参阅下一项。</li>
+<li>很容易生成数组或者 List</li>
+<li>惰性化</li>
+<li>很多 Stream 操作是向后延迟的，一直到它弄清楚了最后需要多少数据才会开始。</li>
+<li>Intermediate 操作永远是惰性化的。</li>
+<li>并行能力</li>
+<li>当一个 Stream 是并行化的，就不需要再写多线程代码，所有对它的操作会自动并行进行的。</li>
+<li>可以是无限的</li>
+<li>集合有固定大小，Stream 则不必。limit(n) 和 findFirst() 这类的 short-circuiting 操作可以对无限的 Stream 进行运算并很快完成。</li>
+</ul>
 
       
     </div>
@@ -471,7 +490,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            <a href="/tags/stream/" rel="tag"># stream</a>
           
         </div>
       
@@ -484,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/26/spring-boot-use-jpa/" rel="next" title="SpringBoot中使用JPA访问数据库">
-                <i class="fa fa-chevron-left"></i> SpringBoot中使用JPA访问数据库
+              <a href="/2019/09/17/sql连接查询/" rel="next" title="SQL中的连接查询">
+                <i class="fa fa-chevron-left"></i> SQL中的连接查询
               </a>
             
           </div>
@@ -493,10 +512,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/02/vue路由传参方法/" rel="prev" title="vue路由传参方法">
-                vue路由传参方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -650,7 +665,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap概述"><span class="nav-number">1.</span> <span class="nav-text">HashMap概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap是什么"><span class="nav-number">1.1.</span> <span class="nav-text">HashMap是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本属性"><span class="nav-number">1.2.</span> <span class="nav-text">基本属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap原理"><span class="nav-number">2.</span> <span class="nav-text">HashMap原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap结构"><span class="nav-number">2.1.</span> <span class="nav-text">HashMap结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap存储过程"><span class="nav-number">2.2.</span> <span class="nav-text">HashMap存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap查询过程"><span class="nav-number">2.3.</span> <span class="nav-text">HashMap查询过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap应用"><span class="nav-number">3.</span> <span class="nav-text">HashMap应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap线程不安全"><span class="nav-number">3.1.</span> <span class="nav-text">HashMap线程不安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap的遍历"><span class="nav-number">3.2.</span> <span class="nav-text">HashMap的遍历</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Stream"><span class="nav-number">1.</span> <span class="nav-text">什么是Stream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stream总览"><span class="nav-number">2.</span> <span class="nav-text">Stream总览</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流"><span class="nav-number">2.1.</span> <span class="nav-text">流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的构成"><span class="nav-number">2.2.</span> <span class="nav-text">流的构成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流的获取"><span class="nav-number">2.2.1.</span> <span class="nav-text">流的获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流的操作"><span class="nav-number">2.2.2.</span> <span class="nav-text">流的操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stream使用方法"><span class="nav-number">3.</span> <span class="nav-text">Stream使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流的构造与转换"><span class="nav-number">3.1.</span> <span class="nav-text">流的构造与转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的操作-1"><span class="nav-number">3.2.</span> <span class="nav-text">流的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-flatMap"><span class="nav-number">3.2.1.</span> <span class="nav-text">map/flatMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-number">3.2.2.</span> <span class="nav-text">filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forEach"><span class="nav-number">3.2.3.</span> <span class="nav-text">forEach</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce"><span class="nav-number">3.2.4.</span> <span class="nav-text">reduce</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#limit-skip"><span class="nav-number">3.2.5.</span> <span class="nav-text">limit/skip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sorted"><span class="nav-number">3.2.6.</span> <span class="nav-text">sorted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Match"><span class="nav-number">3.2.7.</span> <span class="nav-text">Match</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

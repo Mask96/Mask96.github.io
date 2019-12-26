@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Quartz,">
+  <meta name="keywords" content="正则表达式,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
-<meta name="keywords" content="Quartz">
+<meta name="description" content="正则表达式什么是正则表达式正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。在线匹配网站：  https://rubular.com/  可以在线验证正则表达式匹配效果。">
+<meta name="keywords" content="正则表达式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Quartz框架实现定时任务">
-<meta property="og:url" content="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/index.html">
+<meta property="og:title" content="Java中的Pattern和Matcher类的使用以及正则表达式">
+<meta property="og:url" content="http://yoursite.com/2019/12/26/Java中的Pattern和Matcher类的使用以及正则表达式/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
+<meta property="og:description" content="正则表达式什么是正则表达式正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。在线匹配网站：  https://rubular.com/  可以在线验证正则表达式匹配效果。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-05T10:24:29.808Z">
+<meta property="og:updated_time" content="2019-12-26T09:59:48.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Quartz框架实现定时任务">
-<meta name="twitter:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：1void execute(JobExecutionContext context)  JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度">
+<meta name="twitter:title" content="Java中的Pattern和Matcher类的使用以及正则表达式">
+<meta name="twitter:description" content="正则表达式什么是正则表达式正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。在线匹配网站：  https://rubular.com/  可以在线验证正则表达式匹配效果。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/">
+  <link rel="canonical" href="http://yoursite.com/2019/12/26/Java中的Pattern和Matcher类的使用以及正则表达式/">
 
 
 
 
 
-  <title>Quartz框架实现定时任务 | Mask</title>
+  <title>Java中的Pattern和Matcher类的使用以及正则表达式 | Mask</title>
   
 
 
@@ -305,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/25/Quartz框架实现定时任务/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/26/Java中的Pattern和Matcher类的使用以及正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mask">
@@ -322,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Quartz框架实现定时任务</h1>
+          <h1 class="post-title" itemprop="name headline">Java中的Pattern和Matcher类的使用以及正则表达式</h1>
         
 
         <div class="post-meta">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T17:55:31+08:00">
-                2019-07-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-26T17:09:12+08:00">
+                2019-12-26
               </time>
             
 
@@ -346,8 +346,8 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2019-08-05T18:24:29+08:00" content="2019-08-05">
-                  2019-08-05
+                <time itemprop="dateUpdated" datetime="2019-12-26T17:59:48+08:00" content="2019-12-26">
+                  2019-12-26
                 </time>
             </span>
           
@@ -402,38 +402,115 @@
       
 
       
-        <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
-<h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
-<ol>
-<li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span> </span></span><br></pre></td></tr></table></figure></li>
-<li>JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度程序所要执行的内容，另外 JobDetail 还包含了这个任务调度的方案和策略。 </li>
-<li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
-<li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
-</ol>
+        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。<br>在线匹配网站：</p>
+<blockquote>
+<p><a href="https://rubular.com/" target="_blank" rel="noopener">https://rubular.com/</a></p>
+</blockquote>
+<p>可以在线验证正则表达式匹配效果。</p>
 <a id="more"></a>
 
-<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = <span class="keyword">new</span> org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Trigger the job to run now, and then every 40 seconds</span></span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(<span class="string">"myTrigger"</span>, <span class="string">"group1"</span>)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(<span class="number">40</span>) <span class="comment">//每40s执行一次</span></span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Tell quartz to schedule the job using our trigger</span></span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
-<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      System.err.println(<span class="string">"Hello!  HelloJob is executing."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="正则表达式字符介绍"><a href="#正则表达式字符介绍" class="headerlink" title="正则表达式字符介绍"></a>正则表达式字符介绍</h2><h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p><code>&quot;^&quot; ：^会匹配行或者字符串的起始位置，有时还会匹配整个文档的起始位置。</code> </p>
+<p><code>&quot;$&quot;  ：$会匹配行或字符串的结尾</code></p>
+<p><code>&quot;\b&quot; :不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中&quot;This is Regex&quot;匹配单独的单词 &quot;is&quot; 正则就要写成 &quot;\bis\b&quot;</code></p>
+<p>\b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界 </p>
+<p><code>&quot;\d&quot;: 匹配数字，</code></p>
+<p>例如要匹配一个固定格式的电话号码以0开头前4位后7位，如0737-5686123  正则:^0\d\d\d-\d\d\d\d\d\d\d$ 这里只是为了介绍”\d”字符，实际上有更好的写法会在     下面介绍。</p>
+<p><code>&quot;\w&quot;：匹配字母，数字，下划线.</code></p>
+<p>例如我要匹配”a2345BCD__TTz” 正则：”\w+”  这里的”+”字符为一个量词指重复的次数，稍后会详细介绍。</p>
+<p><code>&quot;\s&quot;：匹配空格</code></p>
+<p>例如字符 “a b c” 正则：”\w\s\w\s\w”  一个字符后跟一个空格，如有字符间有多个空格直接把”\s” 写成 “\s+” 让空格重复</p>
+<p><code>&quot;.&quot;：匹配除了换行符以外的任何字符</code></p>
+<p>这个算是”\w”的加强版了”\w”不能匹配 空格 如果把字符串加上空格用”\w”就受限了，看下用 “.”是如何匹配字符”a23 4 5 B C D__TTz”  正则：”.+”</p>
+<p><code>&quot;[abc]&quot;: 字符组  匹配包含括号内元素的字符</code></p>
+<p>这个比较简单了只匹配括号内存在的字符，还可以写成[a-z]匹配a至z的所以字母就等于可以用来控制只能输入英文了，</p>
+<h3 id="反义字符"><a href="#反义字符" class="headerlink" title="反义字符"></a>反义字符</h3><p>写法很简单改成大写就行了，意思与原来的相反，这里就不举例子了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;\W&quot;   匹配任意不是字母，数字，下划线 的字符</span><br><span class="line"></span><br><span class="line">&quot;\S&quot;   匹配任意不是空白符的字符</span><br><span class="line"></span><br><span class="line">&quot;\D&quot;  匹配任意非数字的字符</span><br><span class="line"></span><br><span class="line">&quot;\B&quot;  匹配不是单词开头或结束的位置</span><br><span class="line"></span><br><span class="line">&quot;[^abc]&quot;  匹配除了abc以外的任意字符</span><br></pre></td></tr></table></figure>
 
-<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimedRegister</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ApplicationReadyEvent</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ApplicationReadyEvent applicationReadyEvent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// Grab the Scheduler instance from the Factory</span></span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// and start it off</span></span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// define the job and tie it to our HelloJob class</span></span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(<span class="string">"job1"</span>, <span class="string">"jobGroup1"</span>)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(<span class="string">"trigger1"</span>, <span class="string">"triggerGroup1"</span>)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(<span class="string">"0 0 10 * * ?"</span>))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"TimedRegister daily job error"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>以上需要注意几点：</strong></p>
-<ol>
-<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
+<h3 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h3><p>先解释关于量词所涉及到的重要的三个概念</p>
+<ul>
+<li><p>贪婪(贪心) 如”*”字符 贪婪量词会首先匹配整个字符串，尝试匹配时，它会选定尽可能多的内容，如果 失败则回退一个字符，然后再次尝试回退的过程就叫做回溯，它会每次回退一个字符，直到找到匹配的内容或者没有字符可以回退。相比下面两种贪婪量词对资源的消耗是最大的，</p>
 </li>
-<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(<span class="string">"findMessage"</span>, findMessage);</span><br></pre></td></tr></table></figure>
-<p>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext jobExecutionContext)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(<span class="string">"findMessage"</span>);</span><br><span class="line">        logger.info(<span class="string">"get findMessage instance success"</span>);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(<span class="string">"send ding from mysql is success"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<li><p>懒惰(勉强) 如 “?”  懒惰量词使用另一种方式匹配，它从目标的起始位置开始尝试匹配，每次检查一个字符，并寻找它要匹配的内容，如此循环直到字符结尾处。</p>
+</li>
+<li><p>占有  如”+” 占有量词会覆盖事个目标字符串，然后尝试寻找匹配内容 ，但它只尝试一次，不会回溯，就好比先抓一把石头，然后从石头中挑出黄金</p>
+</li>
+</ul>
+<p><code>&quot;*&quot;(贪婪)   重复零次或更多</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a*”   会出到所有的字符”a”</p>
+<p><code>&quot;+&quot;(懒惰)   重复一次或更多次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a+”  会取到字符中所有的a字符，  “a+”与”a*“不同在于”+”至少是一次而”*” 可以是0次，</p>
+<p>稍后会与”?”字符结合来体现这种区别</p>
+<p><code>&quot;?&quot;(占有)   重复零次或一次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中的a 正则 ： “a?” 只会匹配一次，也就是结果只是单个字符a</p>
+<p><code>&quot;{n}&quot;  重复n次</code></p>
+<p>例如从”aaaaaaaa” 匹配字符串的a 并重复3次 正则：  “a{3}”  结果就是取到3个a字符  “aaa”;</p>
+<p><code>&quot;{n,m}&quot;  重复n到m次</code></p>
+<p>例如正则 “a{3,4}” 将a重复匹配3次或者4次 所以供匹配的字符可以是三个”aaa”也可以是四个”aaaa” 正则都可以匹配到</p>
+<p><code>&quot;{n,}&quot;  重复n次或更多次</code></p>
+<p>与{n,m}不同之处就在于匹配的次数将没有上限，但至少要重复n次 如 正则”a{3,}” a至少要重复3次</p>
+<p>把量词了解了之后之前匹配电话号码的正则现在就可以改得简单点了<code>^0\d\d\d-\d\d\d\d\d\d\d$</code> 可以改为<code>^0\d+-\d{7}$</code>。</p>
+<p>这样写还不够完美如果因为前面的区号没有做限定，以至于可以输入很多们，而通常只能是3位或者4位，</p>
+<p>现在再改一下<code>^0\d{2,3}-\d{7}</code>如此一来区号部分就可以匹配3位或者4位的了</p>
+<h3 id="懒惰限定符"><a href="#懒惰限定符" class="headerlink" title="懒惰限定符"></a>懒惰限定符</h3><p><code>&quot;*?&quot;   重复任意次，但尽可能少重复</code></p>
+<p>如 “acbacb”  正则  “a.*?b” 只会取到第一个”acb” 原本可以全部取到但加了限定符后，只会匹配尽可能少的字符 ，而”acbacb”最少字符的结果就是”acb” </p>
+<p><code>&quot;+?&quot;  重复1次或更多次，但尽可能少重复</code></p>
+<p>与上面一样，只是至少要重复1次</p>
+<p><code>&quot;??&quot;  重复0次或1次，但尽可能少重复</code></p>
+<p>如 “aaacb” 正则 “a.??b” 只会取到最后的三个字符”acb”</p>
+<p><code>&quot;{n,m}?&quot;  重复n到m次，但尽可能少重复</code></p>
+<p>如 “aaaaaaaa”  正则 “a{0,m}” 因为最少是0次所以取到结果为空</p>
+<p><code>&quot;{n,}?&quot;    重复n次以上，但尽可能少重复</code></p>
+<p>如 “aaaaaaa”  正则 “a{1,}” 最少是1次所以取到结果为 “a”</p>
+<h2 id="正则进阶"><a href="#正则进阶" class="headerlink" title="正则进阶"></a>正则进阶</h2><h3 id="捕获分组"><a href="#捕获分组" class="headerlink" title="捕获分组"></a>捕获分组</h3><p>先了解在正则中捕获分组的概念，其实就是一个括号内的内容 如 “(\d)\d” 而”(\d)” 这就是一个捕获分组，可以对捕获分组进行 后向引用 (如果后而有相同的内容则可以直接引用前面定义的捕获组，以简化表达式) 如(\d)\d\1 这里的”\1”就是对”(\d)”的后向引用</p>
+<p>那捕获分组有什么用呢看个例子就知道了</p>
+<p>如  “zery zery” 正则 \b(\w+)\b\s\1\b 所以这里的”\1”所捕获到的字符也是 与(\w+)一样的”zery”，为了让组名更有意义，组名是可以自定义名字的</p>
+<p>“\b(?<name>\w+)\b\s\k<name>\b” 用”?<name>“就可以自定义组名了而要后向引用组时要记得写成 “\k<name>“;自定义组名后,捕获组中匹配到的值就会保存在定义的组名里</name></name></name></name></p>
+<p>下面列出捕获分组常有的用法:</p>
+<p><code>&quot;(exp)&quot;</code>   匹配exp,并捕获文本到自动命名的组里</p>
+<p><code>&quot;(?&lt;name&gt;exp)&quot;</code>   匹配exp,并捕获文本到名称为name的组里</p>
+<p><code>&quot;(?:exp)&quot;</code>  匹配exp,不捕获匹配的文本，也不给此分组分配组号</p>
+<p>以下为零宽断言</p>
+<p><code>&quot;(?=exp)&quot;</code>  匹配exp前面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>.+(?=ing))” 这里取ing前所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为”How are you do”;</txt></p>
+<p><code>&quot;(?&lt;=exp)&quot;</code>  匹配exp后面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>(?&lt;=How).+)” 这里取”How”之后所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为” are you doing”;</txt></p>
+<p><code>&quot;(?!exp)&quot;</code>  匹配后面跟的不是exp的位置</p>
+<p>如 “123abc” 正则 “\d{3}(?!\d)”匹配3位数字后非数字的结果</p>
+<p><code>&quot;(?&lt;!exp)&quot;</code>  匹配前面不是exp的位置</p>
+<p>如 “abc123 “ 正则 “(?&lt;![0-9])123” 匹配”123”前面是非数字的结果也可写成”(?!&lt;\d)123”</p>
+<h1 id="Java中Pattern和Matcher类使用"><a href="#Java中Pattern和Matcher类使用" class="headerlink" title="Java中Pattern和Matcher类使用"></a>Java中Pattern和Matcher类使用</h1><h2 id="Pattern类"><a href="#Pattern类" class="headerlink" title="Pattern类"></a>Pattern类</h2><p>Pattern类的作用在于编译正则表达式后创建一个匹配模式.</p>
+<p><strong>常用方法介绍：</strong></p>
+<p><code>Pattern complie(String regex)</code><br>由于Pattern的构造函数是私有的,不可以直接创建,所以通过静态方法compile(String regex)方法来创建,将给定的正则表达式编译并赋予给Pattern类</p>
+<p><code>String pattern()</code><br>返回正则表达式的字符串形式,其实就是返回Pattern.complile(String regex)的regex参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String patternStr = pattern.pattern();//返回\?\*</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
-<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　 　<span class="comment">// define the job and tie it to our DumbJob class</span></span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(<span class="string">"myJob"</span>, <span class="string">"group1"</span>) <span class="comment">// name "myJob", group "group1"</span></span><br><span class="line">    .usingJobData(<span class="string">"jobSays"</span>, <span class="string">"Hello World!"</span>)</span><br><span class="line">    .usingJobData(<span class="string">"myFloatValue"</span>, <span class="number">3.141f</span>)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
-<p>  然后在job的具体类中将其取出，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DumbJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DumbJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext context)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> JobExecutionException</span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(<span class="string">"jobSays"</span>);</span><br><span class="line">    <span class="keyword">float</span> myFloatValue = dataMap.getFloat(<span class="string">"myFloatValue"</span>);</span><br><span class="line"></span><br><span class="line">    System.err.println(<span class="string">"Instance "</span> + key + <span class="string">" of DumbJob says: "</span> + jobSays + <span class="string">", and val is: "</span> + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Pattern.matcher(CharSequence input)</code><br>对指定输入的字符串创建一个Matcher对象，input就是要甄别是否匹配正则表达式的输入串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();// true</span><br></pre></td></tr></table></figure>
+
+<p><code>String[] split(CharSequence input)</code><br>String[] split(CharSequence input, int limit)</p>
+<p><code>String[] split(CharSequence input, int limit)</code><br>功能和String[] split(CharSequence input)相同,增加参数limit目的在于要指定分割的段数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String[] splitStrs = pattern.split(&quot;123?123*456*456&quot;);//123 123 456 456</span><br><span class="line">String[] splitStrs2 = pattern.split(&quot;123?123*456*456&quot;, 2);// 123 123*456*456</span><br></pre></td></tr></table></figure>
+
+<h2 id="Matcher类"><a href="#Matcher类" class="headerlink" title="Matcher类"></a>Matcher类</h2><p>Matcher类使用Pattern实例提供的模式信息对正则表达式进行匹配</p>
+<p><strong>常用方法及介绍：</strong><br><code>boolean matches()</code><br>最常用方法:尝试对整个目标字符展开匹配检测,也就是只有整个目标字符串完全匹配时才返回真值.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();//true</span><br><span class="line">System.out.println(matches);</span><br><span class="line">matcher=pattern.matcher(&quot;?&quot;);</span><br><span class="line">matches = matcher.matches();//false</span><br><span class="line">System.out.println(matches);</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean lookingAt()</code><br>对前面的字符串进行匹配,只有匹配到的字符串在最前面才会返回true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">boolean match = m.lookingAt();//true</span><br><span class="line">System.out.println(match);</span><br><span class="line">m = p.matcher(&quot;bb2233&quot;);</span><br><span class="line">match= m.lookingAt();</span><br><span class="line">System.out.println(match);//false</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean find()</code><br>对字符串进行匹配,匹配到的字符串可以在任何位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">m.find();// 返回true</span><br><span class="line">Matcher m2 = p.matcher(&quot;aa2223&quot;);</span><br><span class="line">m2.find();// 返回true</span><br><span class="line">Matcher m3 = p.matcher(&quot;aa2223bb&quot;);</span><br><span class="line">m3.find();// 返回true</span><br><span class="line">Matcher m4 = p.matcher(&quot;aabb&quot;);</span><br><span class="line">m4.find();// 返回false</span><br></pre></td></tr></table></figure>
+
+<p><code>int start()</code><br>返回当前匹配到的字符串在原目标字符串中的位置</p>
+<p><code>int end()</code><br>返回当前匹配的字符串的最后一个字符在原目标字符串中的索引位置</p>
+<p><code>String group()</code><br>返回匹配到的子字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;aa22bb23&quot;);</span><br><span class="line">m.find();</span><br><span class="line">int start = m.start();//2</span><br><span class="line">String group = m.group();//22</span><br><span class="line">int end = m.end();//4</span><br><span class="line">System.out.println(start);</span><br><span class="line">System.out.println(group);</span><br><span class="line">System.out.println(end);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>例如要处理tag，tag中是xxxx=xxxx格式。要获取tag中等号两边的值，作为key和value进行存储。处理如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private Pattern filter = Pattern.compile(&quot;(?&lt;key&gt;[\\w\\-\\s]+)\\s*=\\s*(?&lt;value&gt;[\\w\\-\\s]+)&quot;);</span><br><span class="line"></span><br><span class="line">private void test ()&#123;</span><br><span class="line">    Matcher matcherEqual = filter.matcher(&quot;cat=animal&quot;);</span><br><span class="line">    if(matcherEqual.matches())&#123;</span><br><span class="line">    //如果输入匹配，则进入按组取出value值</span><br><span class="line">    String key = matcherEqual.group(&quot;key&quot;);</span><br><span class="line">    String value = matcherEqual.group(&quot;value&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可知，使用方法：<br>skip 1：<br>通过Pattern来创建一个正则表达式匹配规则。<br>skip 2：<br>通过创建的匹配规则对输入值进行匹配验证，并将一系列结果存放至Matcher类中。<br>skip 3：<br>通过Matcher的matches()方法，返回是否匹配，并可以按组来取出匹配值。</p>
+
       
     </div>
     
@@ -450,7 +527,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Quartz/" rel="tag"># Quartz</a>
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
           
         </div>
       
@@ -463,8 +540,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/25/工作周报/" rel="next" title="工作周报">
-                <i class="fa fa-chevron-left"></i> 工作周报
+              <a href="/2019/11/29/【摘】java基础知识点/" rel="next" title="【摘】java基础知识点">
+                <i class="fa fa-chevron-left"></i> 【摘】java基础知识点
               </a>
             
           </div>
@@ -472,10 +549,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/26/spring-boot-use-jpa/" rel="prev" title="SpringBoot中使用JPA访问数据库">
-                SpringBoot中使用JPA访问数据库 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -629,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz简单使用"><span class="nav-number">1.</span> <span class="nav-text">Quartz简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Scheduler"><span class="nav-number">1.1.</span> <span class="nav-text">配置Scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现jobDetail"><span class="nav-number">1.2.</span> <span class="nav-text">实现jobDetail</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz和Spring-boot结合"><span class="nav-number">2.</span> <span class="nav-text">Quartz和Spring boot结合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz中的JobDataMap使用指南"><span class="nav-number">3.</span> <span class="nav-text">Quartz中的JobDataMap使用指南</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是正则表达式"><span class="nav-number">1.1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式字符介绍"><span class="nav-number">1.2.</span> <span class="nav-text">正则表达式字符介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元字符"><span class="nav-number">1.2.1.</span> <span class="nav-text">元字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反义字符"><span class="nav-number">1.2.2.</span> <span class="nav-text">反义字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#量词"><span class="nav-number">1.2.3.</span> <span class="nav-text">量词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒惰限定符"><span class="nav-number">1.2.4.</span> <span class="nav-text">懒惰限定符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则进阶"><span class="nav-number">1.3.</span> <span class="nav-text">正则进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#捕获分组"><span class="nav-number">1.3.1.</span> <span class="nav-text">捕获分组</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中Pattern和Matcher类使用"><span class="nav-number">2.</span> <span class="nav-text">Java中Pattern和Matcher类使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pattern类"><span class="nav-number">2.1.</span> <span class="nav-text">Pattern类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Matcher类"><span class="nav-number">2.2.</span> <span class="nav-text">Matcher类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用示例"><span class="nav-number">2.3.</span> <span class="nav-text">使用示例</span></a></li></ol></li></ol></div>
             
 
           </div>

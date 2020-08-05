@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="java,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="devops-sentinel测试环境异常停止复盘">
 <meta property="og:url" content="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/index.html">
@@ -87,7 +88,7 @@
 <meta property="og:description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/jstack日志.png">
-<meta property="og:updated_time" content="2020-08-05T08:31:23.190Z">
+<meta property="og:updated_time" content="2020-08-05T08:40:08.167Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="devops-sentinel测试环境异常停止复盘">
 <meta name="twitter:description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
@@ -347,7 +348,7 @@
           
             <span class="post-updated">
               &nbsp; | &nbsp; 更新于
-                <time itemprop="dateUpdated" datetime="2020-08-05T16:31:23+08:00" content="2020-08-05">
+                <time itemprop="dateUpdated" datetime="2020-08-05T16:40:08+08:00" content="2020-08-05">
                   2020-08-05
                 </time>
             </span>
@@ -393,13 +394,14 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">                threadPool.submit(() -&gt; &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        // 获取任务，没有任务时会阻塞</span><br><span class="line">                        UrlEntity urlEntity = getUrlEntity();</span><br><span class="line">                        if (urlEntity != null) &#123;</span><br><span class="line">                            CheckRespEntity checkRespEntity = doHealthCheck(urlEntity);</span><br><span class="line">                            // 调用健康检查接口，把调用的结果保留在healthCheckModel对象中</span><br><span class="line">                            checkRespEntity = buildInfluxEntity(checkRespEntity);</span><br><span class="line">                            // 将健康检查结果写入influxDb</span><br><span class="line">                            toInfluxDB(monitorProxy, checkRespEntity);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code>**如果在消费过程中有异常抛出未捕获的话，那么该线程会在抛出异常后死掉而不会影响其他线程。** 所以可能是在消费过程中有未捕获的异常，导致每分钟执行时都会因为抛出的异常而减少消费者线程池中的线程，直到10个线程都因为抛出异常死掉，就不会有消费者去消费阻塞队列中的Entity了，所以会造成sla阻塞队列中的Entity一直没有被消费，因为此时的SLA消费线程池已经无线程了。
-至此，已经分析出问题出现的原因。</code></pre><ol start="3">
+<p><strong>如果在消费过程中有异常抛出未捕获的话，那么该线程会在抛出异常后死掉而不会影响其他线程。</strong><br>    所以可能是在消费过程中有未捕获的异常，导致每分钟执行时都会因为抛出的异常而减少消费者线程池中的线程，直到10个线程都因为抛出异常死掉，就不会有消费者去消费阻塞队列中的Entity了，所以会造成sla阻塞队列中的Entity一直没有被消费，因为此时的SLA消费线程池已经无线程了。<br>    至此，已经分析出问题出现的原因。</p>
+<ol start="3">
 <li>问题解决<br> 在消费者执行的过程中加入try catch，使得就算消费过程中出现异常也可以在线程中catch，不会导致线程结束。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">                threadPool.submit(() -&gt; &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            // 获取任务，没有任务时会阻塞</span><br><span class="line">                            UrlEntity urlEntity = getUrlEntity();</span><br><span class="line">                            if (urlEntity != null) &#123;</span><br><span class="line">                                CheckRespEntity checkRespEntity = doHealthCheck(urlEntity);</span><br><span class="line">                                // 调用健康检查接口，把调用的结果保留在healthCheckModel对象中</span><br><span class="line">                                checkRespEntity = buildInfluxEntity(checkRespEntity);</span><br><span class="line">                                // 将健康检查结果写入influxDb</span><br><span class="line">                                toInfluxDB(monitorProxy, checkRespEntity);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; catch (Exception ex) &#123;</span><br><span class="line">                            logger.error(&quot;消费线程出错：&quot; + this.getClass().getName(), ex);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code>进行单元测试，输入测试用例发现异常出现点，修改优化。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">修改前：</span><br><span class="line">if (checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">==》修改后：</span><br><span class="line">if (checkRespEntity.getBodyCode() == null || checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>进行单元测试，输入测试用例发现异常出现点，修改优化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">修改前：</span><br><span class="line">if (checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">==》修改后：</span><br><span class="line">if (checkRespEntity.getBodyCode() == null || checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
 
 <h1 id="三-问题总结"><a href="#三-问题总结" class="headerlink" title="三. 问题总结"></a>三. 问题总结</h1><ol>
@@ -421,6 +423,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
       
 
       
@@ -538,7 +546,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

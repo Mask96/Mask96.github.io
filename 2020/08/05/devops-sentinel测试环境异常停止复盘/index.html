@@ -79,16 +79,19 @@
 
 
 
-<meta name="description" content="Technology blog and life sharing">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mask">
-<meta property="og:url" content="http://yoursite.com/tags/Quartz/index.html">
+<meta name="description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="devops-sentinel测试环境异常停止复盘">
+<meta property="og:url" content="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/index.html">
 <meta property="og:site_name" content="Mask">
-<meta property="og:description" content="Technology blog and life sharing">
+<meta property="og:description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/jstack日志.png">
+<meta property="og:updated_time" content="2020-08-05T08:31:23.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mask">
-<meta name="twitter:description" content="Technology blog and life sharing">
+<meta name="twitter:title" content="devops-sentinel测试环境异常停止复盘">
+<meta name="twitter:description" content="一. 异常状况日志停止，不再有新日志产生。influxDB中无新数据写入。 二. 问题分析&amp;amp;解决 系统结构 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/jstack日志.png">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Quartz/">
+  <link rel="canonical" href="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/">
 
 
 
 
 
-  <title>标签: Quartz | Mask</title>
+  <title>devops-sentinel测试环境异常停止复盘 | Mask</title>
   
 
 
@@ -153,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -289,52 +292,174 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Quartz<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/05/devops-sentinel测试环境异常停止复盘/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mask">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/07/25/Quartz框架实现定时任务/" itemprop="url">
-              
-                <span itemprop="name">Quartz框架实现定时任务</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">devops-sentinel测试环境异常停止复盘</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-25T17:55:31+08:00" content="2019-07-25">
-          07-25
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-05T16:29:01+08:00">
+                2020-08-05
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+          
+            <span class="post-updated">
+              &nbsp; | &nbsp; 更新于
+                <time itemprop="dateUpdated" datetime="2020-08-05T16:31:23+08:00" content="2020-08-05">
+                  2020-08-05
+                </time>
+            </span>
+          
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一-异常状况"><a href="#一-异常状况" class="headerlink" title="一. 异常状况"></a>一. 异常状况</h1><p>日志停止，不再有新日志产生。<br>influxDB中无新数据写入。</p>
+<h1 id="二-问题分析-amp-解决"><a href="#二-问题分析-amp-解决" class="headerlink" title="二. 问题分析&amp;解决"></a>二. 问题分析&amp;解决</h1><ol>
+<li><p>系统结构<br> 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。<br> 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。</p>
+ <a id="more"></a></li>
+<li><p>问题分析<br> <strong>通过jstack日志分析当前所有线程状态。</strong></p>
+ <img src="/2020/08/05/devops-sentinel测试环境异常停止复盘/jstack日志.png" title="jstack日志">
+<p> 可以看到jstack日志中，quartz定时任务的默认十个线程都卡在SLA的生产者环节，相当于说sla部分的阻塞队列中有一个Entity，导致生产者不能放入Entity，而生产者不能放入时会等待阻塞队列被消费，所以会一直占有quartz线程。<br> 而quartz定时任务每分钟会执行一次，相当于每分钟有一个新的SLA生产者等待阻塞队列。十分钟后当quartz的默认10个线程被全部占用后，就不会再有新的定时任务被执行了。所以导致没有新的日志产生。<br> （该问题从日志中也可以分析出来，定时任务sla启动的log有20次，而执行完成的log只有10次，说明有10个sla的quartz任务还在占有着线程）</p>
+<p> <strong>分析出了为什么没有日志产生后，继续分析为什么sla的阻塞队列中的Entity没有被消费者及时消费。</strong><br> sla的消费者是一个10个线程的线程池，10个线程同时去消费阻塞队列。消费整个流程如下：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">                threadPool.submit(() -&gt; &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        // 获取任务，没有任务时会阻塞</span><br><span class="line">                        UrlEntity urlEntity = getUrlEntity();</span><br><span class="line">                        if (urlEntity != null) &#123;</span><br><span class="line">                            CheckRespEntity checkRespEntity = doHealthCheck(urlEntity);</span><br><span class="line">                            // 调用健康检查接口，把调用的结果保留在healthCheckModel对象中</span><br><span class="line">                            checkRespEntity = buildInfluxEntity(checkRespEntity);</span><br><span class="line">                            // 将健康检查结果写入influxDb</span><br><span class="line">                            toInfluxDB(monitorProxy, checkRespEntity);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>**如果在消费过程中有异常抛出未捕获的话，那么该线程会在抛出异常后死掉而不会影响其他线程。** 所以可能是在消费过程中有未捕获的异常，导致每分钟执行时都会因为抛出的异常而减少消费者线程池中的线程，直到10个线程都因为抛出异常死掉，就不会有消费者去消费阻塞队列中的Entity了，所以会造成sla阻塞队列中的Entity一直没有被消费，因为此时的SLA消费线程池已经无线程了。
+至此，已经分析出问题出现的原因。</code></pre><ol start="3">
+<li>问题解决<br> 在消费者执行的过程中加入try catch，使得就算消费过程中出现异常也可以在线程中catch，不会导致线程结束。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">                threadPool.submit(() -&gt; &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            // 获取任务，没有任务时会阻塞</span><br><span class="line">                            UrlEntity urlEntity = getUrlEntity();</span><br><span class="line">                            if (urlEntity != null) &#123;</span><br><span class="line">                                CheckRespEntity checkRespEntity = doHealthCheck(urlEntity);</span><br><span class="line">                                // 调用健康检查接口，把调用的结果保留在healthCheckModel对象中</span><br><span class="line">                                checkRespEntity = buildInfluxEntity(checkRespEntity);</span><br><span class="line">                                // 将健康检查结果写入influxDb</span><br><span class="line">                                toInfluxDB(monitorProxy, checkRespEntity);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; catch (Exception ex) &#123;</span><br><span class="line">                            logger.error(&quot;消费线程出错：&quot; + this.getClass().getName(), ex);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>进行单元测试，输入测试用例发现异常出现点，修改优化。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">修改前：</span><br><span class="line">if (checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">==》修改后：</span><br><span class="line">if (checkRespEntity.getBodyCode() == null || checkRespEntity.getBodyCode() != 0) &#123;</span><br><span class="line">            sendEvent(checkRespEntity);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="三-问题总结"><a href="#三-问题总结" class="headerlink" title="三. 问题总结"></a>三. 问题总结</h1><ol>
+<li>quartz定时任务默认有10个线程，当线程全部占满时便不会再执行新的定时任务。</li>
+<li>执行线程时最好在最外层加入<code>try catch</code>以免线程抛出异常后停止。</li>
+<li>修改代码后没有进行充分的单元测试，这个问题可以通过异常测试用例来发现。</li>
+</ol>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/19/LeetCode经典编程题/" rel="next" title="LeetCode经典编程题">
+                <i class="fa fa-chevron-left"></i> LeetCode经典编程题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -342,6 +467,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -362,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -445,6 +583,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-异常状况"><span class="nav-number">1.</span> <span class="nav-text">一. 异常状况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-问题分析-amp-解决"><span class="nav-number">2.</span> <span class="nav-text">二. 问题分析&amp;解决</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-问题总结"><span class="nav-number">3.</span> <span class="nav-text">三. 问题总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -578,6 +732,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

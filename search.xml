@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title></title>
+    <url>/2021/10/13/hello/</url>
+    <content><![CDATA[<hr>
+<p>title: hello<br>date: 2021-10-13 19:59:08<br>tags:</p>
+<p>–<br>111-</p>
+<p><img src="/image/%E6%88%AA%E5%B1%8F2021-10-11%20%E4%B8%8A%E5%8D%889.47.56.png" alt="截屏2021-10-11 上午9.47.56"></p>
+<p>示例图片<br>更新脚本</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>dump-SQL中复制表结构或数据</title>
+    <url>/2021/10/18/dump-SQL%E4%B8%AD%E5%A4%8D%E5%88%B6%E8%A1%A8%E7%BB%93%E6%9E%84%E6%88%96%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h1 id="dump命令复制数据库"><a href="#dump命令复制数据库" class="headerlink" title="dump命令复制数据库"></a>dump命令复制数据库</h1><p>mysqldump客户端可用来转储数据库或搜集数据库进行备份或将数据转移到另一个sql服务器(不一定是一个mysql服务器)。转储包含创建表和/或装载表的sql语句。</p>
+<span id="more"></span>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">导出结构：</span><br><span class="line">     mysqldump <span class="operator">-</span>hlocalhost <span class="operator">-</span>uroot <span class="operator">-</span>P3306 <span class="operator">-</span>proot <span class="operator">-</span>d database table1 table2 <span class="operator">&gt;</span>.<span class="operator">/</span>event.sql</span><br><span class="line">导出结构和数据:</span><br><span class="line">     mysqldump <span class="operator">-</span>hlocalhost <span class="operator">-</span>uroot <span class="operator">-</span>P3306 <span class="operator">-</span>proot database <span class="keyword">table</span> <span class="operator">&gt;</span> .<span class="operator">/</span>event.sql</span><br></pre></td></tr></table></figure>
+<ol>
+<li>加-d可以只导出结构，不导出数据</li>
+<li>导出多个表可以用空格分开</li>
+</ol>
+<h1 id="执行生成的SQL文件"><a href="#执行生成的SQL文件" class="headerlink" title="执行生成的SQL文件"></a>执行生成的SQL文件</h1><p>在导入大的sql文件时，使用可视化工具导入往往效率极低，此时，我们常常使用在cmd中执行source命令的方式</p>
+<ol>
+<li>进入数据库</li>
+<li>导入sql文件<code>mysql&gt; source /home/work/event.sql</code></li>
+</ol>
+<h1 id="dump命令参数"><a href="#dump命令参数" class="headerlink" title="dump命令参数"></a>dump命令参数</h1><h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><p><code>mysqldump [选项] 数据库名 [表名] &gt; 脚本名</code><br>或<br><code>mysqldump [选项] --数据库名 [选项 表名] &gt; 脚本名</code><br>或<br><code>mysqldump [选项] --all-databases [选项]  &gt; 脚本名</code></p>
+<h2 id="选项说明"><a href="#选项说明" class="headerlink" title="选项说明"></a>选项说明</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">参数名	 缩写	含义</span><br><span class="line">--host	-h	服务器IP地址</span><br><span class="line">--port	-P	服务器端口号</span><br><span class="line">--user	-u	MySQL 用户名</span><br><span class="line">--pasword	-p	MySQL 密码</span><br><span class="line">--databases		指定要备份的数据库</span><br><span class="line">--all-databases		备份mysql服务器上的所有数据库</span><br><span class="line">--compact		压缩模式，产生更少的输出</span><br><span class="line">--comments		添加注释信息</span><br><span class="line">--complete-insert		输出完成的插入语句</span><br><span class="line">--lock-tables		备份前，锁定所有数据库表</span><br><span class="line">--no-create-db/--no-create-info		禁止生成创建数据库语句</span><br><span class="line">--force		当出现错误时仍然继续备份操作</span><br><span class="line">--default-character-set		指定默认字符集</span><br><span class="line">--add-locks		备份数据库表时锁定数据库表</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>备份所有数据库：<br><code>mysqldump -uroot -p --all-databases &gt; /backup/mysqldump/all.db</code><br>备份指定数据库：<br><code>mysqldump -uroot -p test &gt; /backup/mysqldump/test.db</code><br>备份指定数据库指定表(多个表以空格间隔)<br><code>mysqldump -uroot -p  mysql db event &gt; /backup/mysqldump/2table.db</code><br>备份指定数据库排除某些表<br><code>mysqldump -uroot -p test --ignore-table=test.t1 --ignore-table=test.t2 &gt; /backup/mysqldump/test2.db</code></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+</search>

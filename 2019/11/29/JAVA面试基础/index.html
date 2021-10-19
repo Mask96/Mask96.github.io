@@ -1,44 +1,253 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title></title>
-    <url>/2021/10/13/hello/</url>
-    <content><![CDATA[<hr>
-<p>title: hello<br>date: 2021-10-13 19:59:08<br>tags:</p>
-<p>–<br>111-</p>
-<p><img src="/image/%E6%88%AA%E5%B1%8F2021-10-11%20%E4%B8%8A%E5%8D%889.47.56.png" alt="截屏2021-10-11 上午9.47.56"></p>
-<p>示例图片<br>更新脚本</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>dump-SQL中复制表结构或数据</title>
-    <url>/2021/10/18/dump-SQL%E4%B8%AD%E5%A4%8D%E5%88%B6%E8%A1%A8%E7%BB%93%E6%9E%84%E6%88%96%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h1 id="dump命令复制数据库"><a href="#dump命令复制数据库" class="headerlink" title="dump命令复制数据库"></a>dump命令复制数据库</h1><p>mysqldump客户端可用来转储数据库或搜集数据库进行备份或将数据转移到另一个sql服务器(不一定是一个mysql服务器)。转储包含创建表和/或装载表的sql语句。</p>
-<span id="more"></span>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">导出结构：</span><br><span class="line">     mysqldump <span class="operator">-</span>hlocalhost <span class="operator">-</span>uroot <span class="operator">-</span>P3306 <span class="operator">-</span>proot <span class="operator">-</span>d database table1 table2 <span class="operator">&gt;</span>.<span class="operator">/</span>event.sql</span><br><span class="line">导出结构和数据:</span><br><span class="line">     mysqldump <span class="operator">-</span>hlocalhost <span class="operator">-</span>uroot <span class="operator">-</span>P3306 <span class="operator">-</span>proot database <span class="keyword">table</span> <span class="operator">&gt;</span> .<span class="operator">/</span>event.sql</span><br></pre></td></tr></table></figure>
-<ol>
-<li>加-d可以只导出结构，不导出数据</li>
-<li>导出多个表可以用空格分开</li>
-</ol>
-<h1 id="执行生成的SQL文件"><a href="#执行生成的SQL文件" class="headerlink" title="执行生成的SQL文件"></a>执行生成的SQL文件</h1><p>在导入大的sql文件时，使用可视化工具导入往往效率极低，此时，我们常常使用在cmd中执行source命令的方式</p>
-<ol>
-<li>进入数据库</li>
-<li>导入sql文件<code>mysql&gt; source /home/work/event.sql</code></li>
-</ol>
-<h1 id="dump命令参数"><a href="#dump命令参数" class="headerlink" title="dump命令参数"></a>dump命令参数</h1><h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><p><code>mysqldump [选项] 数据库名 [表名] &gt; 脚本名</code><br>或<br><code>mysqldump [选项] --数据库名 [选项 表名] &gt; 脚本名</code><br>或<br><code>mysqldump [选项] --all-databases [选项]  &gt; 脚本名</code></p>
-<h2 id="选项说明"><a href="#选项说明" class="headerlink" title="选项说明"></a>选项说明</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">参数名	 缩写	含义</span><br><span class="line">--host	-h	服务器IP地址</span><br><span class="line">--port	-P	服务器端口号</span><br><span class="line">--user	-u	MySQL 用户名</span><br><span class="line">--pasword	-p	MySQL 密码</span><br><span class="line">--databases		指定要备份的数据库</span><br><span class="line">--all-databases		备份mysql服务器上的所有数据库</span><br><span class="line">--compact		压缩模式，产生更少的输出</span><br><span class="line">--comments		添加注释信息</span><br><span class="line">--complete-insert		输出完成的插入语句</span><br><span class="line">--lock-tables		备份前，锁定所有数据库表</span><br><span class="line">--no-create-db/--no-create-info		禁止生成创建数据库语句</span><br><span class="line">--force		当出现错误时仍然继续备份操作</span><br><span class="line">--default-character-set		指定默认字符集</span><br><span class="line">--add-locks		备份数据库表时锁定数据库表</span><br></pre></td></tr></table></figure>
+<link rel="stylesheet" href="/css/main.css">
 
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>备份所有数据库：<br><code>mysqldump -uroot -p --all-databases &gt; /backup/mysqldump/all.db</code><br>备份指定数据库：<br><code>mysqldump -uroot -p test &gt; /backup/mysqldump/test.db</code><br>备份指定数据库指定表(多个表以空格间隔)<br><code>mysqldump -uroot -p  mysql db event &gt; /backup/mysqldump/2table.db</code><br>备份指定数据库排除某些表<br><code>mysqldump -uroot -p test --ignore-table=test.t1 --ignore-table=test.t2 &gt; /backup/mysqldump/test2.db</code></p>
-]]></content>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JAVA面试基础</title>
-    <url>/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<blockquote>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文摘自gitchat。  Java 基础1. JDK 和 JRE 有什么区别？ JDK：Java Development Kit 的简称，Java 开发工具包，提供了 Java 的开发环境和运行环境。 JRE：Java Runtime Environment 的简称，Java 运行环境，为 Java 的运行提供了所需环境。具体来说 JDK 其实包含了 JRE，同时还包含了编译 Java 源码的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA面试基础">
+<meta property="og:url" content="http://example.com/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="本文摘自gitchat。  Java 基础1. JDK 和 JRE 有什么区别？ JDK：Java Development Kit 的简称，Java 开发工具包，提供了 Java 的开发环境和运行环境。 JRE：Java Runtime Environment 的简称，Java 运行环境，为 Java 的运行提供了所需环境。具体来说 JDK 其实包含了 JRE，同时还包含了编译 Java 源码的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/java-1.jpg">
+<meta property="og:image" content="http://example.com/image/java-2-1.jpg">
+<meta property="article:published_time" content="2019-11-29T09:49:42.000Z">
+<meta property="article:modified_time" content="2021-10-19T03:41:45.273Z">
+<meta property="article:author" content="Mask">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/java-1.jpg">
+
+<link rel="canonical" href="http://example.com/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JAVA面试基础 | /</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">/</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JAVA面试基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-29 17:49:42" itemprop="dateCreated datePublished" datetime="2019-11-29T17:49:42+08:00">2019-11-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 11:41:45" itemprop="dateModified" datetime="2021-10-19T11:41:45+08:00">2021-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
 <p>本文摘自gitchat。</p>
 </blockquote>
 <h1 id="Java-基础"><a href="#Java-基础" class="headerlink" title="Java 基础"></a>Java 基础</h1><h2 id="1-JDK-和-JRE-有什么区别？"><a href="#1-JDK-和-JRE-有什么区别？" class="headerlink" title="1. JDK 和 JRE 有什么区别？"></a>1. JDK 和 JRE 有什么区别？</h2><ul>
@@ -51,26 +260,26 @@
 <li>基本类型：比较的是值是否相同；</li>
 <li>引用类型：比较的是引用是否相同；<br>代码示例：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String x = &quot;string&quot;;</span><br><span class="line">String y = &quot;string&quot;;</span><br><span class="line">String z = new String(&quot;string&quot;);</span><br><span class="line">System.out.println(x==y); // true</span><br><span class="line">System.out.println(x==z); // false</span><br><span class="line">System.out.println(x.equals(y)); // true</span><br><span class="line">System.out.println(x.equals(z)); // true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String x = &quot;string&quot;;</span><br><span class="line">String y = &quot;string&quot;;</span><br><span class="line">String z = new String(&quot;string&quot;);</span><br><span class="line">System.out.println(x==y); // true</span><br><span class="line">System.out.println(x==z); // false</span><br><span class="line">System.out.println(x.equals(y)); // true</span><br><span class="line">System.out.println(x.equals(z)); // true</span><br></pre></td></tr></table></figure>
 <p>代码解读：因为 x 和 y 指向的是同一个引用，所以 == 也是 true，而 new String()方法则重写开辟了内存空间，所以 == 结果为 false，而 equals 比较的一直是值，所以结果都为 true。</p>
 <p><strong>equals 解读</strong></p>
 <p>equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。看下面的代码就明白了。</p>
 <p>首先来看默认情况下 equals 比较一个有相同值的对象，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Cat &#123;</span><br><span class="line">    public Cat(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Cat c1 = new Cat(&quot;王磊&quot;);</span><br><span class="line">Cat c2 = new Cat(&quot;王磊&quot;);</span><br><span class="line">System.out.println(c1.equals(c2)); // false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Cat &#123;</span><br><span class="line">    public Cat(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Cat c1 = new Cat(&quot;王磊&quot;);</span><br><span class="line">Cat c2 = new Cat(&quot;王磊&quot;);</span><br><span class="line">System.out.println(c1.equals(c2)); // false</span><br></pre></td></tr></table></figure>
 <p>输出结果出乎我们的意料，竟然是 false？这是怎么回事，看了 equals 源码就知道了，源码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line">        return (this == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line">        return (this == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>原来 equals 本质上就是 ==。</p>
 <p>那问题来了，两个相同值的 String 对象，为什么返回的是 true？代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String s1 = new String(&quot;老王&quot;);</span><br><span class="line">String s2 = new String(&quot;老王&quot;);</span><br><span class="line">System.out.println(s1.equals(s2)); // true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s1 = new String(&quot;老王&quot;);</span><br><span class="line">String s2 = new String(&quot;老王&quot;);</span><br><span class="line">System.out.println(s1.equals(s2)); // true</span><br></pre></td></tr></table></figure>
 <p>同样的，当我们进入 String 的 equals 方法，找到了答案，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">    if (this == anObject) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    if (anObject instanceof String) &#123;</span><br><span class="line">        String anotherString = (String)anObject;</span><br><span class="line">        int n = value.length;</span><br><span class="line">        if (n == anotherString.value.length) &#123;</span><br><span class="line">            char v1[] = value;</span><br><span class="line">            char v2[] = anotherString.value;</span><br><span class="line">            int i = 0;</span><br><span class="line">            while (n-- != 0) &#123;</span><br><span class="line">                if (v1[i] != v2[i])</span><br><span class="line">                    return false;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">    if (this == anObject) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    if (anObject instanceof String) &#123;</span><br><span class="line">        String anotherString = (String)anObject;</span><br><span class="line">        int n = value.length;</span><br><span class="line">        if (n == anotherString.value.length) &#123;</span><br><span class="line">            char v1[] = value;</span><br><span class="line">            char v2[] = anotherString.value;</span><br><span class="line">            int i = 0;</span><br><span class="line">            while (n-- != 0) &#123;</span><br><span class="line">                if (v1[i] != v2[i])</span><br><span class="line">                    return false;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>原来是 String 重写了 Object 的 equals 方法，把引用比较改成了值比较。</p>
 <p>总结 ：== 对于基本类型来说是值比较，对于引用类型来说是比较的是引用；而 equals 默认情况下是引用比较，只是很多类重新了 equals 方法，比如 String、Integer 等把它变成了值比较，所以一般情况下 equals 比较的是值是否相等。</p>
 <h2 id="3-两个对象的-hashCode-相同，则-equals-也一定为-true，对吗？"><a href="#3-两个对象的-hashCode-相同，则-equals-也一定为-true，对吗？" class="headerlink" title="3. 两个对象的 hashCode() 相同，则 equals() 也一定为 true，对吗？"></a>3. 两个对象的 hashCode() 相同，则 equals() 也一定为 true，对吗？</h2><p>不对，两个对象的 hashCode() 相同，equals() 不一定 true。</p>
 <p>代码示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String str1 = &quot;通话&quot;;</span><br><span class="line">String str2 = &quot;重地&quot;;</span><br><span class="line">System. out. println(String. format(&quot;str1：%d | str2：%d&quot;,  str1. hashCode(),str2. hashCode()));</span><br><span class="line">System. out. println(str1. equals(str2));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str1 = &quot;通话&quot;;</span><br><span class="line">String str2 = &quot;重地&quot;;</span><br><span class="line">System. out. println(String. format(&quot;str1：%d | str2：%d&quot;,  str1. hashCode(),str2. hashCode()));</span><br><span class="line">System. out. println(str1. equals(str2));</span><br></pre></td></tr></table></figure>
 <p>执行的结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">str1：1179395 | str2：1179395</span><br><span class="line"></span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str1：1179395 | str2：1179395</span><br><span class="line"></span><br><span class="line">false</span><br></pre></td></tr></table></figure>
 <p>代码解读：很显然“通话”和“重地”的 hashCode() 相同，然而 equals() 则为 false，因为在散列表中，hashCode() 相等即两个键值对的哈希值相等，然而哈希值相等，并不一定能得出键值对相等。</p>
 <h2 id="4-final-在-Java-中有什么作用？"><a href="#4-final-在-Java-中有什么作用？" class="headerlink" title="4. final 在 Java 中有什么作用？"></a>4. final 在 Java 中有什么作用？</h2><p>final 修饰的类叫最终类，该类不能被继承。<br>final 修饰的方法不能被重写。<br>final 修饰的变量叫常量，常量必须初始化，初始化之后值就不能被修改。</p>
 <h2 id="5-Java-中的-Math-round-1-5-等于多少？"><a href="#5-Java-中的-Math-round-1-5-等于多少？" class="headerlink" title="5. Java 中的 Math. round(-1. 5) 等于多少？"></a>5. Java 中的 Math. round(-1. 5) 等于多少？</h2><p>等于 -1，因为在数轴上取值时，中间值（0.5）向右取整，所以正 0.5 是往上取整，负 0.5 是直接舍弃。</p>
@@ -81,7 +290,7 @@
 <h2 id="8-String-str-”i”与-String-str-new-String-“i”-一样吗？"><a href="#8-String-str-”i”与-String-str-new-String-“i”-一样吗？" class="headerlink" title="8. String str=”i”与 String str=new String(“i”)一样吗？"></a>8. String str=”i”与 String str=new String(“i”)一样吗？</h2><p>不一样，因为内存的分配方式不一样。String str=”i”的方式，Java 虚拟机会将其分配到常量池中；而 String str=new String(“i”) 则会被分到堆内存中。</p>
 <h2 id="9-如何将字符串反转？"><a href="#9-如何将字符串反转？" class="headerlink" title="9. 如何将字符串反转？"></a>9. 如何将字符串反转？</h2><p>使用 StringBuilder 或者 stringBuffer 的 reverse() 方法。</p>
 <p>示例代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// StringBuffer reverse</span><br><span class="line">StringBuffer stringBuffer = new StringBuffer();</span><br><span class="line">stringBuffer. append(&quot;abcdefg&quot;);</span><br><span class="line">System. out. println(stringBuffer. reverse()); // gfedcba</span><br><span class="line">// StringBuilder reverse</span><br><span class="line">StringBuilder stringBuilder = new StringBuilder();</span><br><span class="line">stringBuilder. append(&quot;abcdefg&quot;);</span><br><span class="line">System. out. println(stringBuilder. reverse()); // gfedcba</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// StringBuffer reverse</span><br><span class="line">StringBuffer stringBuffer = new StringBuffer();</span><br><span class="line">stringBuffer. append(&quot;abcdefg&quot;);</span><br><span class="line">System. out. println(stringBuffer. reverse()); // gfedcba</span><br><span class="line">// StringBuilder reverse</span><br><span class="line">StringBuilder stringBuilder = new StringBuilder();</span><br><span class="line">stringBuilder. append(&quot;abcdefg&quot;);</span><br><span class="line">System. out. println(stringBuilder. reverse()); // gfedcba</span><br></pre></td></tr></table></figure>
 
 <h2 id="10-String-类的常用方法都有那些？"><a href="#10-String-类的常用方法都有那些？" class="headerlink" title="10. String 类的常用方法都有那些？"></a>10. String 类的常用方法都有那些？</h2><ul>
 <li>indexOf()：返回指定字符的索引。</li>
@@ -98,7 +307,7 @@
 </ul>
 <h2 id="11-抽象类必须要有抽象方法吗？"><a href="#11-抽象类必须要有抽象方法吗？" class="headerlink" title="11. 抽象类必须要有抽象方法吗？"></a>11. 抽象类必须要有抽象方法吗？</h2><p>不需要，抽象类不一定非要有抽象方法。</p>
 <p>示例代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">abstract class Cat &#123;</span><br><span class="line">    public static void sayHi() &#123;</span><br><span class="line">        System. out. println(&quot;hi~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">abstract class Cat &#123;</span><br><span class="line">    public static void sayHi() &#123;</span><br><span class="line">        System. out. println(&quot;hi~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面代码，抽象类并没有抽象方法但完全可以正常运行。</p>
 <h2 id="12-普通类和抽象类有哪些区别？"><a href="#12-普通类和抽象类有哪些区别？" class="headerlink" title="12. 普通类和抽象类有哪些区别？"></a>12. 普通类和抽象类有哪些区别？</h2><ul>
 <li>普通类不能包含抽象方法，抽象类可以包含抽象方法。</li>
@@ -178,7 +387,7 @@
 <li>数组转 List：使用 Arrays. asList(array) 进行转换。</li>
 <li>List 转数组：使用 List 自带的 toArray() 方法。<br>代码示例：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// list to array</span><br><span class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">list. add(&quot;王磊&quot;);</span><br><span class="line">list. add(&quot;的博客&quot;);</span><br><span class="line">list. toArray();</span><br><span class="line">// array to list</span><br><span class="line">String[] array = new String[]&#123;&quot;王磊&quot;,&quot;的博客&quot;&#125;;</span><br><span class="line">Arrays. asList(array);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// list to array</span><br><span class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">list. add(&quot;王磊&quot;);</span><br><span class="line">list. add(&quot;的博客&quot;);</span><br><span class="line">list. toArray();</span><br><span class="line">// array to list</span><br><span class="line">String[] array = new String[]&#123;&quot;王磊&quot;,&quot;的博客&quot;&#125;;</span><br><span class="line">Arrays. asList(array);</span><br></pre></td></tr></table></figure>
 
 <h2 id="27-ArrayList-和-Vector-的区别是什么？"><a href="#27-ArrayList-和-Vector-的区别是什么？" class="headerlink" title="27. ArrayList 和 Vector 的区别是什么？"></a>27. ArrayList 和 Vector 的区别是什么？</h2><ul>
 <li>线程安全：Vector 使用了 Synchronized 来实现线程同步，是线程安全的，而 ArrayList 是非线程安全的。</li>
@@ -194,12 +403,12 @@
 <li>相同点：都是返回第一个元素，并在队列中删除返回的对象。</li>
 <li>不同点：如果没有元素 poll()会返回 null，而 remove()会直接抛出 NoSuchElementException 异常。<br>代码示例：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Queue&lt;String&gt; queue = new LinkedList&lt;String&gt;();</span><br><span class="line">queue. offer(&quot;string&quot;); // add</span><br><span class="line">System. out. println(queue. poll());</span><br><span class="line">System. out. println(queue. remove());</span><br><span class="line">System. out. println(queue. size());</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Queue&lt;String&gt; queue = new LinkedList&lt;String&gt;();</span><br><span class="line">queue. offer(&quot;string&quot;); // add</span><br><span class="line">System. out. println(queue. poll());</span><br><span class="line">System. out. println(queue. remove());</span><br><span class="line">System. out. println(queue. size());</span><br></pre></td></tr></table></figure>
 
 <h2 id="30-哪些集合类是线程安全的？"><a href="#30-哪些集合类是线程安全的？" class="headerlink" title="30. 哪些集合类是线程安全的？"></a>30. 哪些集合类是线程安全的？</h2><p>Vector、Hashtable、Stack 都是线程安全的，而像 HashMap 则是非线程安全的，不过在 JDK 1.5 之后随着 Java. util. concurrent 并发包的出现，它们也有了自己对应的线程安全类，比如 HashMap 对应的线程安全类就是 ConcurrentHashMap。</p>
 <h2 id="31-迭代器-Iterator-是什么？"><a href="#31-迭代器-Iterator-是什么？" class="headerlink" title="31. 迭代器 Iterator 是什么？"></a>31. 迭代器 Iterator 是什么？</h2><p>Iterator 接口提供遍历任何 Collection 的接口。我们可以从一个 Collection 中使用迭代器方法来获取迭代器实例。迭代器取代了 Java 集合框架中的 Enumeration，迭代器允许调用者在迭代过程中移除元素。</p>
 <h2 id="32-Iterator-怎么使用？有什么特点？"><a href="#32-Iterator-怎么使用？有什么特点？" class="headerlink" title="32. Iterator 怎么使用？有什么特点？"></a>32. Iterator 怎么使用？有什么特点？</h2><p>Iterator 使用代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">Iterator&lt;String&gt; it = list. iterator();</span><br><span class="line">while(it. hasNext())&#123;</span><br><span class="line">  String obj = it. next();</span><br><span class="line">  System. out. println(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">Iterator&lt;String&gt; it = list. iterator();</span><br><span class="line">while(it. hasNext())&#123;</span><br><span class="line">  String obj = it. next();</span><br><span class="line">  System. out. println(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Iterator 的特点是更加安全，因为它可以确保，在当前遍历的集合元素被更改的时候，就会抛出 ConcurrentModificationException 异常。</p>
 <h2 id="33-Iterator-和-ListIterator-有什么区别？"><a href="#33-Iterator-和-ListIterator-有什么区别？" class="headerlink" title="33. Iterator 和 ListIterator 有什么区别？"></a>33. Iterator 和 ListIterator 有什么区别？</h2><ul>
 <li>Iterator 可以遍历 Set 和 List 集合，而 ListIterator 只能遍历 List。</li>
@@ -208,7 +417,7 @@
 </ul>
 <h2 id="34-怎么确保一个集合不能被修改？"><a href="#34-怎么确保一个集合不能被修改？" class="headerlink" title="34. 怎么确保一个集合不能被修改？"></a>34. 怎么确保一个集合不能被修改？</h2><p>可以使用 Collections. unmodifiableCollection(Collection c) 方法来创建一个只读集合，这样改变集合的任何操作都会抛出 Java. lang. UnsupportedOperationException 异常。</p>
 <p>示例代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">list. add(&quot;x&quot;);</span><br><span class="line">Collection&lt;String&gt; clist = Collections. unmodifiableCollection(list);</span><br><span class="line">clist. add(&quot;y&quot;); // 运行时此行报错</span><br><span class="line">System. out. println(list. size());</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">list. add(&quot;x&quot;);</span><br><span class="line">Collection&lt;String&gt; clist = Collections. unmodifiableCollection(list);</span><br><span class="line">clist. add(&quot;y&quot;); // 运行时此行报错</span><br><span class="line">System. out. println(list. size());</span><br></pre></td></tr></table></figure>
 
 <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><h2 id="35-并行和并发有什么区别？"><a href="#35-并行和并发有什么区别？" class="headerlink" title="35. 并行和并发有什么区别？"></a>35. 并行和并发有什么区别？</h2><p>并行：多个处理器或多核处理器同时处理多个任务。<br>并发：多个任务在同一个 CPU 核上，按细分的时间片轮流(交替)执行，从逻辑上来看那些任务是同时执行。<br>如下图：<br><img src="/image/java-2-1.jpg" alt="java-2"></p>
 <p>并发 = 两个队列和一台咖啡机。<br>并行 = 两个队列和两台咖啡机。</p>
@@ -270,7 +479,7 @@
 <li>方法二：使用自动锁 synchronized。</li>
 <li>方法三：使用手动锁 Lock。<br>手动锁 Java 示例代码如下：</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Lock lock = new ReentrantLock();</span><br><span class="line">lock. lock();</span><br><span class="line">try &#123;</span><br><span class="line">    System. out. println(&quot;获得锁&quot;);</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">    // TODO: handle exception</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    System. out. println(&quot;释放锁&quot;);</span><br><span class="line">    lock. unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Lock lock = new ReentrantLock();</span><br><span class="line">lock. lock();</span><br><span class="line">try &#123;</span><br><span class="line">    System. out. println(&quot;获得锁&quot;);</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">    // TODO: handle exception</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">    System. out. println(&quot;释放锁&quot;);</span><br><span class="line">    lock. unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="48-多线程中-synchronized-锁升级的原理是什么？"><a href="#48-多线程中-synchronized-锁升级的原理是什么？" class="headerlink" title="48. 多线程中 synchronized 锁升级的原理是什么？"></a>48. 多线程中 synchronized 锁升级的原理是什么？</h2><p>synchronized 锁升级原理：在锁对象的对象头里面有一个 threadid 字段，在第一次访问的时候 threadid 为空，jvm 让其持有偏向锁，并将 threadid 设置为其线程 id，再次进入的时候会先判断 threadid 是否与其线程 id 一致，如果一致则可以直接使用此对象，如果不一致，则升级偏向锁为轻量级锁，通过自旋循环一定次数来获取锁，执行一定次数之后，如果还没有正常获取到要使用的对象，此时就会把锁从轻量级升级为重量级锁，此过程就构成了 synchronized 锁的升级。</p>
 <p>锁的升级的目的：锁升级是为了减低了锁带来的性能消耗。在 Java 6 之后优化 synchronized 的实现方式，使用了偏向锁升级为轻量级锁再升级到重量级锁的方式，从而减低了锁带来的性能消耗。</p>
@@ -537,7 +746,7 @@
 </ul>
 <h2 id="107-spring-boot-配置文件有哪几种类型？它们有什么区别？"><a href="#107-spring-boot-配置文件有哪几种类型？它们有什么区别？" class="headerlink" title="107. spring boot 配置文件有哪几种类型？它们有什么区别？"></a>107. spring boot 配置文件有哪几种类型？它们有什么区别？</h2><p>配置文件有 . properties 格式和 . yml 格式，它们主要的区别是书法风格不同。</p>
 <p>. properties 配置如下：<br><code>spring. RabbitMQ. port=5672</code><br>. yml 配置如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spring:</span><br><span class="line">    RabbitMQ:</span><br><span class="line">        port: 5672</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">    RabbitMQ:</span><br><span class="line">        port: 5672</span><br></pre></td></tr></table></figure>
 <p>. yml 格式不支持 @PropertySource 注解导入。</p>
 <h2 id="108-spring-boot-有哪些方式可以实现热部署？"><a href="#108-spring-boot-有哪些方式可以实现热部署？" class="headerlink" title="108. spring boot 有哪些方式可以实现热部署？"></a>108. spring boot 有哪些方式可以实现热部署？</h2><p>使用 devtools 启动热部署，添加 devtools 库，在配置文件中把 spring. devtools. restart. enabled 设置为 true；<br>使用 Intellij Idea 编辑器，勾上自动编译或手动重新编译。</p>
 <h2 id="109-jpa-和-hibernate-有什么区别？"><a href="#109-jpa-和-hibernate-有什么区别？" class="headerlink" title="109. jpa 和 hibernate 有什么区别？"></a>109. jpa 和 hibernate 有什么区别？</h2><p>jpa 全称 Java Persistence API，是 Java 持久化接口规范，hibernate 属于 jpa 的具体实现。</p>
@@ -599,7 +808,7 @@
 </li>
 </ul>
 <h2 id="127-RowBounds-是一次性查询全部结果吗？为什么？"><a href="#127-RowBounds-是一次性查询全部结果吗？为什么？" class="headerlink" title="127. RowBounds 是一次性查询全部结果吗？为什么？"></a>127. RowBounds 是一次性查询全部结果吗？为什么？</h2><p>RowBounds 表面是在“所有”数据中检索数据，其实并非是一次性查询出所有数据，因为 MyBatis 是对 jdbc 的封装，在 jdbc 驱动中有一个 Fetch Size 的配置，它规定了每次最多从数据库查询多少条数据，假如你要查询更多数据，它会在你执行 next()的时候，去查询更多的数据。就好比你去自动取款机取 10000 元，但取款机每次最多能取 2500 元，所以你要取 4 次才能把钱取完。只是对于 jdbc 来说，当你调用 next()的时候会自动帮你完成查询工作。这样做的好处可以有效的防止内存溢出。</p>
-<p>Fetch Size 官方相关文档：<a href="http://t/">http://t</a>. cn/EfSE2g3</p>
+<p>Fetch Size 官方相关文档：<a target="_blank" rel="noopener" href="http://t/">http://t</a>. cn/EfSE2g3</p>
 <h2 id="128-MyBatis-逻辑分页和物理分页的区别是什么？"><a href="#128-MyBatis-逻辑分页和物理分页的区别是什么？" class="headerlink" title="128. MyBatis 逻辑分页和物理分页的区别是什么？"></a>128. MyBatis 逻辑分页和物理分页的区别是什么？</h2><ul>
 <li>逻辑分页是一次性查询很多数据，然后再在结果中检索分页的数据。这样做弊端是需要消耗大量的内存、有内存溢出的风险、对数据库压力较大。</li>
 <li>物理分页是从数据库查询指定条数的数据，弥补了一次性全部查出的所有数据的种种缺点，比如需要大量的内存，对数据库查询压力较大等问题。</li>
@@ -634,7 +843,7 @@
 <li><em>自定义插件实现关键</em>*</li>
 </ul>
 <p>MyBatis 插件要实现 Interceptor 接口，接口包含的方法，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public interface Interceptor &#123;   </span><br><span class="line">   Object intercept(Invocation invocation) throws Throwable;       </span><br><span class="line">   Object plugin(Object target);    </span><br><span class="line">   void setProperties(Properties properties);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Interceptor &#123;   </span><br><span class="line">   Object intercept(Invocation invocation) throws Throwable;       </span><br><span class="line">   Object plugin(Object target);    </span><br><span class="line">   void setProperties(Properties properties);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>setProperties 方法是在 MyBatis 进行配置插件的时候可以配置自定义相关属性，即：接口实现对象的参数配置；</li>
 <li>plugin 方法是插件用于封装目标对象的，通过该方法我们可以返回目标对象本身，也可以返回一个它的代理，可以决定是否要进行拦截进而决定要返回一个什么样的目标对象，官方提供了示例：return Plugin. wrap(target, this)；</li>
@@ -642,7 +851,7 @@
 <li><em>自定义插件实现示例</em>*</li>
 </ul>
 <p>官方插件实现：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Intercepts(&#123;@Signature(type = Executor. class, method = &quot;query&quot;,</span><br><span class="line">        args = &#123;MappedStatement. class, Object. class, RowBounds. class, ResultHandler. class&#125;)&#125;)</span><br><span class="line">public class TestInterceptor implements Interceptor &#123;</span><br><span class="line">   public Object intercept(Invocation invocation) throws Throwable &#123;</span><br><span class="line">     Object target = invocation. getTarget(); //被代理对象</span><br><span class="line">     Method method = invocation. getMethod(); //代理方法</span><br><span class="line">     Object[] args = invocation. getArgs(); //方法参数</span><br><span class="line">     // do something . . . . . .  方法拦截前执行代码块</span><br><span class="line">     Object result = invocation. proceed();</span><br><span class="line">     // do something . . . . . . . 方法拦截后执行代码块</span><br><span class="line">     return result;</span><br><span class="line">   &#125;</span><br><span class="line">   public Object plugin(Object target) &#123;</span><br><span class="line">     return Plugin. wrap(target, this);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Intercepts(&#123;@Signature(type = Executor. class, method = &quot;query&quot;,</span><br><span class="line">        args = &#123;MappedStatement. class, Object. class, RowBounds. class, ResultHandler. class&#125;)&#125;)</span><br><span class="line">public class TestInterceptor implements Interceptor &#123;</span><br><span class="line">   public Object intercept(Invocation invocation) throws Throwable &#123;</span><br><span class="line">     Object target = invocation. getTarget(); //被代理对象</span><br><span class="line">     Method method = invocation. getMethod(); //代理方法</span><br><span class="line">     Object[] args = invocation. getArgs(); //方法参数</span><br><span class="line">     // do something . . . . . .  方法拦截前执行代码块</span><br><span class="line">     Object result = invocation. proceed();</span><br><span class="line">     // do something . . . . . . . 方法拦截后执行代码块</span><br><span class="line">     return result;</span><br><span class="line">   &#125;</span><br><span class="line">   public Object plugin(Object target) &#123;</span><br><span class="line">     return Plugin. wrap(target, this);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h1><h2 id="135-RabbitMQ-的使用场景有哪些？"><a href="#135-RabbitMQ-的使用场景有哪些？" class="headerlink" title="135. RabbitMQ 的使用场景有哪些？"></a>135. RabbitMQ 的使用场景有哪些？</h2><ul>
 <li>抢购活动，削峰填谷，防止系统崩塌。</li>
@@ -975,12 +1184,242 @@
 <li>-XX:+PrintGC：开启打印 gc 信息；</li>
 <li>-XX:+PrintGCDetails：打印 gc 详细信息。</li>
 </ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>基础</tag>
-      </tags>
-  </entry>
-</search>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/10/13/hello/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTU1NC8yMjA2NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Java 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-JDK-%E5%92%8C-JRE-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1. JDK 和 JRE 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%92%8C-equals-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">2. &#x3D;&#x3D; 和 equals 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84-hashCode-%E7%9B%B8%E5%90%8C%EF%BC%8C%E5%88%99-equals-%E4%B9%9F%E4%B8%80%E5%AE%9A%E4%B8%BA-true%EF%BC%8C%E5%AF%B9%E5%90%97%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">3. 两个对象的 hashCode() 相同，则 equals() 也一定为 true，对吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-final-%E5%9C%A8-Java-%E4%B8%AD%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">4. final 在 Java 中有什么作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Java-%E4%B8%AD%E7%9A%84-Math-round-1-5-%E7%AD%89%E4%BA%8E%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="nav-number">1.5.</span> <span class="nav-text">5. Java 中的 Math. round(-1. 5) 等于多少？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-String-%E5%B1%9E%E4%BA%8E%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%90%97%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">6. String 属于基础的数据类型吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Java-%E4%B8%AD%E6%93%8D%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%B1%BB%EF%BC%9F%E5%AE%83%E4%BB%AC%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">7. Java 中操作字符串都有哪些类？它们之间有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-String-str-%E2%80%9Di%E2%80%9D%E4%B8%8E-String-str-new-String-%E2%80%9Ci%E2%80%9D-%E4%B8%80%E6%A0%B7%E5%90%97%EF%BC%9F"><span class="nav-number">1.8.</span> <span class="nav-text">8. String str&#x3D;”i”与 String str&#x3D;new String(“i”)一样吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%8D%E8%BD%AC%EF%BC%9F"><span class="nav-number">1.9.</span> <span class="nav-text">9. 如何将字符串反转？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-String-%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E9%82%A3%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.10.</span> <span class="nav-text">10. String 类的常用方法都有那些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%BF%85%E9%A1%BB%E8%A6%81%E6%9C%89%E6%8A%BD%E8%B1%A1%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">1.11.</span> <span class="nav-text">11. 抽象类必须要有抽象方法吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E6%99%AE%E9%80%9A%E7%B1%BB%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.12.</span> <span class="nav-text">12. 普通类和抽象类有哪些区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%83%BD%E4%BD%BF%E7%94%A8-final-%E4%BF%AE%E9%A5%B0%E5%90%97%EF%BC%9F"><span class="nav-number">1.13.</span> <span class="nav-text">13. 抽象类能使用 final 修饰吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.14.</span> <span class="nav-text">14. 接口和抽象类有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-Java-%E4%B8%AD-IO-%E6%B5%81%E5%88%86%E4%B8%BA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="nav-number">1.15.</span> <span class="nav-text">15. Java 中 IO 流分为几种？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-BIO%E3%80%81NIO%E3%80%81AIO-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.16.</span> <span class="nav-text">16. BIO、NIO、AIO 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-Files%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.17.</span> <span class="nav-text">17. Files的常用方法都有哪些？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#18-Java-%E5%AE%B9%E5%99%A8%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">18. Java 容器都有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-Collection-%E5%92%8C-Collections-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">19. Collection 和 Collections 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-List%E3%80%81Set%E3%80%81Map-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.3.</span> <span class="nav-text">20. List、Set、Map 之间的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-HashMap-%E5%92%8C-Hashtable-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.4.</span> <span class="nav-text">21. HashMap 和 Hashtable 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-%E5%A6%82%E4%BD%95%E5%86%B3%E5%AE%9A%E4%BD%BF%E7%94%A8-HashMap-%E8%BF%98%E6%98%AF-TreeMap%EF%BC%9F"><span class="nav-number">2.5.</span> <span class="nav-text">22. 如何决定使用 HashMap 还是 TreeMap？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-%E8%AF%B4%E4%B8%80%E4%B8%8B-HashMap-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">2.6.</span> <span class="nav-text">23. 说一下 HashMap 的实现原理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-%E8%AF%B4%E4%B8%80%E4%B8%8B-HashSet-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">2.7.</span> <span class="nav-text">24. 说一下 HashSet 的实现原理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#25-ArrayList-%E5%92%8C-LinkedList-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.8.</span> <span class="nav-text">25. ArrayList 和 LinkedList 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E7%BB%84%E5%92%8C-List-%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2%EF%BC%9F"><span class="nav-number">2.9.</span> <span class="nav-text">26. 如何实现数组和 List 之间的转换？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#27-ArrayList-%E5%92%8C-Vector-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.10.</span> <span class="nav-text">27. ArrayList 和 Vector 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#28-Array-%E5%92%8C-ArrayList-%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.11.</span> <span class="nav-text">28. Array 和 ArrayList 有何区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#29-%E5%9C%A8-Queue-%E4%B8%AD-poll-%E5%92%8C-remove-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.12.</span> <span class="nav-text">29. 在 Queue 中 poll()和 remove()有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#30-%E5%93%AA%E4%BA%9B%E9%9B%86%E5%90%88%E7%B1%BB%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%EF%BC%9F"><span class="nav-number">2.13.</span> <span class="nav-text">30. 哪些集合类是线程安全的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#31-%E8%BF%AD%E4%BB%A3%E5%99%A8-Iterator-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.14.</span> <span class="nav-text">31. 迭代器 Iterator 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-Iterator-%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E7%82%B9%EF%BC%9F"><span class="nav-number">2.15.</span> <span class="nav-text">32. Iterator 怎么使用？有什么特点？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#33-Iterator-%E5%92%8C-ListIterator-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">2.16.</span> <span class="nav-text">33. Iterator 和 ListIterator 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#34-%E6%80%8E%E4%B9%88%E7%A1%AE%E4%BF%9D%E4%B8%80%E4%B8%AA%E9%9B%86%E5%90%88%E4%B8%8D%E8%83%BD%E8%A2%AB%E4%BF%AE%E6%94%B9%EF%BC%9F"><span class="nav-number">2.17.</span> <span class="nav-text">34. 怎么确保一个集合不能被修改？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#35-%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">35. 并行和并发有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#36-%E7%BA%BF%E7%A8%8B%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">36. 线程和进程的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#37-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">37. 守护线程是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#38-%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">3.4.</span> <span class="nav-text">38. 创建线程有哪几种方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#39-%E8%AF%B4%E4%B8%80%E4%B8%8B-runnable-%E5%92%8C-callable-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.5.</span> <span class="nav-text">39. 说一下 runnable 和 callable 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#40-%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">3.6.</span> <span class="nav-text">40. 线程有哪些状态？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#41-sleep-%E5%92%8C-wait-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.7.</span> <span class="nav-text">41. sleep() 和 wait() 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#42-notify-%E5%92%8C-notifyAll-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.8.</span> <span class="nav-text">42. notify() 和 notifyAll() 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#43-%E7%BA%BF%E7%A8%8B%E7%9A%84-run-%E5%92%8C-start-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.9.</span> <span class="nav-text">43. 线程的 run() 和 start() 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#44-%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">3.10.</span> <span class="nav-text">44. 创建线程池有哪几种方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#45-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">3.11.</span> <span class="nav-text">45. 线程池都有哪些状态？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#46-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%AD-submit-%E5%92%8C-execute-%E6%96%B9%E6%B3%95%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.12.</span> <span class="nav-text">46. 线程池中 submit() 和 execute() 方法有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#47-%E5%9C%A8-Java-%E7%A8%8B%E5%BA%8F%E4%B8%AD%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%BF%90%E8%A1%8C%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="nav-number">3.13.</span> <span class="nav-text">47. 在 Java 程序中怎么保证多线程的运行安全？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#48-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%AD-synchronized-%E9%94%81%E5%8D%87%E7%BA%A7%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.14.</span> <span class="nav-text">48. 多线程中 synchronized 锁升级的原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#49-%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="nav-number">3.15.</span> <span class="nav-text">49. 什么是死锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#50-%E6%80%8E%E4%B9%88%E9%98%B2%E6%AD%A2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="nav-number">3.16.</span> <span class="nav-text">50. 怎么防止死锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#51-ThreadLocal-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="nav-number">3.17.</span> <span class="nav-text">51. ThreadLocal 是什么？有哪些使用场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#52-%E8%AF%B4%E4%B8%80%E4%B8%8B-synchronized-%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">3.18.</span> <span class="nav-text">52. 说一下 synchronized 底层实现原理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#53-synchronized-%E5%92%8C-volatile-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.19.</span> <span class="nav-text">53. synchronized 和 volatile 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#54-synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.20.</span> <span class="nav-text">54. synchronized 和 Lock 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#55-synchronized-%E5%92%8C-ReentrantLock-%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.21.</span> <span class="nav-text">55. synchronized 和 ReentrantLock 区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#56-%E8%AF%B4%E4%B8%80%E4%B8%8B-atomic-%E7%9A%84%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">3.22.</span> <span class="nav-text">56. 说一下 atomic 的原理？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">4.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#57-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">57. 什么是反射？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#58-%E4%BB%80%E4%B9%88%E6%98%AF-Java-%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9F%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">58. 什么是 Java 序列化？什么情况下需要序列化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#59-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E5%BA%94%E7%94%A8%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">59. 动态代理是什么？有哪些应用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#60-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%EF%BC%9F"><span class="nav-number">4.4.</span> <span class="nav-text">60. 怎么实现动态代理？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D"><span class="nav-number">5.</span> <span class="nav-text">对象拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#61-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%85%8B%E9%9A%86%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">61. 为什么要使用克隆？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#62-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%B1%A1%E5%85%8B%E9%9A%86%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">62. 如何实现对象克隆？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#63-%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">5.3.</span> <span class="nav-text">63. 深拷贝和浅拷贝区别是什么？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-Web"><span class="nav-number">6.</span> <span class="nav-text">Java Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#64-JSP-%E5%92%8C-servlet-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">64. JSP 和 servlet 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#65-JSP-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%EF%BC%9F%E4%BD%9C%E7%94%A8%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">6.2.</span> <span class="nav-text">65. JSP 有哪些内置对象？作用分别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#66-%E8%AF%B4%E4%B8%80%E4%B8%8B-JSP-%E7%9A%84-4-%E7%A7%8D%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%9F"><span class="nav-number">6.3.</span> <span class="nav-text">66. 说一下 JSP 的 4 种作用域？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#67-session-%E5%92%8C-cookie-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">6.4.</span> <span class="nav-text">67. session 和 cookie 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#68-%E8%AF%B4%E4%B8%80%E4%B8%8B-session-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">6.5.</span> <span class="nav-text">68. 说一下 session 的工作原理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#69-%E5%A6%82%E6%9E%9C%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A6%81%E6%AD%A2-cookie-%E8%83%BD%E5%AE%9E%E7%8E%B0-session-%E8%BF%98%E8%83%BD%E7%94%A8%E5%90%97%EF%BC%9F"><span class="nav-number">6.6.</span> <span class="nav-text">69. 如果客户端禁止 cookie 能实现 session 还能用吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#70-spring-mvc-%E5%92%8C-struts-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">6.7.</span> <span class="nav-text">70. spring mvc 和 struts 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#71-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D-SQL-%E6%B3%A8%E5%85%A5%EF%BC%9F"><span class="nav-number">6.8.</span> <span class="nav-text">71. 如何避免 SQL 注入？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#72-%E4%BB%80%E4%B9%88%E6%98%AF-XSS-%E6%94%BB%E5%87%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%EF%BC%9F"><span class="nav-number">6.9.</span> <span class="nav-text">72. 什么是 XSS 攻击，如何避免？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#73-%E4%BB%80%E4%B9%88%E6%98%AF-CSRF-%E6%94%BB%E5%87%BB%EF%BC%8C%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%EF%BC%9F"><span class="nav-number">6.10.</span> <span class="nav-text">73. 什么是 CSRF 攻击，如何避免？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">7.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#74-throw-%E5%92%8C-throws-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">74. throw 和 throws 的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#75-final%E3%80%81finally%E3%80%81finalize-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.2.</span> <span class="nav-text">75. final、finally、finalize 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#76-try-catch-finally-%E4%B8%AD%E5%93%AA%E4%B8%AA%E9%83%A8%E5%88%86%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5%EF%BC%9F"><span class="nav-number">7.3.</span> <span class="nav-text">76. try-catch-finally 中哪个部分可以省略？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#77-try-catch-finally-%E4%B8%AD%EF%BC%8C%E5%A6%82%E6%9E%9C-catch-%E4%B8%AD-return-%E4%BA%86%EF%BC%8Cfinally-%E8%BF%98%E4%BC%9A%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F"><span class="nav-number">7.4.</span> <span class="nav-text">77. try-catch-finally 中，如果 catch 中 return 了，finally 还会执行吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#78-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BC%82%E5%B8%B8%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">7.5.</span> <span class="nav-text">78. 常见的异常类有哪些？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">8.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#79-http-%E5%93%8D%E5%BA%94%E7%A0%81-301-%E5%92%8C-302-%E4%BB%A3%E8%A1%A8%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">8.1.</span> <span class="nav-text">79. http 响应码 301 和 302 代表的是什么？有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#80-forward-%E5%92%8C-redirect-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">8.2.</span> <span class="nav-text">80. forward 和 redirect 的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#81-%E7%AE%80%E8%BF%B0-tcp-%E5%92%8C-udp%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">8.3.</span> <span class="nav-text">81. 简述 tcp 和 udp的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#82-tcp-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%EF%BC%8C%E4%B8%A4%E6%AC%A1%E4%B8%8D%E8%A1%8C%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">8.4.</span> <span class="nav-text">82. tcp 为什么要三次握手，两次不行吗？为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#83-%E8%AF%B4%E4%B8%80%E4%B8%8B-tcp-%E7%B2%98%E5%8C%85%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F%E7%9A%84%EF%BC%9F"><span class="nav-number">8.5.</span> <span class="nav-text">83. 说一下 tcp 粘包是怎么产生的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#84-OSI-%E7%9A%84%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">8.6.</span> <span class="nav-text">84. OSI 的七层模型都有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#85-get-%E5%92%8C-post-%E8%AF%B7%E6%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">8.7.</span> <span class="nav-text">85. get 和 post 请求有哪些区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#86-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F%EF%BC%9F"><span class="nav-number">8.8.</span> <span class="nav-text">86. 如何实现跨域？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#87-%E8%AF%B4%E4%B8%80%E4%B8%8B-JSONP-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">8.9.</span> <span class="nav-text">87. 说一下 JSONP 实现原理？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">9.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#88-%E8%AF%B4%E4%B8%80%E4%B8%8B%E4%BD%A0%E7%86%9F%E6%82%89%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">9.1.</span> <span class="nav-text">88. 说一下你熟悉的设计模式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#89-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E5%92%8C%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">9.2.</span> <span class="nav-text">89. 简单工厂和抽象工厂有什么区别？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Spring-MVC"><span class="nav-number">10.</span> <span class="nav-text">Spring&#x2F;Spring MVC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#90-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8-spring%EF%BC%9F"><span class="nav-number">10.1.</span> <span class="nav-text">90. 为什么要使用 spring？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#91-%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B%E4%BB%80%E4%B9%88%E6%98%AF-aop%EF%BC%9F"><span class="nav-number">10.2.</span> <span class="nav-text">91. 解释一下什么是 aop？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#92-%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B%E4%BB%80%E4%B9%88%E6%98%AF-ioc%EF%BC%9F"><span class="nav-number">10.3.</span> <span class="nav-text">92. 解释一下什么是 ioc？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#93-spring-%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%BB%E8%A6%81%E6%A8%A1%E5%9D%97%EF%BC%9F"><span class="nav-number">10.4.</span> <span class="nav-text">93. spring 有哪些主要模块？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#94-spring-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">10.5.</span> <span class="nav-text">94. spring 常用的注入方式有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#95-spring-%E4%B8%AD%E7%9A%84-bean-%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F"><span class="nav-number">10.6.</span> <span class="nav-text">95. spring 中的 bean 是线程安全的吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#96-spring-%E6%94%AF%E6%8C%81%E5%87%A0%E7%A7%8D-bean-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%9F"><span class="nav-number">10.7.</span> <span class="nav-text">96. spring 支持几种 bean 的作用域？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#97-spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D-bean-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">10.8.</span> <span class="nav-text">97. spring 自动装配 bean 有哪些方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#98-spring-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">10.9.</span> <span class="nav-text">98. spring 事务实现方式有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#99-%E8%AF%B4%E4%B8%80%E4%B8%8B-spring-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%EF%BC%9F"><span class="nav-number">10.10.</span> <span class="nav-text">99. 说一下 spring 的事务隔离？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#100-%E8%AF%B4%E4%B8%80%E4%B8%8B-spring-mvc-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="nav-number">10.11.</span> <span class="nav-text">100. 说一下 spring mvc 运行流程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#101-spring-mvc-%E6%9C%89%E5%93%AA%E4%BA%9B%E7%BB%84%E4%BB%B6%EF%BC%9F"><span class="nav-number">10.12.</span> <span class="nav-text">101. spring mvc 有哪些组件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#102-RequestMapping-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">10.13.</span> <span class="nav-text">102. @RequestMapping 的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#103-Autowired-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">10.14.</span> <span class="nav-text">103. @Autowired 的作用是什么？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot-Spring-Cloud"><span class="nav-number">11.</span> <span class="nav-text">Spring Boot&#x2F;Spring Cloud</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#104-%E4%BB%80%E4%B9%88%E6%98%AF-spring-boot%EF%BC%9F"><span class="nav-number">11.1.</span> <span class="nav-text">104. 什么是 spring boot？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#105-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8-spring-boot%EF%BC%9F"><span class="nav-number">11.2.</span> <span class="nav-text">105. 为什么要用 spring boot？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#106-spring-boot-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">11.3.</span> <span class="nav-text">106. spring boot 核心配置文件是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#107-spring-boot-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E7%B1%BB%E5%9E%8B%EF%BC%9F%E5%AE%83%E4%BB%AC%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">11.4.</span> <span class="nav-text">107. spring boot 配置文件有哪几种类型？它们有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#108-spring-boot-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F%E5%8F%AF%E4%BB%A5%E5%AE%9E%E7%8E%B0%E7%83%AD%E9%83%A8%E7%BD%B2%EF%BC%9F"><span class="nav-number">11.5.</span> <span class="nav-text">108. spring boot 有哪些方式可以实现热部署？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#109-jpa-%E5%92%8C-hibernate-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">11.6.</span> <span class="nav-text">109. jpa 和 hibernate 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#110-%E4%BB%80%E4%B9%88%E6%98%AF-spring-cloud%EF%BC%9F"><span class="nav-number">11.7.</span> <span class="nav-text">110. 什么是 spring cloud？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#111-spring-cloud-%E6%96%AD%E8%B7%AF%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">11.8.</span> <span class="nav-text">111. spring cloud 断路器的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#112-spring-cloud-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">11.9.</span> <span class="nav-text">112. spring cloud 的核心组件有哪些？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hibernate"><span class="nav-number">12.</span> <span class="nav-text">Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#113-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8-hibernate%EF%BC%9F"><span class="nav-number">12.1.</span> <span class="nav-text">113. 为什么要使用 hibernate？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#114-%E4%BB%80%E4%B9%88%E6%98%AF-ORM-%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="nav-number">12.2.</span> <span class="nav-text">114. 什么是 ORM 框架？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#115-hibernate-%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%9F%A5%E7%9C%8B%E6%89%93%E5%8D%B0%E7%9A%84-SQL-%E8%AF%AD%E5%8F%A5%EF%BC%9F"><span class="nav-number">12.3.</span> <span class="nav-text">115. hibernate 中如何在控制台查看打印的 SQL 语句？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#116-hibernate-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">12.4.</span> <span class="nav-text">116. hibernate 有几种查询方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#117-hibernate-%E5%AE%9E%E4%BD%93%E7%B1%BB%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%AE%9A%E4%B9%89%E4%B8%BA-final-%E5%90%97%EF%BC%9F"><span class="nav-number">12.5.</span> <span class="nav-text">117. hibernate 实体类可以被定义为 final 吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#118-%E5%9C%A8-hibernate-%E4%B8%AD%E4%BD%BF%E7%94%A8-Integer-%E5%92%8C-int-%E5%81%9A%E6%98%A0%E5%B0%84%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">12.6.</span> <span class="nav-text">118. 在 hibernate 中使用 Integer 和 int 做映射有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#119-hibernate-%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="nav-number">12.7.</span> <span class="nav-text">119. hibernate 是如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#120-get-%E5%92%8C-load-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">12.8.</span> <span class="nav-text">120. get()和 load()的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#121-%E8%AF%B4%E4%B8%80%E4%B8%8B-hibernate-%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">12.9.</span> <span class="nav-text">121. 说一下 hibernate 的缓存机制？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#122-hibernate-%E5%AF%B9%E8%B1%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">12.10.</span> <span class="nav-text">122. hibernate 对象有哪些状态？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#123-%E5%9C%A8-hibernate-%E4%B8%AD-getCurrentSession-%E5%92%8C-openSession-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">12.11.</span> <span class="nav-text">123. 在 hibernate 中 getCurrentSession 和 openSession 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#124-hibernate-%E5%AE%9E%E4%BD%93%E7%B1%BB%E5%BF%85%E9%A1%BB%E8%A6%81%E6%9C%89%E6%97%A0%E5%8F%82%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">12.12.</span> <span class="nav-text">124. hibernate 实体类必须要有无参构造函数吗？为什么？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">13.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#125-MyBatis-%E4%B8%AD-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.1.</span> <span class="nav-text">125. MyBatis 中 #{}和 ${}的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#126-MyBatis-%E6%9C%89%E5%87%A0%E7%A7%8D%E5%88%86%E9%A1%B5%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">13.2.</span> <span class="nav-text">126. MyBatis 有几种分页方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#127-RowBounds-%E6%98%AF%E4%B8%80%E6%AC%A1%E6%80%A7%E6%9F%A5%E8%AF%A2%E5%85%A8%E9%83%A8%E7%BB%93%E6%9E%9C%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.3.</span> <span class="nav-text">127. RowBounds 是一次性查询全部结果吗？为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#128-MyBatis-%E9%80%BB%E8%BE%91%E5%88%86%E9%A1%B5%E5%92%8C%E7%89%A9%E7%90%86%E5%88%86%E9%A1%B5%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.4.</span> <span class="nav-text">128. MyBatis 逻辑分页和物理分页的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#129-MyBatis-%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD%EF%BC%9F%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.5.</span> <span class="nav-text">129. MyBatis 是否支持延迟加载？延迟加载的原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#130-%E8%AF%B4%E4%B8%80%E4%B8%8B-MyBatis-%E7%9A%84%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%E5%92%8C%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%9F"><span class="nav-number">13.6.</span> <span class="nav-text">130. 说一下 MyBatis 的一级缓存和二级缓存？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#131-MyBatis-%E5%92%8C-hibernate-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">13.7.</span> <span class="nav-text">131. MyBatis 和 hibernate 的区别有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#132-MyBatis-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%89%A7%E8%A1%8C%E5%99%A8%EF%BC%88Executor%EF%BC%89%EF%BC%9F"><span class="nav-number">13.8.</span> <span class="nav-text">132. MyBatis 有哪些执行器（Executor）？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#133-MyBatis-%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.9.</span> <span class="nav-text">133. MyBatis 分页插件的实现原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#134-MyBatis-%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6%EF%BC%9F"><span class="nav-number">13.10.</span> <span class="nav-text">134. MyBatis 如何编写一个自定义插件？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">14.</span> <span class="nav-text">RabbitMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#135-RabbitMQ-%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">14.1.</span> <span class="nav-text">135. RabbitMQ 的使用场景有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#136-RabbitMQ-%E6%9C%89%E5%93%AA%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E8%A7%92%E8%89%B2%EF%BC%9F"><span class="nav-number">14.2.</span> <span class="nav-text">136. RabbitMQ 有哪些重要的角色？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#137-RabbitMQ-%E6%9C%89%E5%93%AA%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E7%BB%84%E4%BB%B6%EF%BC%9F"><span class="nav-number">14.3.</span> <span class="nav-text">137. RabbitMQ 有哪些重要的组件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#138-RabbitMQ-%E4%B8%AD-vhost-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">14.4.</span> <span class="nav-text">138. RabbitMQ 中 vhost 的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#139-RabbitMQ-%E7%9A%84%E6%B6%88%E6%81%AF%E6%98%AF%E6%80%8E%E4%B9%88%E5%8F%91%E9%80%81%E7%9A%84%EF%BC%9F"><span class="nav-number">14.5.</span> <span class="nav-text">139. RabbitMQ 的消息是怎么发送的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#140-RabbitMQ-%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7%EF%BC%9F"><span class="nav-number">14.6.</span> <span class="nav-text">140. RabbitMQ 怎么保证消息的稳定性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#141-RabbitMQ-%E6%80%8E%E4%B9%88%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1%EF%BC%9F"><span class="nav-number">14.7.</span> <span class="nav-text">141. RabbitMQ 怎么避免消息丢失？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#142-%E8%A6%81%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96%E6%88%90%E5%8A%9F%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">14.8.</span> <span class="nav-text">142. 要保证消息持久化成功的条件有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#143-RabbitMQ-%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="nav-number">14.9.</span> <span class="nav-text">143. RabbitMQ 持久化有什么缺点？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#144-RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E5%B9%BF%E6%92%AD%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="nav-number">14.10.</span> <span class="nav-text">144. RabbitMQ 有几种广播类型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#145-RabbitMQ-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F"><span class="nav-number">14.11.</span> <span class="nav-text">145. RabbitMQ 怎么实现延迟消息队列？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#146-RabbitMQ-%E9%9B%86%E7%BE%A4%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="nav-number">14.12.</span> <span class="nav-text">146. RabbitMQ 集群有什么用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#147-RabbitMQ-%E8%8A%82%E7%82%B9%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">14.13.</span> <span class="nav-text">147. RabbitMQ 节点的类型有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#148-RabbitMQ-%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">14.14.</span> <span class="nav-text">148. RabbitMQ 集群搭建需要注意哪些问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#149-RabbitMQ-%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%98%AF%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8B%B7%E8%B4%9D%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">14.15.</span> <span class="nav-text">149. RabbitMQ 每个节点是其他节点的完整拷贝吗？为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#150-RabbitMQ-%E9%9B%86%E7%BE%A4%E4%B8%AD%E5%94%AF%E4%B8%80%E4%B8%80%E4%B8%AA%E7%A3%81%E7%9B%98%E8%8A%82%E7%82%B9%E5%B4%A9%E6%BA%83%E4%BA%86%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%EF%BC%9F"><span class="nav-number">14.16.</span> <span class="nav-text">150. RabbitMQ 集群中唯一一个磁盘节点崩溃了会发生什么情况？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#151-RabbitMQ-%E5%AF%B9%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E5%81%9C%E6%AD%A2%E9%A1%BA%E5%BA%8F%E6%9C%89%E8%A6%81%E6%B1%82%E5%90%97%EF%BC%9F"><span class="nav-number">14.17.</span> <span class="nav-text">151. RabbitMQ 对集群节点停止顺序有要求吗？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka"><span class="nav-number">15.</span> <span class="nav-text">Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#152-kafka-%E5%8F%AF%E4%BB%A5%E8%84%B1%E7%A6%BB-zookeeper-%E5%8D%95%E7%8B%AC%E4%BD%BF%E7%94%A8%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">15.1.</span> <span class="nav-text">152. kafka 可以脱离 zookeeper 单独使用吗？为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#153-kafka-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%95%B0%E6%8D%AE%E4%BF%9D%E7%95%99%E7%9A%84%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="nav-number">15.2.</span> <span class="nav-text">153. kafka 有几种数据保留的策略？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#154-kafka-%E5%90%8C%E6%97%B6%E8%AE%BE%E7%BD%AE%E4%BA%86-7-%E5%A4%A9%E5%92%8C-10G-%E6%B8%85%E9%99%A4%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%88%B0%E7%AC%AC%E4%BA%94%E5%A4%A9%E7%9A%84%E6%97%B6%E5%80%99%E6%B6%88%E6%81%AF%E8%BE%BE%E5%88%B0%E4%BA%86-10G%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%97%B6%E5%80%99-kafka-%E5%B0%86%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">15.3.</span> <span class="nav-text">154. kafka 同时设置了 7 天和 10G 清除数据，到第五天的时候消息达到了 10G，这个时候 kafka 将如何处理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#155-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%BC%9A%E5%AF%BC%E8%87%B4-kafka-%E8%BF%90%E8%A1%8C%E5%8F%98%E6%85%A2%EF%BC%9F"><span class="nav-number">15.4.</span> <span class="nav-text">155. 什么情况会导致 kafka 运行变慢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#156-%E4%BD%BF%E7%94%A8-kafka-%E9%9B%86%E7%BE%A4%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">15.5.</span> <span class="nav-text">156. 使用 kafka 集群需要注意什么？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper"><span class="nav-number">16.</span> <span class="nav-text">Zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#157-zookeeper-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">16.1.</span> <span class="nav-text">157. zookeeper 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#158-zookeeper-%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="nav-number">16.2.</span> <span class="nav-text">158. zookeeper 都有哪些功能？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#159-zookeeper-%E6%9C%89%E5%87%A0%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">16.3.</span> <span class="nav-text">159. zookeeper 有几种部署模式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#160-zookeeper-%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E4%B8%BB%E4%BB%8E%E8%8A%82%E7%82%B9%E7%9A%84%E7%8A%B6%E6%80%81%E5%90%8C%E6%AD%A5%EF%BC%9F"><span class="nav-number">16.4.</span> <span class="nav-text">160. zookeeper 怎么保证主从节点的状态同步？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#161-%E9%9B%86%E7%BE%A4%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E4%B8%BB%E8%8A%82%E7%82%B9%EF%BC%9F"><span class="nav-number">16.5.</span> <span class="nav-text">161. 集群中为什么要有主节点？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#162-%E9%9B%86%E7%BE%A4%E4%B8%AD%E6%9C%89-3-%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E5%85%B6%E4%B8%AD%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9%E5%AE%95%E6%9C%BA%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%97%B6%E5%80%99-zookeeper-%E8%BF%98%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E5%90%97%EF%BC%9F"><span class="nav-number">16.6.</span> <span class="nav-text">162. 集群中有 3 台服务器，其中一个节点宕机，这个时候 zookeeper 还可以使用吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#163-%E8%AF%B4%E4%B8%80%E4%B8%8B-zookeeper-%E7%9A%84%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">16.7.</span> <span class="nav-text">163. 说一下 zookeeper 的通知机制？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-number">17.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#164-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E8%8C%83%E5%BC%8F%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.1.</span> <span class="nav-text">164. 数据库的三范式是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#165-%E4%B8%80%E5%BC%A0%E8%87%AA%E5%A2%9E%E8%A1%A8%E9%87%8C%E9%9D%A2%E6%80%BB%E5%85%B1%E6%9C%89-7-%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%88%A0%E9%99%A4%E4%BA%86%E6%9C%80%E5%90%8E-2-%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E9%87%8D%E5%90%AF-MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%8F%88%E6%8F%92%E5%85%A5%E4%BA%86%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E6%AD%A4%E6%97%B6-id-%E6%98%AF%E5%87%A0%EF%BC%9F"><span class="nav-number">17.2.</span> <span class="nav-text">165. 一张自增表里面总共有 7 条数据，删除了最后 2 条数据，重启 MySQL 数据库，又插入了一条数据，此时 id 是几？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#166-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC%EF%BC%9F"><span class="nav-number">17.3.</span> <span class="nav-text">166. 如何获取当前数据库版本？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#167-%E8%AF%B4%E4%B8%80%E4%B8%8B-ACID-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.4.</span> <span class="nav-text">167. 说一下 ACID 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#168-char-%E5%92%8C-varchar-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.5.</span> <span class="nav-text">168. char 和 varchar 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#169-float-%E5%92%8C-double-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.6.</span> <span class="nav-text">169. float 和 double 的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#170-MySQL-%E7%9A%84%E5%86%85%E8%BF%9E%E6%8E%A5%E3%80%81%E5%B7%A6%E8%BF%9E%E6%8E%A5%E3%80%81%E5%8F%B3%E8%BF%9E%E6%8E%A5%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">17.7.</span> <span class="nav-text">170. MySQL 的内连接、左连接、右连接有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#171-MySQL-%E7%B4%A2%E5%BC%95%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="nav-number">17.8.</span> <span class="nav-text">171. MySQL 索引是怎么实现的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#172-%E6%80%8E%E4%B9%88%E9%AA%8C%E8%AF%81-MySQL-%E7%9A%84%E7%B4%A2%E5%BC%95%E6%98%AF%E5%90%A6%E6%BB%A1%E8%B6%B3%E9%9C%80%E6%B1%82%EF%BC%9F"><span class="nav-number">17.9.</span> <span class="nav-text">172. 怎么验证 MySQL 的索引是否满足需求？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#173-%E8%AF%B4%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%EF%BC%9F"><span class="nav-number">17.10.</span> <span class="nav-text">173. 说一下数据库的事务隔离？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#174-%E8%AF%B4%E4%B8%80%E4%B8%8B-MySQL-%E5%B8%B8%E7%94%A8%E7%9A%84%E5%BC%95%E6%93%8E%EF%BC%9F"><span class="nav-number">17.11.</span> <span class="nav-text">174. 说一下 MySQL 常用的引擎？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#175-%E8%AF%B4%E4%B8%80%E4%B8%8B-MySQL-%E7%9A%84%E8%A1%8C%E9%94%81%E5%92%8C%E8%A1%A8%E9%94%81%EF%BC%9F"><span class="nav-number">17.12.</span> <span class="nav-text">175. 说一下 MySQL 的行锁和表锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#176-%E8%AF%B4%E4%B8%80%E4%B8%8B%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9F"><span class="nav-number">17.13.</span> <span class="nav-text">176. 说一下乐观锁和悲观锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#177-MySQL-%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E6%89%8B%E6%AE%B5%EF%BC%9F"><span class="nav-number">17.14.</span> <span class="nav-text">177. MySQL 问题排查都有哪些手段？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#178-%E5%A6%82%E4%BD%95%E5%81%9A-MySQL-%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="nav-number">17.15.</span> <span class="nav-text">178. 如何做 MySQL 的性能优化？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">18.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#179-Redis-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="nav-number">18.1.</span> <span class="nav-text">179. Redis 是什么？都有哪些使用场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#180-Redis-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="nav-number">18.2.</span> <span class="nav-text">180. Redis 有哪些功能？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#181-Redis-%E5%92%8C-memcache-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">18.3.</span> <span class="nav-text">181. Redis 和 memcache 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#182-Redis-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84%EF%BC%9F"><span class="nav-number">18.4.</span> <span class="nav-text">182. Redis 为什么是单线程的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#183-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%EF%BC%9F%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="nav-number">18.5.</span> <span class="nav-text">183. 什么是缓存穿透？怎么解决？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#184-Redis-%E6%94%AF%E6%8C%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">18.6.</span> <span class="nav-text">184. Redis 支持的数据类型有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#185-Redis-%E6%94%AF%E6%8C%81%E7%9A%84-Java-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">18.7.</span> <span class="nav-text">185. Redis 支持的 Java 客户端都有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#186-jedis-%E5%92%8C-Redisson-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">18.8.</span> <span class="nav-text">186. jedis 和 Redisson 有哪些区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#187-%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9F"><span class="nav-number">18.9.</span> <span class="nav-text">187. 怎么保证缓存和数据库数据的一致性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#188-Redis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%89%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">18.10.</span> <span class="nav-text">188. Redis 持久化有几种方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#189-Redis-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F"><span class="nav-number">18.11.</span> <span class="nav-text">189. Redis 怎么实现分布式锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#190-Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E9%99%B7%EF%BC%9F"><span class="nav-number">18.12.</span> <span class="nav-text">190. Redis 分布式锁有什么缺陷？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#191-Redis-%E5%A6%82%E4%BD%95%E5%81%9A%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="nav-number">18.13.</span> <span class="nav-text">191. Redis 如何做内存优化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#192-Redis-%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">18.14.</span> <span class="nav-text">192. Redis 淘汰策略有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#193-Redis-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E8%AF%A5%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="nav-number">18.15.</span> <span class="nav-text">193. Redis 常见的性能问题有哪些？该如何解决？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM"><span class="nav-number">19.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#194-%E8%AF%B4%E4%B8%80%E4%B8%8B-JVM-%E7%9A%84%E4%B8%BB%E8%A6%81%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%EF%BC%9F%E5%8F%8A%E5%85%B6%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">19.1.</span> <span class="nav-text">194. 说一下 JVM 的主要组成部分？及其作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#195-%E8%AF%B4%E4%B8%80%E4%B8%8B-JVM-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%EF%BC%9F"><span class="nav-number">19.2.</span> <span class="nav-text">195. 说一下 JVM 运行时数据区？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#196-%E8%AF%B4%E4%B8%80%E4%B8%8B%E5%A0%86%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">19.3.</span> <span class="nav-text">196. 说一下堆栈的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#197-%E9%98%9F%E5%88%97%E5%92%8C%E6%A0%88%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">19.4.</span> <span class="nav-text">197. 队列和栈是什么？有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#198-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">19.5.</span> <span class="nav-text">198. 什么是双亲委派模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#199-%E8%AF%B4%E4%B8%80%E4%B8%8B%E7%B1%BB%E8%A3%85%E8%BD%BD%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-number">19.6.</span> <span class="nav-text">199. 说一下类装载的执行过程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#200-%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%9B%9E%E6%94%B6%EF%BC%9F"><span class="nav-number">19.7.</span> <span class="nav-text">200. 怎么判断对象是否可以被回收？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#201-Java-%E4%B8%AD%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="nav-number">19.8.</span> <span class="nav-text">201. Java 中都有哪些引用类型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#202-%E8%AF%B4%E4%B8%80%E4%B8%8B-JVM-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="nav-number">19.9.</span> <span class="nav-text">202. 说一下 JVM 有哪些垃圾回收算法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#203-%E8%AF%B4%E4%B8%80%E4%B8%8B-JVM-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%EF%BC%9F"><span class="nav-number">19.10.</span> <span class="nav-text">203. 说一下 JVM 有哪些垃圾回收器？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#204-%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B-CMS-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%EF%BC%9F"><span class="nav-number">19.11.</span> <span class="nav-text">204. 详细介绍一下 CMS 垃圾回收器？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#205-%E6%96%B0%E7%94%9F%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E5%92%8C%E8%80%81%E7%94%9F%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">19.12.</span> <span class="nav-text">205. 新生代垃圾回收器和老生代垃圾回收器都有哪些？有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#206-%E7%AE%80%E8%BF%B0%E5%88%86%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="nav-number">19.13.</span> <span class="nav-text">206. 简述分代垃圾回收器是怎么工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#207-%E8%AF%B4%E4%B8%80%E4%B8%8B-JVM-%E8%B0%83%E4%BC%98%E7%9A%84%E5%B7%A5%E5%85%B7%EF%BC%9F"><span class="nav-number">19.14.</span> <span class="nav-text">207. 说一下 JVM 调优的工具？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#208-%E5%B8%B8%E7%94%A8%E7%9A%84-JVM-%E8%B0%83%E4%BC%98%E7%9A%84%E5%8F%82%E6%95%B0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">19.15.</span> <span class="nav-text">208. 常用的 JVM 调优的参数都有哪些？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mask</p>
+  <div class="site-description" itemprop="description">在广阔的世界里 做一个不狭隘的人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2021003486号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-deaf"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mask</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

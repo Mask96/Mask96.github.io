@@ -315,6 +315,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/" class="post-title-link" itemprop="url">devops-sentinel测试环境异常停止复盘</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-05 16:29:01" itemprop="dateCreated datePublished" datetime="2020-08-05T16:29:01+08:00">2020-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 11:44:29" itemprop="dateModified" datetime="2021-10-19T11:44:29+08:00">2021-10-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一-异常状况"><a href="#一-异常状况" class="headerlink" title="一. 异常状况"></a>一. 异常状况</h1><p>日志停止，不再有新日志产生。<br>influxDB中无新数据写入。</p>
+<h1 id="二-问题分析-amp-解决"><a href="#二-问题分析-amp-解决" class="headerlink" title="二. 问题分析&amp;解决"></a>二. 问题分析&amp;解决</h1><ol>
+<li><p>系统结构<br> 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。<br> 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -346,7 +420,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-19 11:41:45" itemprop="dateModified" datetime="2021-10-19T11:41:45+08:00">2021-10-19</time>
+                <time title="修改时间：2021-10-19 11:43:51" itemprop="dateModified" datetime="2021-10-19T11:43:51+08:00">2021-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -378,6 +452,87 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/10/15/8%E4%B8%AD%E7%9A%84Stream%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/15/8%E4%B8%AD%E7%9A%84Stream%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">Java 8中的Stream使用方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-15 14:36:40" itemprop="dateCreated datePublished" datetime="2019-10-15T14:36:40+08:00">2019-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 11:46:11" itemprop="dateModified" datetime="2021-10-19T11:46:11+08:00">2021-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="什么是Stream"><a href="#什么是Stream" class="headerlink" title="什么是Stream"></a>什么是Stream</h1><p>在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。<br>而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bulk data operation)，Stream API 借助于同样新出现的 Lambda 表达式，极大的提高编程效率和程序可读性。<br>同时它提供串行和并行两种模式进行汇聚操作，并发模式能够充分利用多核处理器的优势，使用 fork/join 并行方式来拆分任务和加速处理过程。通常编写并行代码很难而且容易出错, 但使用 Stream API 无需编写一行多线程的代码，就可以很方便地写出高性能的并发程序。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/15/8%E4%B8%AD%E7%9A%84Stream%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -463,7 +618,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

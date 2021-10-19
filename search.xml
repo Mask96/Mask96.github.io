@@ -1013,84 +1013,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java 8中的Stream使用方法</title>
-    <url>/2019/10/15/8%E4%B8%AD%E7%9A%84Stream%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="什么是Stream"><a href="#什么是Stream" class="headerlink" title="什么是Stream"></a>什么是Stream</h1><p>在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。<br>而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bulk data operation)，Stream API 借助于同样新出现的 Lambda 表达式，极大的提高编程效率和程序可读性。<br>同时它提供串行和并行两种模式进行汇聚操作，并发模式能够充分利用多核处理器的优势，使用 fork/join 并行方式来拆分任务和加速处理过程。通常编写并行代码很难而且容易出错, 但使用 Stream API 无需编写一行多线程的代码，就可以很方便地写出高性能的并发程序。</p>
-<span id="more"></span>
-<h1 id="Stream总览"><a href="#Stream总览" class="headerlink" title="Stream总览"></a>Stream总览</h1><h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><p>Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的迭代器（Iterator），单向，不可往复，数据只能遍历一次，遍历过一次后即用尽了，就好比流水从面前流过，一去不复返。<br>而和迭代器又不同的是，Stream 可以并行化操作，迭代器只能命令式地、串行化操作。顾名思义，当使用串行方式去遍历时，每个 item 读完后再读下一个 item。而使用并行去遍历时，数据会被分成多个段，其中每一个都在不同的线程中处理，然后将结果一起输出。</p>
-<blockquote>
-<p>Stream 的并行操作依赖于 Java7 中引入的 Fork/Join 框架（JSR166y）来拆分任务和加速处理过程。</p>
-</blockquote>
-<h2 id="流的构成"><a href="#流的构成" class="headerlink" title="流的构成"></a>流的构成</h2><p>当我们使用一个流的时候，通常包括三个基本步骤：（每次转换原有 Stream 对象不改变，返回一个新的 Stream 对象（可以有多次转换））</p>
-<ol>
-<li>获取一个数据源（source）</li>
-<li>数据转换</li>
-<li>执行操作获取想要的结果<br><img src="/image/%E6%B5%81%E7%AE%A1%E9%81%93%E6%9E%84%E6%88%90.png" alt="流管道构成"></li>
-</ol>
-<h3 id="流的获取"><a href="#流的获取" class="headerlink" title="流的获取"></a>流的获取</h3><p>可以从Collection和数组，从BufferedReader获取，通过静态工厂获取，自己构建或是其他方法。</p>
-<h3 id="流的操作"><a href="#流的操作" class="headerlink" title="流的操作"></a>流的操作</h3><p>流的操作类型分为两种：<br><strong>Intermediate</strong>：一个流可以后面跟随零个或多个 intermediate 操作。其目的主要是打开流，做出某种程度的数据映射/过滤，然后返回一个新的流，交给下一个操作使用。这类操作都是惰性化的（lazy），就是说，仅仅调用到这类方法，并没有真正开始流的遍历。<br><strong>Terminal</strong>：一个流只能有一个 terminal 操作，当这个操作执行后，流就被使用“光”了，无法再被操作。所以这必定是流的最后一个操作。Terminal 操作的执行，才会真正开始流的遍历，并且会生成一个结果，或者一个 side effect。<br><strong>short-circuiting</strong>：对于一个 intermediate 操作，如果它接受的是一个无限大（infinite/unbounded）的 Stream，但返回一个有限的新 Stream。或对于一个 terminal 操作，如果它接受的是一个无限大的 Stream，但能在有限的时间计算出结果。<br>（转换操作都是 lazy 的，多个转换操作只会在 Terminal 操作的时候融合起来，一次循环完成。我们可以这样简单的理解，Stream 里有个操作函数的集合，每次转换操作就是把转换函数放入这个集合中，在 Terminal 操作的时候循环 Stream 对应的集合，然后对每个元素执行所有的函数。）</p>
-<h1 id="Stream使用方法"><a href="#Stream使用方法" class="headerlink" title="Stream使用方法"></a>Stream使用方法</h1><h2 id="流的构造与转换"><a href="#流的构造与转换" class="headerlink" title="流的构造与转换"></a>流的构造与转换</h2><p>常见的几种构造流的方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 1. Individual values</span><br><span class="line">Stream stream = Stream.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);</span><br><span class="line">// 2. Arrays</span><br><span class="line">String [] strArray = new String[] &#123;&quot;a&quot;, &quot;b&quot;, &quot;c&quot;&#125;;</span><br><span class="line">stream = Stream.of(strArray);</span><br><span class="line">stream = Arrays.stream(strArray);</span><br><span class="line">// 3. Collections</span><br><span class="line">List&lt;String&gt; list = Arrays.asList(strArray);</span><br><span class="line">stream = list.stream();</span><br></pre></td></tr></table></figure>
-
-<h2 id="流的操作-1"><a href="#流的操作-1" class="headerlink" title="流的操作"></a>流的操作</h2><p>接下来，当把一个数据结构包装成 Stream 后，就要开始对里面的元素进行各类操作了。常见的操作可以归类如下。<br><strong>Intermediate：</strong><br>map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered<br><strong>Terminal：</strong><br>forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator<br><strong>Short-circuiting：</strong><br>anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit</p>
-<h3 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map/flatMap"></a>map/flatMap</h3><p>map 生成的是个 1:1 映射，每个输入元素，都按照规则转换成为另外一个元素。还有一些场景，是一对多映射关系的，这时需要 flatMap。<br>map 1:1映射 Eg：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--平方数--&gt;</span><br><span class="line">List&lt;Integer&gt; nums = Arrays.asList(1, 2, 3, 4);</span><br><span class="line">List&lt;Integer&gt; squareNums = nums.stream().</span><br><span class="line">map(n -&gt; n * n).</span><br><span class="line">collect(Collectors.toList());</span><br><span class="line">&lt;!--生成一个整数 list 的平方数 &#123;1, 4, 9, 16&#125;--&gt;</span><br></pre></td></tr></table></figure>
-
-<p>flatMap 1:n映射 Eg：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Stream&lt;List&lt;Integer&gt;&gt; inputStream = Stream.of(</span><br><span class="line"> Arrays.asList(1),</span><br><span class="line"> Arrays.asList(2, 3),</span><br><span class="line"> Arrays.asList(4, 5, 6)</span><br><span class="line"> );</span><br><span class="line">Stream&lt;Integer&gt; outputStream = inputStream.</span><br><span class="line">flatMap((childList) -&gt; childList.stream());</span><br></pre></td></tr></table></figure>
-<p>flatMap 把 input Stream 中的层级结构扁平化，就是将最底层元素抽出来放到一起，最终 output 的新 Stream 里面已经没有 List 了，都是直接的数字。</p>
-<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>filter 对原始 Stream 进行某项测试，通过测试的元素被留下来生成一个新 Stream。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--留下偶数--&gt;</span><br><span class="line">Integer[] sixNums = &#123;1, 2, 3, 4, 5, 6&#125;;</span><br><span class="line">Integer[] evens =</span><br><span class="line">Stream.of(sixNums).filter(n -&gt; n%2 == 0).toArray(Integer[]::new);</span><br><span class="line">&lt;!--经过条件“被 2 整除”的 filter，剩下的数字为 &#123;2, 4, 6&#125;。--&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h3><p>forEach 方法接收一个 Lambda 表达式，然后在 Stream 的每一个元素上执行该表达式。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--打印姓名--&gt;</span><br><span class="line">roster.stream()</span><br><span class="line"> .filter(p -&gt; p.getGender() == Person.Sex.MALE)</span><br><span class="line"> .forEach(p -&gt; System.out.println(p.getName()));</span><br></pre></td></tr></table></figure>
-<p>forEach 是 terminal 操作，因此它执行后，Stream 的元素就被“消费”掉了，你无法对一个 Stream 进行两次 terminal 运算。</p>
-<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><p>这个方法的主要作用是把 Stream 元素组合起来。它提供一个起始值（种子），然后依照运算规则（BinaryOperator），和前面 Stream 的第一个、第二个、第 n 个元素组合。从这个意义上说，字符串拼接、数值的 sum、min、max、average 都是特殊的 reduce。例如 Stream 的 sum 就相当于<br><code>Integer sum = integers.reduce(0, (a, b) -&gt; a+b); </code><br>或<br><code>Integer sum = integers.reduce(0, Integer::sum);</code><br>也有没有起始值的情况，这时会把 Stream 的前面两个元素组合起来，返回的是 Optional。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 字符串连接，concat = &quot;ABCD&quot;</span><br><span class="line">String concat = Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;).reduce(&quot;&quot;, String::concat); </span><br><span class="line">// 求最小值，minValue = -3.0</span><br><span class="line">double minValue = Stream.of(-1.5, 1.0, -3.0, -2.0).reduce(Double.MAX_VALUE, Double::min); </span><br><span class="line">// 求和，sumValue = 10, 有起始值</span><br><span class="line">int sumValue = Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);</span><br><span class="line">// 求和，sumValue = 10, 无起始值</span><br><span class="line">sumValue = Stream.of(1, 2, 3, 4).reduce(Integer::sum).get();</span><br><span class="line">// 过滤，字符串连接，concat = &quot;ace&quot;</span><br><span class="line">concat = Stream.of(&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;D&quot;, &quot;e&quot;, &quot;F&quot;).</span><br><span class="line"> filter(x -&gt; x.compareTo(&quot;Z&quot;) &gt; 0).</span><br><span class="line"> reduce(&quot;&quot;, String::concat);</span><br></pre></td></tr></table></figure>
-<p>上面代码例如第一个示例的 reduce()，第一个参数（空白字符）即为起始值，第二个参数（String::concat）为 BinaryOperator。这类有起始值的 reduce() 都返回具体的对象。</p>
-<h3 id="limit-skip"><a href="#limit-skip" class="headerlink" title="limit/skip"></a>limit/skip</h3><p>limit 返回 Stream 的前面 n 个元素；skip 则是扔掉前 n 个元素（它是由一个叫 subStream 的方法改名而来）。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; personList2 = persons.stream().</span><br><span class="line">map(Person::getName).limit(10).skip(3).collect(Collectors.toList());</span><br><span class="line"> System.out.println(personList2);</span><br><span class="line">&lt;!--输出：[name4, name5, name6, name7, name8, name9, name10]--&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h3><p>对 Stream 的排序通过 sorted 进行，它比数组的排序更强之处在于你可以首先对 Stream 进行各类 map、filter、limit、skip 甚至 distinct 来减少元素数量后，再排序，这能帮助程序明显缩短执行时间。</p>
-<h3 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h3><p>Stream 有三个 match 方法，从语义上说：</p>
-<ol>
-<li>allMatch：Stream 中全部元素符合传入的 predicate，返回 true</li>
-<li>anyMatch：Stream 中只要有一个元素符合传入的 predicate，返回 true</li>
-<li>noneMatch：Stream 中没有一个元素符合传入的 predicate，返回 true<br>它们都不是要遍历全部元素才能返回结果。例如 allMatch 只要一个元素不满足条件，就 skip 剩下的所有元素，返回 false。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Person&gt; persons = new ArrayList();</span><br><span class="line">persons.add(new Person(1, &quot;name&quot; + 1, 10));</span><br><span class="line">persons.add(new Person(2, &quot;name&quot; + 2, 21));</span><br><span class="line">persons.add(new Person(3, &quot;name&quot; + 3, 34));</span><br><span class="line">persons.add(new Person(4, &quot;name&quot; + 4, 6));</span><br><span class="line">persons.add(new Person(5, &quot;name&quot; + 5, 55));</span><br><span class="line">boolean isAllAdult = persons.stream().</span><br><span class="line"> allMatch(p -&gt; p.getAge() &gt; 18);</span><br><span class="line">System.out.println(&quot;All are adult? &quot; + isAllAdult);</span><br><span class="line">boolean isThereAnyChild = persons.stream().</span><br><span class="line"> anyMatch(p -&gt; p.getAge() &lt; 12);</span><br><span class="line">System.out.println(&quot;Any child? &quot; + isThereAnyChild);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">All are adult? false</span><br><span class="line">Any child? true</span><br></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>总之，Stream 的特性可以归纳为：</p>
-<ul>
-<li>不是数据结构</li>
-<li>它没有内部存储，它只是用操作管道从 source（数据结构、数组、generator function、IO channel）抓取数据。</li>
-<li>它也绝不修改自己所封装的底层数据结构的数据。例如 Stream 的 filter 操作会产生一个不包含被过滤元素的新 Stream，而不是从 source 删除那些元素。</li>
-<li>所有 Stream 的操作必须以 lambda 表达式为参数</li>
-<li>不支持索引访问</li>
-<li>你可以请求第一个元素，但无法请求第二个，第三个，或最后一个。不过请参阅下一项。</li>
-<li>很容易生成数组或者 List</li>
-<li>惰性化</li>
-<li>很多 Stream 操作是向后延迟的，一直到它弄清楚了最后需要多少数据才会开始。</li>
-<li>Intermediate 操作永远是惰性化的。</li>
-<li>并行能力</li>
-<li>当一个 Stream 是并行化的，就不需要再写多线程代码，所有对它的操作会自动并行进行的。</li>
-<li>可以是无限的</li>
-<li>集合有固定大小，Stream 则不必。limit(n) 和 findFirst() 这类的 short-circuiting 操作可以对无限的 Stream 进行运算并很快完成。</li>
-</ul>
-<blockquote>
-<p>参考文档：<a href="https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/">https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Vue基础笔记</title>
     <url>/2019/08/22/Vue%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="VUE起步"><a href="#VUE起步" class="headerlink" title="VUE起步"></a>VUE起步</h1><p>vue是一个基于MVVM模式的前端框架，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。这个框架的中文文档就很好了，这里只是记录一些本人学习和使用vue时的备忘和笔记。</p>
@@ -1212,6 +1134,363 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: &#x27;/describe&#x27;,</span><br><span class="line">  name: &#x27;Describe&#x27;,</span><br><span class="line">  component: Describe</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对应子组件: 这样来获取参数<code>this.$route.query.id</code></p>
 <p>这里我采用了第二种方式。这样就可以解决这个问题。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js中判断字符串中包含另一字符串的五种方法(校验功能)</title>
+    <url>/2020/03/03/JS%E6%A0%A1%E9%AA%8C-js%E4%B8%AD%E5%88%A4%E6%96%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%8C%85%E5%90%AB%E5%8F%A6%E4%B8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="js中判断字符串中包含另一字符串的五种方法"><a href="#js中判断字符串中包含另一字符串的五种方法" class="headerlink" title="js中判断字符串中包含另一字符串的五种方法"></a>js中判断字符串中包含另一字符串的五种方法</h1><p>JS中判断某个字符串是否包含另一个字符串的五种方法，有string对象的方法，match() 方法，RegExp对象的方法，test() 方法，exec() 方法。<br>通过判断可以实现校验用户输入是否符合标准的功能。</p>
+<p>下面将以实际功能举例，例如某输入数据必须是以<code>http://</code>或者是<code>https://</code>开头。</p>
+<span id="more"></span>
+
+<h1 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h1><h2 id="方法一-indexOf"><a href="#方法一-indexOf" class="headerlink" title="方法一 indexOf()"></a>方法一 indexOf()</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var str = &quot;http://baidu.com&quot;</span><br><span class="line">console.log(str.indexOf(&quot;http://&quot;) != -1);//true</span><br></pre></td></tr></table></figure>
+<p>indexOf()方法可返回某个指定的字符串值在字符串中首次出现的位置。如果要检索的字符串值没有出现，则该方法返回 -1。</p>
+<p>Eg:<br><img src="/image/show1.png" alt="sho"></p>
+<h2 id="方法二-match"><a href="#方法二-match" class="headerlink" title="方法二 match()"></a>方法二 match()</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var str = &quot;http://baidu.com&quot;</span><br><span class="line">var reg = RegExp(/http:\/\//);</span><br><span class="line">if(str.match(reg))&#123;</span><br><span class="line">    //包含</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。<br>Eg:<br><img src="/image/show2.png" alt="sho"></p>
+<h2 id="方法三-search"><a href="#方法三-search" class="headerlink" title="方法三 search()"></a>方法三 search()</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var str = &quot;http://baidu.com&quot;</span><br><span class="line">console.log(str.search(&quot;http://&quot;) != -1); // true</span><br></pre></td></tr></table></figure>
+<p>search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。如果没有找到任何匹配的子串，则返回 -1。</p>
+<p>Eg:<br><img src="/image/show3.png" alt="sho"></p>
+<h2 id="方法四-test"><a href="#方法四-test" class="headerlink" title="方法四 test()"></a>方法四 test()</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var str = &quot;http://baidu.com&quot;</span><br><span class="line">var reg = RegExp(/http:\/\//);</span><br><span class="line">console.log(reg.test(str)); // true</span><br></pre></td></tr></table></figure>
+<p>test() 方法用于检索字符串中指定的值。返回 true 或 false。</p>
+<p>Eg:<br><img src="/image/show4.png" alt="sho"></p>
+<h2 id="方法五-exec"><a href="#方法五-exec" class="headerlink" title="方法五 exec()"></a>方法五 exec()</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var str = &quot;http://baidu.com&quot;</span><br><span class="line">var reg = RegExp(/http:\/\//);</span><br><span class="line">if(reg.exec(str))&#123;</span><br><span class="line">    //包含；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>exec() 方法用于检索字符串中的正则表达式的匹配。返回一个数组，其中存放匹配的结果。如果未找到匹配，则返回值为 null。</p>
+<p>Eg:<br><img src="/image/show5.png" alt="sho"></p>
+<p>以上五种方法都可以实现判断是否包含<code>http://</code>，而且通过返回值是否为0可以确定匹配到的值是否为字符串刚开始。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java8中的Stream使用方法</title>
+    <url>/2019/10/15/Java8%E4%B8%AD%E7%9A%84Stream%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="什么是Stream"><a href="#什么是Stream" class="headerlink" title="什么是Stream"></a>什么是Stream</h1><p>在开发的过程中，很多时候需要对数据进行一系列的操作，而Stream就是将要处理的数据看成是一种流，流在管道中传输，我们可以在管道上的节点添加一些处理逻辑，数据在通过管道中时进行一系列操作，例如筛选、排序、集合等等。<br>而java8中的Stream专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation，就是一系列操作的集合），或者大批量数据操作 (bulk data operation)，Stream API 借助于同样新出现的 Lambda 表达式，极大的提高编程效率和程序可读性。<br>同时它提供串行和并行两种模式进行汇聚操作，并发模式能够充分利用多核处理器的优势，使用 fork/join 并行方式来拆分任务和加速处理过程。通常编写并行代码很难而且容易出错, 但使用 Stream API 无需编写一行多线程的代码，就可以很方便地写出高性能的并发程序。</p>
+<span id="more"></span>
+<h1 id="Stream总览"><a href="#Stream总览" class="headerlink" title="Stream总览"></a>Stream总览</h1><h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><p>Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的迭代器（Iterator），单向，不可往复，数据只能遍历一次，遍历过一次后即用尽了，就好比流水从面前流过，一去不复返。<br>而和迭代器又不同的是，Stream 可以并行化操作，迭代器只能命令式地、串行化操作。顾名思义，当使用串行方式去遍历时，每个 item 读完后再读下一个 item。而使用并行去遍历时，数据会被分成多个段，其中每一个都在不同的线程中处理，然后将结果一起输出。</p>
+<blockquote>
+<p>Stream 的并行操作依赖于 Java7 中引入的 Fork/Join 框架（JSR166y）来拆分任务和加速处理过程。</p>
+</blockquote>
+<h2 id="流的构成"><a href="#流的构成" class="headerlink" title="流的构成"></a>流的构成</h2><p>当我们使用一个流的时候，通常包括三个基本步骤：（每次转换原有 Stream 对象不改变，返回一个新的 Stream 对象（可以有多次转换））</p>
+<ol>
+<li>获取一个数据源（source）</li>
+<li>数据转换</li>
+<li>执行操作获取想要的结果<br><img src="/image/%E6%B5%81%E7%AE%A1%E9%81%93%E6%9E%84%E6%88%90-1.png" alt="流管道构成"></li>
+</ol>
+<h3 id="流的获取"><a href="#流的获取" class="headerlink" title="流的获取"></a>流的获取</h3><p>可以从Collection和数组，从BufferedReader获取，通过静态工厂获取，自己构建或是其他方法。</p>
+<h3 id="流的操作"><a href="#流的操作" class="headerlink" title="流的操作"></a>流的操作</h3><p>流的操作类型分为两种：<br><strong>Intermediate</strong>：一个流可以后面跟随零个或多个 intermediate 操作。其目的主要是打开流，做出某种程度的数据映射/过滤，然后返回一个新的流，交给下一个操作使用。这类操作都是惰性化的（lazy），就是说，仅仅调用到这类方法，并没有真正开始流的遍历。<br><strong>Terminal</strong>：一个流只能有一个 terminal 操作，当这个操作执行后，流就被使用“光”了，无法再被操作。所以这必定是流的最后一个操作。Terminal 操作的执行，才会真正开始流的遍历，并且会生成一个结果，或者一个 side effect。<br><strong>short-circuiting</strong>：对于一个 intermediate 操作，如果它接受的是一个无限大（infinite/unbounded）的 Stream，但返回一个有限的新 Stream。或对于一个 terminal 操作，如果它接受的是一个无限大的 Stream，但能在有限的时间计算出结果。<br>（转换操作都是 lazy 的，多个转换操作只会在 Terminal 操作的时候融合起来，一次循环完成。我们可以这样简单的理解，Stream 里有个操作函数的集合，每次转换操作就是把转换函数放入这个集合中，在 Terminal 操作的时候循环 Stream 对应的集合，然后对每个元素执行所有的函数。）</p>
+<h1 id="Stream使用方法"><a href="#Stream使用方法" class="headerlink" title="Stream使用方法"></a>Stream使用方法</h1><h2 id="流的构造与转换"><a href="#流的构造与转换" class="headerlink" title="流的构造与转换"></a>流的构造与转换</h2><p>常见的几种构造流的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 1. Individual values</span><br><span class="line">Stream stream = Stream.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);</span><br><span class="line">// 2. Arrays</span><br><span class="line">String [] strArray = new String[] &#123;&quot;a&quot;, &quot;b&quot;, &quot;c&quot;&#125;;</span><br><span class="line">stream = Stream.of(strArray);</span><br><span class="line">stream = Arrays.stream(strArray);</span><br><span class="line">// 3. Collections</span><br><span class="line">List&lt;String&gt; list = Arrays.asList(strArray);</span><br><span class="line">stream = list.stream();</span><br></pre></td></tr></table></figure>
+
+<h2 id="流的操作-1"><a href="#流的操作-1" class="headerlink" title="流的操作"></a>流的操作</h2><p>接下来，当把一个数据结构包装成 Stream 后，就要开始对里面的元素进行各类操作了。常见的操作可以归类如下。<br><strong>Intermediate：</strong><br>map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered<br><strong>Terminal：</strong><br>forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator<br><strong>Short-circuiting：</strong><br>anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit</p>
+<h3 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map/flatMap"></a>map/flatMap</h3><p>map 生成的是个 1:1 映射，每个输入元素，都按照规则转换成为另外一个元素。还有一些场景，是一对多映射关系的，这时需要 flatMap。<br>map 1:1映射 Eg：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--平方数--&gt;</span><br><span class="line">List&lt;Integer&gt; nums = Arrays.asList(1, 2, 3, 4);</span><br><span class="line">List&lt;Integer&gt; squareNums = nums.stream().</span><br><span class="line">map(n -&gt; n * n).</span><br><span class="line">collect(Collectors.toList());</span><br><span class="line">&lt;!--生成一个整数 list 的平方数 &#123;1, 4, 9, 16&#125;--&gt;</span><br></pre></td></tr></table></figure>
+
+<p>flatMap 1:n映射 Eg：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Stream&lt;List&lt;Integer&gt;&gt; inputStream = Stream.of(</span><br><span class="line"> Arrays.asList(1),</span><br><span class="line"> Arrays.asList(2, 3),</span><br><span class="line"> Arrays.asList(4, 5, 6)</span><br><span class="line"> );</span><br><span class="line">Stream&lt;Integer&gt; outputStream = inputStream.</span><br><span class="line">flatMap((childList) -&gt; childList.stream());</span><br></pre></td></tr></table></figure>
+<p>flatMap 把 input Stream 中的层级结构扁平化，就是将最底层元素抽出来放到一起，最终 output 的新 Stream 里面已经没有 List 了，都是直接的数字。</p>
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>filter 对原始 Stream 进行某项测试，通过测试的元素被留下来生成一个新 Stream。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--留下偶数--&gt;</span><br><span class="line">Integer[] sixNums = &#123;1, 2, 3, 4, 5, 6&#125;;</span><br><span class="line">Integer[] evens =</span><br><span class="line">Stream.of(sixNums).filter(n -&gt; n%2 == 0).toArray(Integer[]::new);</span><br><span class="line">&lt;!--经过条件“被 2 整除”的 filter，剩下的数字为 &#123;2, 4, 6&#125;。--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h3><p>forEach 方法接收一个 Lambda 表达式，然后在 Stream 的每一个元素上执行该表达式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--打印姓名--&gt;</span><br><span class="line">roster.stream()</span><br><span class="line"> .filter(p -&gt; p.getGender() == Person.Sex.MALE)</span><br><span class="line"> .forEach(p -&gt; System.out.println(p.getName()));</span><br></pre></td></tr></table></figure>
+<p>forEach 是 terminal 操作，因此它执行后，Stream 的元素就被“消费”掉了，你无法对一个 Stream 进行两次 terminal 运算。</p>
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><p>这个方法的主要作用是把 Stream 元素组合起来。它提供一个起始值（种子），然后依照运算规则（BinaryOperator），和前面 Stream 的第一个、第二个、第 n 个元素组合。从这个意义上说，字符串拼接、数值的 sum、min、max、average 都是特殊的 reduce。例如 Stream 的 sum 就相当于<br><code>Integer sum = integers.reduce(0, (a, b) -&gt; a+b); </code><br>或<br><code>Integer sum = integers.reduce(0, Integer::sum);</code><br>也有没有起始值的情况，这时会把 Stream 的前面两个元素组合起来，返回的是 Optional。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 字符串连接，concat = &quot;ABCD&quot;</span><br><span class="line">String concat = Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;).reduce(&quot;&quot;, String::concat); </span><br><span class="line">// 求最小值，minValue = -3.0</span><br><span class="line">double minValue = Stream.of(-1.5, 1.0, -3.0, -2.0).reduce(Double.MAX_VALUE, Double::min); </span><br><span class="line">// 求和，sumValue = 10, 有起始值</span><br><span class="line">int sumValue = Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);</span><br><span class="line">// 求和，sumValue = 10, 无起始值</span><br><span class="line">sumValue = Stream.of(1, 2, 3, 4).reduce(Integer::sum).get();</span><br><span class="line">// 过滤，字符串连接，concat = &quot;ace&quot;</span><br><span class="line">concat = Stream.of(&quot;a&quot;, &quot;B&quot;, &quot;c&quot;, &quot;D&quot;, &quot;e&quot;, &quot;F&quot;).</span><br><span class="line"> filter(x -&gt; x.compareTo(&quot;Z&quot;) &gt; 0).</span><br><span class="line"> reduce(&quot;&quot;, String::concat);</span><br></pre></td></tr></table></figure>
+<p>上面代码例如第一个示例的 reduce()，第一个参数（空白字符）即为起始值，第二个参数（String::concat）为 BinaryOperator。这类有起始值的 reduce() 都返回具体的对象。</p>
+<h3 id="limit-skip"><a href="#limit-skip" class="headerlink" title="limit/skip"></a>limit/skip</h3><p>limit 返回 Stream 的前面 n 个元素；skip 则是扔掉前 n 个元素（它是由一个叫 subStream 的方法改名而来）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; personList2 = persons.stream().</span><br><span class="line">map(Person::getName).limit(10).skip(3).collect(Collectors.toList());</span><br><span class="line"> System.out.println(personList2);</span><br><span class="line">&lt;!--输出：[name4, name5, name6, name7, name8, name9, name10]--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h3><p>对 Stream 的排序通过 sorted 进行，它比数组的排序更强之处在于你可以首先对 Stream 进行各类 map、filter、limit、skip 甚至 distinct 来减少元素数量后，再排序，这能帮助程序明显缩短执行时间。</p>
+<h3 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h3><p>Stream 有三个 match 方法，从语义上说：</p>
+<ol>
+<li>allMatch：Stream 中全部元素符合传入的 predicate，返回 true</li>
+<li>anyMatch：Stream 中只要有一个元素符合传入的 predicate，返回 true</li>
+<li>noneMatch：Stream 中没有一个元素符合传入的 predicate，返回 true<br>它们都不是要遍历全部元素才能返回结果。例如 allMatch 只要一个元素不满足条件，就 skip 剩下的所有元素，返回 false。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Person&gt; persons = new ArrayList();</span><br><span class="line">persons.add(new Person(1, &quot;name&quot; + 1, 10));</span><br><span class="line">persons.add(new Person(2, &quot;name&quot; + 2, 21));</span><br><span class="line">persons.add(new Person(3, &quot;name&quot; + 3, 34));</span><br><span class="line">persons.add(new Person(4, &quot;name&quot; + 4, 6));</span><br><span class="line">persons.add(new Person(5, &quot;name&quot; + 5, 55));</span><br><span class="line">boolean isAllAdult = persons.stream().</span><br><span class="line"> allMatch(p -&gt; p.getAge() &gt; 18);</span><br><span class="line">System.out.println(&quot;All are adult? &quot; + isAllAdult);</span><br><span class="line">boolean isThereAnyChild = persons.stream().</span><br><span class="line"> anyMatch(p -&gt; p.getAge() &lt; 12);</span><br><span class="line">System.out.println(&quot;Any child? &quot; + isThereAnyChild);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">All are adult? false</span><br><span class="line">Any child? true</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>总之，Stream 的特性可以归纳为：</p>
+<ul>
+<li>不是数据结构</li>
+<li>它没有内部存储，它只是用操作管道从 source（数据结构、数组、generator function、IO channel）抓取数据。</li>
+<li>它也绝不修改自己所封装的底层数据结构的数据。例如 Stream 的 filter 操作会产生一个不包含被过滤元素的新 Stream，而不是从 source 删除那些元素。</li>
+<li>所有 Stream 的操作必须以 lambda 表达式为参数</li>
+<li>不支持索引访问</li>
+<li>你可以请求第一个元素，但无法请求第二个，第三个，或最后一个。不过请参阅下一项。</li>
+<li>很容易生成数组或者 List</li>
+<li>惰性化</li>
+<li>很多 Stream 操作是向后延迟的，一直到它弄清楚了最后需要多少数据才会开始。</li>
+<li>Intermediate 操作永远是惰性化的。</li>
+<li>并行能力</li>
+<li>当一个 Stream 是并行化的，就不需要再写多线程代码，所有对它的操作会自动并行进行的。</li>
+<li>可以是无限的</li>
+<li>集合有固定大小，Stream 则不必。limit(n) 和 findFirst() 这类的 short-circuiting 操作可以对无限的 Stream 进行运算并很快完成。</li>
+</ul>
+<blockquote>
+<p>参考文档：<a href="https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/">https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>stream</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中的Pattern和Matcher类的使用以及正则表达式</title>
+    <url>/2019/12/26/Java%E4%B8%AD%E7%9A%84Pattern%E5%92%8CMatcher%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。<br>在线匹配网站：</p>
+<blockquote>
+<p><a href="https://rubular.com/">https://rubular.com/</a></p>
+</blockquote>
+<p>可以在线验证正则表达式匹配效果。</p>
+<span id="more"></span>
+
+<h2 id="正则表达式字符介绍"><a href="#正则表达式字符介绍" class="headerlink" title="正则表达式字符介绍"></a>正则表达式字符介绍</h2><h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p><code>&quot;^&quot; ：^会匹配行或者字符串的起始位置，有时还会匹配整个文档的起始位置。</code> </p>
+<p><code>&quot;$&quot;  ：$会匹配行或字符串的结尾</code></p>
+<p><code>&quot;\b&quot; :不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中&quot;This is Regex&quot;匹配单独的单词 &quot;is&quot; 正则就要写成 &quot;\bis\b&quot;  </code></p>
+<p>\b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界 </p>
+<p><code> &quot;\d&quot;: 匹配数字，</code></p>
+<p>例如要匹配一个固定格式的电话号码以0开头前4位后7位，如0737-5686123  正则:^0\d\d\d-\d\d\d\d\d\d\d$ 这里只是为了介绍”\d”字符，实际上有更好的写法会在     下面介绍。</p>
+<p><code> &quot;\w&quot;：匹配字母，数字，下划线.</code></p>
+<p>例如我要匹配”a2345BCD__TTz” 正则：”\w+”  这里的”+”字符为一个量词指重复的次数，稍后会详细介绍。</p>
+<p><code>&quot;\s&quot;：匹配空格 </code></p>
+<p>例如字符 “a b c” 正则：”\w\s\w\s\w”  一个字符后跟一个空格，如有字符间有多个空格直接把”\s” 写成 “\s+” 让空格重复</p>
+<p><code>&quot;.&quot;：匹配除了换行符以外的任何字符</code></p>
+<p>这个算是”\w”的加强版了”\w”不能匹配 空格 如果把字符串加上空格用”\w”就受限了，看下用 “.”是如何匹配字符”a23 4 5 B C D__TTz”  正则：”.+”</p>
+<p><code>&quot;[abc]&quot;: 字符组  匹配包含括号内元素的字符 </code></p>
+<p>这个比较简单了只匹配括号内存在的字符，还可以写成[a-z]匹配a至z的所以字母就等于可以用来控制只能输入英文了，</p>
+<h3 id="反义字符"><a href="#反义字符" class="headerlink" title="反义字符"></a>反义字符</h3><p>写法很简单改成大写就行了，意思与原来的相反，这里就不举例子了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;\W&quot;   匹配任意不是字母，数字，下划线 的字符</span><br><span class="line"></span><br><span class="line">&quot;\S&quot;   匹配任意不是空白符的字符</span><br><span class="line"></span><br><span class="line">&quot;\D&quot;  匹配任意非数字的字符</span><br><span class="line"></span><br><span class="line">&quot;\B&quot;  匹配不是单词开头或结束的位置</span><br><span class="line"></span><br><span class="line">&quot;[^abc]&quot;  匹配除了abc以外的任意字符</span><br></pre></td></tr></table></figure>
+
+<h3 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h3><p>先解释关于量词所涉及到的重要的三个概念</p>
+<ul>
+<li><p>贪婪(贪心) 如”*”字符 贪婪量词会首先匹配整个字符串，尝试匹配时，它会选定尽可能多的内容，如果 失败则回退一个字符，然后再次尝试回退的过程就叫做回溯，它会每次回退一个字符，直到找到匹配的内容或者没有字符可以回退。相比下面两种贪婪量词对资源的消耗是最大的，</p>
+</li>
+<li><p>懒惰(勉强) 如 “?”  懒惰量词使用另一种方式匹配，它从目标的起始位置开始尝试匹配，每次检查一个字符，并寻找它要匹配的内容，如此循环直到字符结尾处。</p>
+</li>
+<li><p>占有  如”+” 占有量词会覆盖事个目标字符串，然后尝试寻找匹配内容 ，但它只尝试一次，不会回溯，就好比先抓一把石头，然后从石头中挑出黄金</p>
+</li>
+</ul>
+<p><code>&quot;*&quot;(贪婪)   重复零次或更多</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a*”   会出到所有的字符”a”</p>
+<p><code>&quot;+&quot;(懒惰)   重复一次或更多次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a+”  会取到字符中所有的a字符，  “a+”与”a*“不同在于”+”至少是一次而”*” 可以是0次，</p>
+<p>稍后会与”?”字符结合来体现这种区别</p>
+<p><code>&quot;?&quot;(占有)   重复零次或一次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中的a 正则 ： “a?” 只会匹配一次，也就是结果只是单个字符a</p>
+<p><code>&quot;&#123;n&#125;&quot;  重复n次</code></p>
+<p>例如从”aaaaaaaa” 匹配字符串的a 并重复3次 正则：  “a{3}”  结果就是取到3个a字符  “aaa”;</p>
+<p><code>&quot;&#123;n,m&#125;&quot;  重复n到m次</code></p>
+<p>例如正则 “a{3,4}” 将a重复匹配3次或者4次 所以供匹配的字符可以是三个”aaa”也可以是四个”aaaa” 正则都可以匹配到</p>
+<p><code>&quot;&#123;n,&#125;&quot;  重复n次或更多次</code></p>
+<p>与{n,m}不同之处就在于匹配的次数将没有上限，但至少要重复n次 如 正则”a{3,}” a至少要重复3次</p>
+<p>把量词了解了之后之前匹配电话号码的正则现在就可以改得简单点了<code>^0\d\d\d-\d\d\d\d\d\d\d$</code> 可以改为<code>^0\d+-\d&#123;7&#125;$</code>。</p>
+<p>这样写还不够完美如果因为前面的区号没有做限定，以至于可以输入很多们，而通常只能是3位或者4位，</p>
+<p>现在再改一下<code> ^0\d&#123;2,3&#125;-\d&#123;7&#125;</code>如此一来区号部分就可以匹配3位或者4位的了</p>
+<h3 id="懒惰限定符"><a href="#懒惰限定符" class="headerlink" title="懒惰限定符"></a>懒惰限定符</h3><p><code>&quot;*?&quot;   重复任意次，但尽可能少重复 </code></p>
+<p>如 “acbacb”  正则  “a.*?b” 只会取到第一个”acb” 原本可以全部取到但加了限定符后，只会匹配尽可能少的字符 ，而”acbacb”最少字符的结果就是”acb” </p>
+<p><code>&quot;+?&quot;  重复1次或更多次，但尽可能少重复</code></p>
+<p>与上面一样，只是至少要重复1次</p>
+<p><code>&quot;??&quot;  重复0次或1次，但尽可能少重复</code></p>
+<p>如 “aaacb” 正则 “a.??b” 只会取到最后的三个字符”acb”</p>
+<p><code>&quot;&#123;n,m&#125;?&quot;  重复n到m次，但尽可能少重复</code></p>
+<p>如 “aaaaaaaa”  正则 “a{0,m}” 因为最少是0次所以取到结果为空</p>
+<p><code>&quot;&#123;n,&#125;?&quot;    重复n次以上，但尽可能少重复</code></p>
+<p>如 “aaaaaaa”  正则 “a{1,}” 最少是1次所以取到结果为 “a”</p>
+<h2 id="正则进阶"><a href="#正则进阶" class="headerlink" title="正则进阶"></a>正则进阶</h2><h3 id="捕获分组"><a href="#捕获分组" class="headerlink" title="捕获分组"></a>捕获分组</h3><p>先了解在正则中捕获分组的概念，其实就是一个括号内的内容 如 “(\d)\d” 而”(\d)” 这就是一个捕获分组，可以对捕获分组进行 后向引用 (如果后而有相同的内容则可以直接引用前面定义的捕获组，以简化表达式) 如(\d)\d\1 这里的”\1”就是对”(\d)”的后向引用</p>
+<p>那捕获分组有什么用呢看个例子就知道了</p>
+<p>如  “zery zery” 正则 \b(\w+)\b\s\1\b 所以这里的”\1”所捕获到的字符也是 与(\w+)一样的”zery”，为了让组名更有意义，组名是可以自定义名字的</p>
+<p>“\b(?<name>\w+)\b\s\k<name>\b” 用”?<name>“就可以自定义组名了而要后向引用组时要记得写成 “\k<name>“;自定义组名后,捕获组中匹配到的值就会保存在定义的组名里</p>
+<p>下面列出捕获分组常有的用法:</p>
+<p><code>&quot;(exp)&quot; </code>   匹配exp,并捕获文本到自动命名的组里</p>
+<p><code>&quot;(?&lt;name&gt;exp)&quot;</code>   匹配exp,并捕获文本到名称为name的组里</p>
+<p><code>&quot;(?:exp)&quot;</code>  匹配exp,不捕获匹配的文本，也不给此分组分配组号</p>
+<p>以下为零宽断言</p>
+<p><code>&quot;(?=exp)&quot;</code>  匹配exp前面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>.+(?=ing))” 这里取ing前所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为”How are you do”;</p>
+<p><code>&quot;(?&lt;=exp)&quot;</code>  匹配exp后面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>(?&lt;=How).+)” 这里取”How”之后所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为” are you doing”;</p>
+<p><code>&quot;(?!exp)&quot;</code>  匹配后面跟的不是exp的位置</p>
+<p>如 “123abc” 正则 “\d{3}(?!\d)”匹配3位数字后非数字的结果</p>
+<p><code>&quot;(?&lt;!exp)&quot;</code>  匹配前面不是exp的位置</p>
+<p>如 “abc123 “ 正则 “(?&lt;![0-9])123” 匹配”123”前面是非数字的结果也可写成”(?!&lt;\d)123”</p>
+<h1 id="Java中Pattern和Matcher类使用"><a href="#Java中Pattern和Matcher类使用" class="headerlink" title="Java中Pattern和Matcher类使用"></a>Java中Pattern和Matcher类使用</h1><h2 id="Pattern类"><a href="#Pattern类" class="headerlink" title="Pattern类"></a>Pattern类</h2><p>Pattern类的作用在于编译正则表达式后创建一个匹配模式.</p>
+<p><strong>常用方法介绍：</strong></p>
+<p><code>Pattern complie(String regex)</code><br>由于Pattern的构造函数是私有的,不可以直接创建,所以通过静态方法compile(String regex)方法来创建,将给定的正则表达式编译并赋予给Pattern类</p>
+<p><code>String pattern() </code><br>返回正则表达式的字符串形式,其实就是返回Pattern.complile(String regex)的regex参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String patternStr = pattern.pattern();//返回\?\*</span><br></pre></td></tr></table></figure>
+
+<p><code>Pattern.matcher(CharSequence input)</code><br>对指定输入的字符串创建一个Matcher对象，input就是要甄别是否匹配正则表达式的输入串。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();// true</span><br></pre></td></tr></table></figure>
+
+<p><code>String[] split(CharSequence input)</code><br>String[] split(CharSequence input, int limit)</p>
+<p><code>String[] split(CharSequence input, int limit)</code><br>功能和String[] split(CharSequence input)相同,增加参数limit目的在于要指定分割的段数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String[] splitStrs = pattern.split(&quot;123?123*456*456&quot;);//123 123 456 456</span><br><span class="line">String[] splitStrs2 = pattern.split(&quot;123?123*456*456&quot;, 2);// 123 123*456*456</span><br></pre></td></tr></table></figure>
+
+<h2 id="Matcher类"><a href="#Matcher类" class="headerlink" title="Matcher类"></a>Matcher类</h2><p>Matcher类使用Pattern实例提供的模式信息对正则表达式进行匹配</p>
+<p><strong>常用方法及介绍：</strong><br><code>boolean matches()</code><br>最常用方法:尝试对整个目标字符展开匹配检测,也就是只有整个目标字符串完全匹配时才返回真值.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();//true</span><br><span class="line">System.out.println(matches);</span><br><span class="line">matcher=pattern.matcher(&quot;?&quot;);</span><br><span class="line">matches = matcher.matches();//false</span><br><span class="line">System.out.println(matches);</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean lookingAt()</code><br>对前面的字符串进行匹配,只有匹配到的字符串在最前面才会返回true</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">boolean match = m.lookingAt();//true</span><br><span class="line">System.out.println(match);</span><br><span class="line">m = p.matcher(&quot;bb2233&quot;);</span><br><span class="line">match= m.lookingAt();</span><br><span class="line">System.out.println(match);//false</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean find()</code><br>对字符串进行匹配,匹配到的字符串可以在任何位置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">m.find();// 返回true</span><br><span class="line">Matcher m2 = p.matcher(&quot;aa2223&quot;);</span><br><span class="line">m2.find();// 返回true</span><br><span class="line">Matcher m3 = p.matcher(&quot;aa2223bb&quot;);</span><br><span class="line">m3.find();// 返回true</span><br><span class="line">Matcher m4 = p.matcher(&quot;aabb&quot;);</span><br><span class="line">m4.find();// 返回false</span><br></pre></td></tr></table></figure>
+
+<p><code>int start()</code><br>返回当前匹配到的字符串在原目标字符串中的位置</p>
+<p><code>int end()</code><br>返回当前匹配的字符串的最后一个字符在原目标字符串中的索引位置</p>
+<p><code>String group()</code><br>返回匹配到的子字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;aa22bb23&quot;);</span><br><span class="line">m.find();</span><br><span class="line">int start = m.start();//2</span><br><span class="line">String group = m.group();//22</span><br><span class="line">int end = m.end();//4</span><br><span class="line">System.out.println(start);</span><br><span class="line">System.out.println(group);</span><br><span class="line">System.out.println(end);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>例如要处理tag，tag中是xxxx=xxxx格式。要获取tag中等号两边的值，作为key和value进行存储。处理如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">private Pattern filter = Pattern.compile(&quot;(?&lt;key&gt;[\\w\\-\\s]+)\\s*=\\s*(?&lt;value&gt;[\\w\\-\\s]+)&quot;);</span><br><span class="line"></span><br><span class="line">private void test ()&#123;</span><br><span class="line">    Matcher matcherEqual = filter.matcher(&quot;cat=animal&quot;);</span><br><span class="line">    if(matcherEqual.matches())&#123;</span><br><span class="line">    //如果输入匹配，则进入按组取出value值</span><br><span class="line">    String key = matcherEqual.group(&quot;key&quot;);</span><br><span class="line">    String value = matcherEqual.group(&quot;value&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可知，使用方法：<br>skip 1：<br>通过Pattern来创建一个正则表达式匹配规则。<br>skip 2：<br>通过创建的匹配规则对输入值进行匹配验证，并将一系列结果存放至Matcher类中。<br>skip 3：<br>通过Matcher的matches()方法，返回是否匹配，并可以按组来取出匹配值。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>正则表达式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Quartz框架实现定时任务</title>
+    <url>/2019/07/25/Quartz%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
+<h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
+<ol>
+<li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：</li>
+</ol>
+<p><code>void execute(JobExecutionContext context) </code></p>
+<ol start="2">
+<li>JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度程序所要执行的内容，另外 JobDetail 还包含了这个任务调度的方案和策略。 </li>
+<li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
+<li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
+</ol>
+<span id="more"></span>
+
+<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  // define the job and tie it to our HelloJob class</span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(&quot;myJob&quot;, &quot;group1&quot;)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Trigger the job to run now, and then every 40 seconds</span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(&quot;myTrigger&quot;, &quot;group1&quot;)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(40) //每40s执行一次</span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Tell quartz to schedule the job using our trigger</span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
+<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class HelloJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">    public HelloJob() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void execute(JobExecutionContext context)</span><br><span class="line">      throws JobExecutionException</span><br><span class="line">    &#123;</span><br><span class="line">      System.err.println(&quot;Hello!  HelloJob is executing.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class TimedRegister implements ApplicationListener&lt;ApplicationReadyEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // Grab the Scheduler instance from the Factory</span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            // and start it off</span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            // define the job and tie it to our HelloJob class</span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(&quot;job1&quot;, &quot;jobGroup1&quot;)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(&quot;0 0 10 * * ?&quot;))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;TimedRegister daily job error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>以上需要注意几点：</strong></p>
+<ol>
+<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
+</li>
+<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br></pre></td></tr></table></figure>
+<p>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException &#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(&quot;findMessage&quot;);</span><br><span class="line">        logger.info(&quot;get findMessage instance success&quot;);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(&quot;send ding from mysql is success&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">　 　// define the job and tie it to our DumbJob class</span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(&quot;myJob&quot;, &quot;group1&quot;) // name &quot;myJob&quot;, group &quot;group1&quot;</span><br><span class="line">    .usingJobData(&quot;jobSays&quot;, &quot;Hello World!&quot;)</span><br><span class="line">    .usingJobData(&quot;myFloatValue&quot;, 3.141f)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<p>  然后在job的具体类中将其取出，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class DumbJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">  public DumbJob() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void execute(JobExecutionContext context)</span><br><span class="line">    throws JobExecutionException</span><br><span class="line">  &#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(&quot;jobSays&quot;);</span><br><span class="line">    float myFloatValue = dataMap.getFloat(&quot;myFloatValue&quot;);</span><br><span class="line"></span><br><span class="line">    System.err.println(&quot;Instance &quot; + key + &quot; of DumbJob says: &quot; + jobSays + &quot;, and val is: &quot; + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Quartz</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot中使用JPA访问数据库</title>
+    <url>/2019/07/26/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8JPA%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。<br>  <span id="more"></span></p>
+<h2 id="SpringBoot使用JPA"><a href="#SpringBoot使用JPA" class="headerlink" title="SpringBoot使用JPA"></a>SpringBoot使用JPA</h2><h3 id="加入依赖"><a href="#加入依赖" class="headerlink" title="加入依赖"></a>加入依赖</h3><p>  Spring boot有着jpa的起步依赖，将以下依赖添加到pom中。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置数据源"><a href="#配置数据源" class="headerlink" title="配置数据源"></a>配置数据源</h3><p>  添加了依赖之后，还需要在<strong>application.properties</strong>配置文件中添加依赖数据库的具体信息，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://url/databaseName</span><br><span class="line">spring.datasource.username=xxxx</span><br><span class="line">spring.datasource.password=xxxx</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure>
+<h3 id="定义实体类"><a href="#定义实体类" class="headerlink" title="定义实体类"></a>定义实体类</h3><h4 id="单主键"><a href="#单主键" class="headerlink" title="单主键"></a>单主键</h4><p>  将需要访问的数据库中的表定义为一个实体类，在类前加上注释@Entity(name = “xxx”)其中xxx为对应的数据库中的表名称，将主键注释为@Id，将列的字段注视为@Column，并为其分别设置get和set方法。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  @Entity(name = &quot;xxxx&quot;)</span><br><span class="line">public class BVCodeEntity &#123;</span><br><span class="line"></span><br><span class="line">    @Id</span><br><span class="line">    private String id;</span><br><span class="line">    @Column</span><br><span class="line">    private String code;</span><br><span class="line">    </span><br><span class="line">    public String getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(String id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCode(String code) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="复合主键"><a href="#复合主键" class="headerlink" title="复合主键"></a>复合主键</h4><p>  在数据库中，有可能是复合主键，这时如果直接通过给多个字段值都注释为@Id是不对的，需要给他创建一个复合主键类并实现Serializable，从而能使其序列化。同时在他对应的类中，还需要给他写构造方法。例如一个表中，主键为code和systemCode，复合主键类代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  /**</span><br><span class="line"> * 复合主键类，存放联合主键属性，实现序列化接口</span><br><span class="line"> * */</span><br><span class="line">public class CompositeKeyforResult implements Serializable &#123;</span><br><span class="line">    private  String code;</span><br><span class="line">    private String systemCode;</span><br><span class="line">    public String getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCode(String code) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getSystemCode() &#123;</span><br><span class="line">        return systemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSystemCode(String systemCode) &#123;</span><br><span class="line">        this.systemCode = systemCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>  以上就是创建了一个复合主键类，他的表对应的实体类在注释中加入@IdClass把刚才定义好的复合主键类导入，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Entity(name = &quot;xxx&quot;)</span><br><span class="line">@IdClass(CompositeKeyforResult.class)</span><br><span class="line">public class BVResultEntity  &#123;</span><br><span class="line"></span><br><span class="line">    @Id</span><br><span class="line">    private String systemCode;</span><br><span class="line">    @Id</span><br><span class="line">    @Column</span><br><span class="line">    private String code;</span><br><span class="line">   </span><br><span class="line">    @Column</span><br><span class="line">    private String staName;</span><br><span class="line">    @Column</span><br><span class="line">    private Date createTime;</span><br><span class="line">    </span><br><span class="line">     public BVResultEntity()&#123;</span><br><span class="line">        super();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public BVResultEntity(String systemCode, String deviceId, String code, Date bizTime) &#123;</span><br><span class="line">        this.systemCode = systemCode;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public String getSystemCode() &#123;</span><br><span class="line">        return systemCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSystemCode(String systemCode) &#123;</span><br><span class="line">        this.systemCode = systemCode;</span><br><span class="line">    &#125;</span><br><span class="line">     public String getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCode(String code) &#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getStaName() &#123;</span><br><span class="line">        return staName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setStaName(String staName) &#123;</span><br><span class="line">        this.staName = staName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Date getCreateTime() &#123;</span><br><span class="line">        return createTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCreateTime(Date createTime) &#123;</span><br><span class="line">        this.createTime = createTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建Repository"><a href="#创建Repository" class="headerlink" title="创建Repository"></a>创建Repository</h3><p>  在创建Repository中，继承自JpaRepository并把前面创建的实体Entity传入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public interface BVRepository extends JpaRepository&lt;BVResultEntity,Integer&gt;&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Repository查询数据"><a href="#使用Repository查询数据" class="headerlink" title="使用Repository查询数据"></a>使用Repository查询数据</h3><p>  在需要获取数据库数据时，要先注入要查询表的对应的repository，然后即可以通过repository来获取一些数据库的信息。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">BVRepository bvRepository;</span><br><span class="line"></span><br><span class="line">//读取列表</span><br><span class="line">return studentRepository.findAll();</span><br><span class="line"></span><br><span class="line">//排序,创建Sort对象的第二个参数，是java对象的属性，而不是mysql数据表的列名</span><br><span class="line">Sort sort = new Sort(Sort.Direction.DESC,&quot;code&quot;);</span><br><span class="line">return bvtRepository.findAll(sort);</span><br><span class="line"></span><br><span class="line">//分页(+排序)</span><br><span class="line">Sort sort = new Sort(Sort.Direction.ASC, &quot;code&quot;);</span><br><span class="line">Pageable pageable = PageRequest.of(pageNumber -1, 5, sort);</span><br><span class="line">return bvRepository.findAll(pageable).getContent();</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="添加自定义方法查询"><a href="#添加自定义方法查询" class="headerlink" title="添加自定义方法查询"></a>添加自定义方法查询</h4><p>  我们还可以在repository中添加一些自定义的语句，hibernate会自动为其装配sql语句。如添加一个findByXXX()，但是这里有个需要注意，其中的ByXXX中XXX需要和java中对象的属性保持一致，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public interface BVCodeRepository extends JpaRepository&lt;BVCodeEntity,Integer&gt; &#123;</span><br><span class="line">    public BVCodeEntity findByCode(String code);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="添加自定义sql语句查询"><a href="#添加自定义sql语句查询" class="headerlink" title="添加自定义sql语句查询"></a>添加自定义sql语句查询</h4><p>  有一些特殊的情况，只是通过自定义方法是不够精细的查询数据库的，这时候还可以使用直接的SQL语句来进行查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public interface BVResultRepository extends JpaRepository&lt;BVResultEntity,Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Query(value =&quot;select * from XXX where create_time &gt;=(NOW() - interval 24 hour)&quot;, nativeQuery = true)</span><br><span class="line">    public List&lt;BVResultEntity&gt; findDailyResult();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>查询24小时内创建的数据，其中nativeQuery设为true表明使用原始的Sql语句。输出为一个Entity的list。
+</code></pre>
+<blockquote>
+<p>Spring data jpa官方文档：<a href="https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/">https://docs.spring.io/spring-data/jpa/docs/2.1.0.M2/reference/html/</a><br>学习自Kite__博客：<a href="https://blog.csdn.net/daguanjia11/article/details/80026908">https://blog.csdn.net/daguanjia11/article/details/80026908</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Spring,JPA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue多环境启动</title>
+    <url>/2019/09/06/Vue%E5%A4%9A%E7%8E%AF%E5%A2%83%E5%90%AF%E5%8A%A8/</url>
+    <content><![CDATA[<h1 id="Vue多环境启动的解决方法"><a href="#Vue多环境启动的解决方法" class="headerlink" title="Vue多环境启动的解决方法"></a>Vue多环境启动的解决方法</h1><h2 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h2><p>在vue项目开发中，因为本地、测试、生产三个环节中常常对应不同的接口，所以需要解决如何在运行三种不同的环境时就获取到三种不同的接口的问题。</p>
+<h2 id="Vue-Cli-3版本"><a href="#Vue-Cli-3版本" class="headerlink" title="Vue Cli 3版本"></a>Vue Cli 3版本</h2><p>Vue Cli文档：</p>
+<blockquote>
+<p><a href="https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve">https://cli.vuejs.org/zh/guide/cli-service.html#vue-cli-service-serve</a><br>在Vue Cli 2版本或更早的版本，项目目录中包括build和config文件夹。而这次开发使用的是3.0以上的版本，不生成这两个文件夹，所以这里只介绍3.0以上的版本的解决方法。项目目录如下：</p>
+</blockquote>
+<span id="more"></span>
+<p><img src="/image/%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95.png" alt="项目目录"></p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>通过为<code>.env</code>文件增加后缀来设置某个模式下特有的环境变量。<br>通过传递 –mode 选项参数为命令行覆写默认的模式。</p>
+<h2 id="新建-env文件"><a href="#新建-env文件" class="headerlink" title="新建.env文件"></a>新建.env文件</h2><p>在项目的根目录新建2个文件，分别对应开发（dev），生产（prod）<br>文件命名： .env.dev , .env.prod。如下：<br><img src="/image/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6.png" alt="新建文件"></p>
+<p>在每个文件中写具体的参数。接下来是不同文件里面的代码情况。</p>
+<blockquote>
+<p>注意：需要以’VUE_APP_’开头来写。</p>
+</blockquote>
+<p>.env.dev</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NODE_ENV = &#x27;development&#x27;</span><br><span class="line">VUE_APP_CURRENTMODE = &#x27;dev&#x27;</span><br><span class="line">VUE_APP_BASEURL = &#x27;本地开发的基础api地址&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>.env.test （本次没有设置test文件）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NODE_ENV = &#x27;production&#x27;</span><br><span class="line">VUE_APP_CURRENTMODE = &#x27;test&#x27;</span><br><span class="line">VUE_APP_BASEURL = &#x27;测试环境api地址&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>.env.prod</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NODE_ENV = &#x27;production&#x27;</span><br><span class="line">VUE_APP_CURRENTMODE = &#x27;prod&#x27;</span><br><span class="line">VUE_APP_BASEURL = &#x27;正式环境api地址&#x27;</span><br></pre></td></tr></table></figure>
+<h2 id="修改package-json脚本"><a href="#修改package-json脚本" class="headerlink" title="修改package.json脚本"></a>修改package.json脚本</h2><p>在根目录下的package.json文件进行以下修改。<br><img src="/image/%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6.png" alt="修改文件"></p>
+<p>其中前面的key部分，就是命令执行时 <code>npm run xxxxx</code>的部分，而后面的则是vue cli执行的内容，下面是是文档中的部分内容。<br><img src="/image/%E6%96%87%E6%A1%A31.png" alt="文档1"><img src="/image/%E6%96%87%E6%A1%A32.png" alt="文档2"></p>
+<p>其中mode后接的是要部署的环境，具体的名称就是第一步创建的.env.xxx中的xxx名称。如这里就是prod和dev。同时这里在两种不同的环境分别设置了serve命令和build命令。</p>
+<p>（serve和build有一定的区别，serve是直接在本地执行。而build是进行打包，创建出一个dist文件夹，其中的index文件是入口。）</p>
+<h2 id="使用api"><a href="#使用api" class="headerlink" title="使用api"></a>使用api</h2><p>在.env.prod和.env.dev中定义了VUE_APP_XXXXX的变量，在调用时，直接使用<code>process.env.VUE_APP_BASEURL</code>即可。在这里我把他绑定在原型链上以方便全局使用。如下：<br><img src="/image/%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95.png" alt="使用方法"></p>
+<p>这样使用时可以通过this.BaseUrl来调用地址，而这个值就是设置的多环境变量赋值给他的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>要设置多环境分为以下几步：</p>
+<ol>
+<li>创建对应环境的.env.xxxx</li>
+<li>在package.json文件中设置对应的命令（mode）</li>
+<li>通过<code>process.env.VUE_APP_BASEURL</code>来调用具体的设置值。（启动命令不同，环境不同，对应的baseUrl也不同，实现目的功能。）</li>
+</ol>
 ]]></content>
       <categories>
         <category>前端</category>

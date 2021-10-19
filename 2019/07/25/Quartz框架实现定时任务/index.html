@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：  void execute(JobExecutionContext context)   JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quartz框架实现定时任务">
+<meta property="og:url" content="http://example.com/2019/07/25/Quartz%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。 Quartz简单使用  Quartz中主要包含几个核心概念，如下：  Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：  void execute(JobExecutionContext context)   JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-25T09:55:31.000Z">
+<meta property="article:modified_time" content="2021-10-19T06:20:52.070Z">
+<meta property="article:author" content="Mask">
+<meta property="article:tag" content="Quartz">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/07/25/Quartz%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Quartz框架实现定时任务 | /</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">/</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/07/25/Quartz%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Quartz框架实现定时任务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-25 17:55:31" itemprop="dateCreated datePublished" datetime="2019-07-25T17:55:31+08:00">2019-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 14:20:52" itemprop="dateModified" datetime="2021-10-19T14:20:52+08:00">2021-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>  在开发过程中，需要实现定时来执行某些方法任务，这时可以使用Quartz框架来实现这个功能。</p>
+<h1 id="Quartz简单使用"><a href="#Quartz简单使用" class="headerlink" title="Quartz简单使用"></a>Quartz简单使用</h1><p>  Quartz中主要包含几个核心概念，如下：</p>
+<ol>
+<li>Job 表示一个工作，要执行的具体内容。此接口中只有一个方法，如下：</li>
+</ol>
+<p><code>void execute(JobExecutionContext context) </code></p>
+<ol start="2">
+<li>JobDetail 表示一个具体的可执行的调度程序，Job 是这个可执行程调度程序所要执行的内容，另外 JobDetail 还包含了这个任务调度的方案和策略。 </li>
+<li>Trigger 代表一个调度参数的配置，什么时候去调。 </li>
+<li>Scheduler 代表一个调度容器，一个调度容器中可以注册多个 JobDetail 和 Trigger。当 Trigger 与 JobDetail 组合，就可以被 Scheduler 容器调度了。 </li>
+</ol>
+<span id="more"></span>
+
+<h2 id="配置Scheduler"><a href="#配置Scheduler" class="headerlink" title="配置Scheduler"></a>配置Scheduler</h2><p>  上文说Scheduler是一个调度容器，任意一个JobDetail和任意一个Trigger结合为一对即可进行注册，而Scheduler需要实例化，只有在实例化以后，才能执行他的启动(start)、暂停(stand-by)、停止(shutdown)方法。<br>  注意：scheduler被停止后，除非重新实例化，否则不能重新启动；只有当scheduler启动后，即使处于暂停状态也不行，trigger才会被触发（job才会被执行）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();</span><br><span class="line"></span><br><span class="line">  Scheduler sched = schedFact.getScheduler();</span><br><span class="line"></span><br><span class="line">  sched.start();</span><br><span class="line"></span><br><span class="line">  // define the job and tie it to our HelloJob class</span><br><span class="line">  JobDetail job = newJob(HelloJob.class)</span><br><span class="line">      .withIdentity(&quot;myJob&quot;, &quot;group1&quot;)</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Trigger the job to run now, and then every 40 seconds</span><br><span class="line">  Trigger trigger = newTrigger()</span><br><span class="line">      .withIdentity(&quot;myTrigger&quot;, &quot;group1&quot;)</span><br><span class="line">      .startNow()</span><br><span class="line">      .withSchedule(simpleSchedule()</span><br><span class="line">          .withIntervalInSeconds(40) //每40s执行一次</span><br><span class="line">          .repeatForever())</span><br><span class="line">      .build();</span><br><span class="line"></span><br><span class="line">  // Tell quartz to schedule the job using our trigger</span><br><span class="line">  sched.scheduleJob(job, trigger); </span><br></pre></td></tr></table></figure>
+<h2 id="实现jobDetail"><a href="#实现jobDetail" class="headerlink" title="实现jobDetail"></a>实现jobDetail</h2><p>  具体的工作类需要实现接口Job，接口需要实现一个execute方法，而具体的job要执行的任务，就写在execute方法中。如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class HelloJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">    public HelloJob() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void execute(JobExecutionContext context)</span><br><span class="line">      throws JobExecutionException</span><br><span class="line">    &#123;</span><br><span class="line">      System.err.println(&quot;Hello!  HelloJob is executing.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Quartz和Spring-boot结合"><a href="#Quartz和Spring-boot结合" class="headerlink" title="Quartz和Spring boot结合"></a>Quartz和Spring boot结合</h1><p>  创建一个监听类来实现配置Scheduler，使Spring boot在启动时自动加载该类，开始定时任务。如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class TimedRegister implements ApplicationListener&lt;ApplicationReadyEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    FindMessage findMessage;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // Grab the Scheduler instance from the Factory</span><br><span class="line">            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();</span><br><span class="line"></span><br><span class="line">            // and start it off</span><br><span class="line">            scheduler.start();</span><br><span class="line"></span><br><span class="line">            // define the job and tie it to our HelloJob class</span><br><span class="line">            JobDetail mysqlDoJob = JobBuilder.newJob(MysqlTimedSendJob.class)</span><br><span class="line">                    .withIdentity(&quot;job1&quot;, &quot;jobGroup1&quot;)</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br><span class="line"></span><br><span class="line">            Trigger mysqlTrigger = newTrigger()</span><br><span class="line">                    .withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)</span><br><span class="line">                    .withSchedule(CronScheduleBuilder.cronSchedule(&quot;0 0 10 * * ?&quot;))</span><br><span class="line">                    .build();</span><br><span class="line"></span><br><span class="line">            scheduler.scheduleJob(mysqlDoJob, mysqlTrigger);</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(&quot;TimedRegister daily job error&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>以上需要注意几点：</strong></p>
+<ol>
+<li><p>ApplicationListener接口中需要传入监听参数（ApplicationReadyEvent），因为如果不传入参数的话，会对每个event都进行监听，则会发生同时执行好几个定时任务这样的惨状。这个问题不只存在与定时任务的监听。</p>
+</li>
+<li><p>先看一段解释：<br>　　我们传给scheduler一个JobDetail实例，因为我们在创建JobDetail时，将要执行的job的类名传给了JobDetail，所以scheduler就知道了要执行何种类型的job；每次当scheduler执行job时，在调用其execute(…)方法之前会创建该类的一个新的实例；执行完毕，对该实例的引用就被丢弃了，实例会被垃圾回收；这种执行策略带来的一个后果是，job必须有一个无参的构造函数（当使用默认的JobFactory时）；另一个后果是，在job类中，不应该定义有状态的数据属性，因为在job的多次执行中，这些属性的值不会保留。那么如何给job实例增加属性或配置呢？如何在job的多次执行中，跟踪job的状态呢？答案就是:JobDataMap，JobDetail对象的一部分。<br>　　因为job的具体类不是Spring创建的，而是quartz创建的，所以不能通过注入的方式来调用findmessage，只能通过将这个findmessage创建对象后通过参数注入的方式由JobDataMap来传入Job具体的实现中。所以我们在jobdetail中添加参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　mysqlDoJob.getJobDataMap().put(&quot;findMessage&quot;, findMessage);</span><br></pre></td></tr></table></figure>
+<p>然后在job的具体方法中，通过getdetail然后getjobdatamap的方式来获取具体的findMessage方法，从而实现定时执行一个方法的操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException &#123;</span><br><span class="line"></span><br><span class="line">        FindMessage findMessage = (FindMessage) jobExecutionContext.getJobDetail()</span><br><span class="line">                .getJobDataMap().get(&quot;findMessage&quot;);</span><br><span class="line">        logger.info(&quot;get findMessage instance success&quot;);</span><br><span class="line"></span><br><span class="line">        findMessage.findDayMessage();</span><br><span class="line">        logger.info(&quot;send ding from mysql is success&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="Quartz中的JobDataMap使用指南"><a href="#Quartz中的JobDataMap使用指南" class="headerlink" title="Quartz中的JobDataMap使用指南"></a>Quartz中的JobDataMap使用指南</h1><p>  JobDataMap中可以包含不限量的（序列化的）数据对象，在job实例执行的时候，可以使用其中的数据；JobDataMap是Java Map接口的一个实现，额外增加了一些便于存取基本类型的数据的方法。<br>  将job加入到scheduler之前，在构建JobDetail时，可以将数据放入JobDataMap。<br>  所以可以在添加JobDetail时添加jobDataMap，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　 　// define the job and tie it to our DumbJob class</span><br><span class="line">JobDetail job = newJob(DumbJob.class)</span><br><span class="line">    .withIdentity(&quot;myJob&quot;, &quot;group1&quot;) // name &quot;myJob&quot;, group &quot;group1&quot;</span><br><span class="line">    .usingJobData(&quot;jobSays&quot;, &quot;Hello World!&quot;)</span><br><span class="line">    .usingJobData(&quot;myFloatValue&quot;, 3.141f)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<p>  然后在job的具体类中将其取出，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class DumbJob implements Job &#123;</span><br><span class="line"></span><br><span class="line">  public DumbJob() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void execute(JobExecutionContext context)</span><br><span class="line">    throws JobExecutionException</span><br><span class="line">  &#123;</span><br><span class="line">    JobKey key = context.getJobDetail().getKey();</span><br><span class="line"></span><br><span class="line">    JobDataMap dataMap = context.getJobDetail().getJobDataMap();</span><br><span class="line"></span><br><span class="line">    String jobSays = dataMap.getString(&quot;jobSays&quot;);</span><br><span class="line">    float myFloatValue = dataMap.getFloat(&quot;myFloatValue&quot;);</span><br><span class="line"></span><br><span class="line">    System.err.println(&quot;Instance &quot; + key + &quot; of DumbJob says: &quot; + jobSays + &quot;, and val is: &quot; + myFloatValue);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Quartz/" rel="tag"># Quartz</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2019/07/26/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8JPA%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="next" title="SpringBoot中使用JPA访问数据库">
+      SpringBoot中使用JPA访问数据库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTU1NC8yMjA2NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">Quartz简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEScheduler"><span class="nav-number">1.1.</span> <span class="nav-text">配置Scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0jobDetail"><span class="nav-number">1.2.</span> <span class="nav-text">实现jobDetail</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E5%92%8CSpring-boot%E7%BB%93%E5%90%88"><span class="nav-number">2.</span> <span class="nav-text">Quartz和Spring boot结合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quartz%E4%B8%AD%E7%9A%84JobDataMap%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">3.</span> <span class="nav-text">Quartz中的JobDataMap使用指南</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mask</p>
+  <div class="site-description" itemprop="description">在广阔的世界里 做一个不狭隘的人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2021003486号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-deaf"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mask</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

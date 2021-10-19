@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="正则表达式什么是正则表达式正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。在线匹配网站：  https:&#x2F;&#x2F;rubular.com&#x2F;  可以在线验证正则表达式匹配效果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的Pattern和Matcher类的使用以及正则表达式">
+<meta property="og:url" content="http://example.com/2019/12/26/Java%E4%B8%AD%E7%9A%84Pattern%E5%92%8CMatcher%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="正则表达式什么是正则表达式正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。在线匹配网站：  https:&#x2F;&#x2F;rubular.com&#x2F;  可以在线验证正则表达式匹配效果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-26T09:09:12.000Z">
+<meta property="article:modified_time" content="2021-10-19T06:27:28.623Z">
+<meta property="article:author" content="Mask">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/12/26/Java%E4%B8%AD%E7%9A%84Pattern%E5%92%8CMatcher%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java中的Pattern和Matcher类的使用以及正则表达式 | /</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">/</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/12/26/Java%E4%B8%AD%E7%9A%84Pattern%E5%92%8CMatcher%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java中的Pattern和Matcher类的使用以及正则表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-26 17:09:12" itemprop="dateCreated datePublished" datetime="2019-12-26T17:09:12+08:00">2019-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 14:27:28" itemprop="dateModified" datetime="2021-10-19T14:27:28+08:00">2021-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是一种特殊的字符串模式，用于匹配一组字符串，就好比用模具做产品，而正则就是这个模具，定义一种规则去匹配符合规则的字符。<br>在线匹配网站：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://rubular.com/">https://rubular.com/</a></p>
+</blockquote>
+<p>可以在线验证正则表达式匹配效果。</p>
+<span id="more"></span>
+
+<h2 id="正则表达式字符介绍"><a href="#正则表达式字符介绍" class="headerlink" title="正则表达式字符介绍"></a>正则表达式字符介绍</h2><h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p><code>&quot;^&quot; ：^会匹配行或者字符串的起始位置，有时还会匹配整个文档的起始位置。</code> </p>
+<p><code>&quot;$&quot;  ：$会匹配行或字符串的结尾</code></p>
+<p><code>&quot;\b&quot; :不会消耗任何字符只匹配一个位置，常用于匹配单词边界 如 我想从字符串中&quot;This is Regex&quot;匹配单独的单词 &quot;is&quot; 正则就要写成 &quot;\bis\b&quot;  </code></p>
+<p>\b 不会匹配is 两边的字符，但它会识别is 两边是否为单词的边界 </p>
+<p><code> &quot;\d&quot;: 匹配数字，</code></p>
+<p>例如要匹配一个固定格式的电话号码以0开头前4位后7位，如0737-5686123  正则:^0\d\d\d-\d\d\d\d\d\d\d$ 这里只是为了介绍”\d”字符，实际上有更好的写法会在     下面介绍。</p>
+<p><code> &quot;\w&quot;：匹配字母，数字，下划线.</code></p>
+<p>例如我要匹配”a2345BCD__TTz” 正则：”\w+”  这里的”+”字符为一个量词指重复的次数，稍后会详细介绍。</p>
+<p><code>&quot;\s&quot;：匹配空格 </code></p>
+<p>例如字符 “a b c” 正则：”\w\s\w\s\w”  一个字符后跟一个空格，如有字符间有多个空格直接把”\s” 写成 “\s+” 让空格重复</p>
+<p><code>&quot;.&quot;：匹配除了换行符以外的任何字符</code></p>
+<p>这个算是”\w”的加强版了”\w”不能匹配 空格 如果把字符串加上空格用”\w”就受限了，看下用 “.”是如何匹配字符”a23 4 5 B C D__TTz”  正则：”.+”</p>
+<p><code>&quot;[abc]&quot;: 字符组  匹配包含括号内元素的字符 </code></p>
+<p>这个比较简单了只匹配括号内存在的字符，还可以写成[a-z]匹配a至z的所以字母就等于可以用来控制只能输入英文了，</p>
+<h3 id="反义字符"><a href="#反义字符" class="headerlink" title="反义字符"></a>反义字符</h3><p>写法很简单改成大写就行了，意思与原来的相反，这里就不举例子了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;\W&quot;   匹配任意不是字母，数字，下划线 的字符</span><br><span class="line"></span><br><span class="line">&quot;\S&quot;   匹配任意不是空白符的字符</span><br><span class="line"></span><br><span class="line">&quot;\D&quot;  匹配任意非数字的字符</span><br><span class="line"></span><br><span class="line">&quot;\B&quot;  匹配不是单词开头或结束的位置</span><br><span class="line"></span><br><span class="line">&quot;[^abc]&quot;  匹配除了abc以外的任意字符</span><br></pre></td></tr></table></figure>
+
+<h3 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h3><p>先解释关于量词所涉及到的重要的三个概念</p>
+<ul>
+<li><p>贪婪(贪心) 如”*”字符 贪婪量词会首先匹配整个字符串，尝试匹配时，它会选定尽可能多的内容，如果 失败则回退一个字符，然后再次尝试回退的过程就叫做回溯，它会每次回退一个字符，直到找到匹配的内容或者没有字符可以回退。相比下面两种贪婪量词对资源的消耗是最大的，</p>
+</li>
+<li><p>懒惰(勉强) 如 “?”  懒惰量词使用另一种方式匹配，它从目标的起始位置开始尝试匹配，每次检查一个字符，并寻找它要匹配的内容，如此循环直到字符结尾处。</p>
+</li>
+<li><p>占有  如”+” 占有量词会覆盖事个目标字符串，然后尝试寻找匹配内容 ，但它只尝试一次，不会回溯，就好比先抓一把石头，然后从石头中挑出黄金</p>
+</li>
+</ul>
+<p><code>&quot;*&quot;(贪婪)   重复零次或更多</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a*”   会出到所有的字符”a”</p>
+<p><code>&quot;+&quot;(懒惰)   重复一次或更多次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中所有的a  正则： “a+”  会取到字符中所有的a字符，  “a+”与”a*“不同在于”+”至少是一次而”*” 可以是0次，</p>
+<p>稍后会与”?”字符结合来体现这种区别</p>
+<p><code>&quot;?&quot;(占有)   重复零次或一次</code></p>
+<p>例如”aaaaaaaa” 匹配字符串中的a 正则 ： “a?” 只会匹配一次，也就是结果只是单个字符a</p>
+<p><code>&quot;&#123;n&#125;&quot;  重复n次</code></p>
+<p>例如从”aaaaaaaa” 匹配字符串的a 并重复3次 正则：  “a{3}”  结果就是取到3个a字符  “aaa”;</p>
+<p><code>&quot;&#123;n,m&#125;&quot;  重复n到m次</code></p>
+<p>例如正则 “a{3,4}” 将a重复匹配3次或者4次 所以供匹配的字符可以是三个”aaa”也可以是四个”aaaa” 正则都可以匹配到</p>
+<p><code>&quot;&#123;n,&#125;&quot;  重复n次或更多次</code></p>
+<p>与{n,m}不同之处就在于匹配的次数将没有上限，但至少要重复n次 如 正则”a{3,}” a至少要重复3次</p>
+<p>把量词了解了之后之前匹配电话号码的正则现在就可以改得简单点了<code>^0\d\d\d-\d\d\d\d\d\d\d$</code> 可以改为<code>^0\d+-\d&#123;7&#125;$</code>。</p>
+<p>这样写还不够完美如果因为前面的区号没有做限定，以至于可以输入很多们，而通常只能是3位或者4位，</p>
+<p>现在再改一下<code> ^0\d&#123;2,3&#125;-\d&#123;7&#125;</code>如此一来区号部分就可以匹配3位或者4位的了</p>
+<h3 id="懒惰限定符"><a href="#懒惰限定符" class="headerlink" title="懒惰限定符"></a>懒惰限定符</h3><p><code>&quot;*?&quot;   重复任意次，但尽可能少重复 </code></p>
+<p>如 “acbacb”  正则  “a.*?b” 只会取到第一个”acb” 原本可以全部取到但加了限定符后，只会匹配尽可能少的字符 ，而”acbacb”最少字符的结果就是”acb” </p>
+<p><code>&quot;+?&quot;  重复1次或更多次，但尽可能少重复</code></p>
+<p>与上面一样，只是至少要重复1次</p>
+<p><code>&quot;??&quot;  重复0次或1次，但尽可能少重复</code></p>
+<p>如 “aaacb” 正则 “a.??b” 只会取到最后的三个字符”acb”</p>
+<p><code>&quot;&#123;n,m&#125;?&quot;  重复n到m次，但尽可能少重复</code></p>
+<p>如 “aaaaaaaa”  正则 “a{0,m}” 因为最少是0次所以取到结果为空</p>
+<p><code>&quot;&#123;n,&#125;?&quot;    重复n次以上，但尽可能少重复</code></p>
+<p>如 “aaaaaaa”  正则 “a{1,}” 最少是1次所以取到结果为 “a”</p>
+<h2 id="正则进阶"><a href="#正则进阶" class="headerlink" title="正则进阶"></a>正则进阶</h2><h3 id="捕获分组"><a href="#捕获分组" class="headerlink" title="捕获分组"></a>捕获分组</h3><p>先了解在正则中捕获分组的概念，其实就是一个括号内的内容 如 “(\d)\d” 而”(\d)” 这就是一个捕获分组，可以对捕获分组进行 后向引用 (如果后而有相同的内容则可以直接引用前面定义的捕获组，以简化表达式) 如(\d)\d\1 这里的”\1”就是对”(\d)”的后向引用</p>
+<p>那捕获分组有什么用呢看个例子就知道了</p>
+<p>如  “zery zery” 正则 \b(\w+)\b\s\1\b 所以这里的”\1”所捕获到的字符也是 与(\w+)一样的”zery”，为了让组名更有意义，组名是可以自定义名字的</p>
+<p>“\b(?<name>\w+)\b\s\k<name>\b” 用”?<name>“就可以自定义组名了而要后向引用组时要记得写成 “\k<name>“;自定义组名后,捕获组中匹配到的值就会保存在定义的组名里</p>
+<p>下面列出捕获分组常有的用法:</p>
+<p><code>&quot;(exp)&quot; </code>   匹配exp,并捕获文本到自动命名的组里</p>
+<p><code>&quot;(?&lt;name&gt;exp)&quot;</code>   匹配exp,并捕获文本到名称为name的组里</p>
+<p><code>&quot;(?:exp)&quot;</code>  匹配exp,不捕获匹配的文本，也不给此分组分配组号</p>
+<p>以下为零宽断言</p>
+<p><code>&quot;(?=exp)&quot;</code>  匹配exp前面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>.+(?=ing))” 这里取ing前所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为”How are you do”;</p>
+<p><code>&quot;(?&lt;=exp)&quot;</code>  匹配exp后面的位置</p>
+<p>如 “How are you doing” 正则”(?<txt>(?&lt;=How).+)” 这里取”How”之后所有的字符，并定义了一个捕获分组名字为 “txt” 而”txt”这个组里的值为” are you doing”;</p>
+<p><code>&quot;(?!exp)&quot;</code>  匹配后面跟的不是exp的位置</p>
+<p>如 “123abc” 正则 “\d{3}(?!\d)”匹配3位数字后非数字的结果</p>
+<p><code>&quot;(?&lt;!exp)&quot;</code>  匹配前面不是exp的位置</p>
+<p>如 “abc123 “ 正则 “(?&lt;![0-9])123” 匹配”123”前面是非数字的结果也可写成”(?!&lt;\d)123”</p>
+<h1 id="Java中Pattern和Matcher类使用"><a href="#Java中Pattern和Matcher类使用" class="headerlink" title="Java中Pattern和Matcher类使用"></a>Java中Pattern和Matcher类使用</h1><h2 id="Pattern类"><a href="#Pattern类" class="headerlink" title="Pattern类"></a>Pattern类</h2><p>Pattern类的作用在于编译正则表达式后创建一个匹配模式.</p>
+<p><strong>常用方法介绍：</strong></p>
+<p><code>Pattern complie(String regex)</code><br>由于Pattern的构造函数是私有的,不可以直接创建,所以通过静态方法compile(String regex)方法来创建,将给定的正则表达式编译并赋予给Pattern类</p>
+<p><code>String pattern() </code><br>返回正则表达式的字符串形式,其实就是返回Pattern.complile(String regex)的regex参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String patternStr = pattern.pattern();//返回\?\*</span><br></pre></td></tr></table></figure>
+
+<p><code>Pattern.matcher(CharSequence input)</code><br>对指定输入的字符串创建一个Matcher对象，input就是要甄别是否匹配正则表达式的输入串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();// true</span><br></pre></td></tr></table></figure>
+
+<p><code>String[] split(CharSequence input)</code><br>String[] split(CharSequence input, int limit)</p>
+<p><code>String[] split(CharSequence input, int limit)</code><br>功能和String[] split(CharSequence input)相同,增加参数limit目的在于要指定分割的段数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String regex = &quot;\\?|\\*&quot;;</span><br><span class="line">Pattern pattern = Pattern.compile(regex);</span><br><span class="line">String[] splitStrs = pattern.split(&quot;123?123*456*456&quot;);//123 123 456 456</span><br><span class="line">String[] splitStrs2 = pattern.split(&quot;123?123*456*456&quot;, 2);// 123 123*456*456</span><br></pre></td></tr></table></figure>
+
+<h2 id="Matcher类"><a href="#Matcher类" class="headerlink" title="Matcher类"></a>Matcher类</h2><p>Matcher类使用Pattern实例提供的模式信息对正则表达式进行匹配</p>
+<p><strong>常用方法及介绍：</strong><br><code>boolean matches()</code><br>最常用方法:尝试对整个目标字符展开匹配检测,也就是只有整个目标字符串完全匹配时才返回真值.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Pattern pattern = Pattern.compile(&quot;\\?&#123;2&#125;&quot;);</span><br><span class="line">Matcher matcher = pattern.matcher(&quot;??&quot;);</span><br><span class="line">boolean matches = matcher.matches();//true</span><br><span class="line">System.out.println(matches);</span><br><span class="line">matcher=pattern.matcher(&quot;?&quot;);</span><br><span class="line">matches = matcher.matches();//false</span><br><span class="line">System.out.println(matches);</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean lookingAt()</code><br>对前面的字符串进行匹配,只有匹配到的字符串在最前面才会返回true</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">boolean match = m.lookingAt();//true</span><br><span class="line">System.out.println(match);</span><br><span class="line">m = p.matcher(&quot;bb2233&quot;);</span><br><span class="line">match= m.lookingAt();</span><br><span class="line">System.out.println(match);//false</span><br></pre></td></tr></table></figure>
+
+<p><code>boolean find()</code><br>对字符串进行匹配,匹配到的字符串可以在任何位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;22bb23&quot;);</span><br><span class="line">m.find();// 返回true</span><br><span class="line">Matcher m2 = p.matcher(&quot;aa2223&quot;);</span><br><span class="line">m2.find();// 返回true</span><br><span class="line">Matcher m3 = p.matcher(&quot;aa2223bb&quot;);</span><br><span class="line">m3.find();// 返回true</span><br><span class="line">Matcher m4 = p.matcher(&quot;aabb&quot;);</span><br><span class="line">m4.find();// 返回false</span><br></pre></td></tr></table></figure>
+
+<p><code>int start()</code><br>返回当前匹配到的字符串在原目标字符串中的位置</p>
+<p><code>int end()</code><br>返回当前匹配的字符串的最后一个字符在原目标字符串中的索引位置</p>
+<p><code>String group()</code><br>返回匹配到的子字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pattern p = Pattern.compile(&quot;\\d+&quot;);</span><br><span class="line">Matcher m = p.matcher(&quot;aa22bb23&quot;);</span><br><span class="line">m.find();</span><br><span class="line">int start = m.start();//2</span><br><span class="line">String group = m.group();//22</span><br><span class="line">int end = m.end();//4</span><br><span class="line">System.out.println(start);</span><br><span class="line">System.out.println(group);</span><br><span class="line">System.out.println(end);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><p>例如要处理tag，tag中是xxxx=xxxx格式。要获取tag中等号两边的值，作为key和value进行存储。处理如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private Pattern filter = Pattern.compile(&quot;(?&lt;key&gt;[\\w\\-\\s]+)\\s*=\\s*(?&lt;value&gt;[\\w\\-\\s]+)&quot;);</span><br><span class="line"></span><br><span class="line">private void test ()&#123;</span><br><span class="line">    Matcher matcherEqual = filter.matcher(&quot;cat=animal&quot;);</span><br><span class="line">    if(matcherEqual.matches())&#123;</span><br><span class="line">    //如果输入匹配，则进入按组取出value值</span><br><span class="line">    String key = matcherEqual.group(&quot;key&quot;);</span><br><span class="line">    String value = matcherEqual.group(&quot;value&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可知，使用方法：<br>skip 1：<br>通过Pattern来创建一个正则表达式匹配规则。<br>skip 2：<br>通过创建的匹配规则对输入值进行匹配验证，并将一系列结果存放至Matcher类中。<br>skip 3：<br>通过Matcher的matches()方法，返回是否匹配，并可以按组来取出匹配值。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag"># 正则表达式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/29/JAVA%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80/" rel="prev" title="JAVA面试基础">
+      <i class="fa fa-chevron-left"></i> JAVA面试基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/03/JS%E6%A0%A1%E9%AA%8C-js%E4%B8%AD%E5%88%A4%E6%96%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%8C%85%E5%90%AB%E5%8F%A6%E4%B8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95/" rel="next" title="js中判断字符串中包含另一字符串的五种方法(校验功能)">
+      js中判断字符串中包含另一字符串的五种方法(校验功能) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTU1NC8yMjA2NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.</span> <span class="nav-text">正则表达式字符介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6"><span class="nav-number">1.2.1.</span> <span class="nav-text">元字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="nav-number">1.2.2.</span> <span class="nav-text">反义字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E8%AF%8D"><span class="nav-number">1.2.3.</span> <span class="nav-text">量词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%87%92%E6%83%B0%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="nav-number">1.2.4.</span> <span class="nav-text">懒惰限定符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%BF%9B%E9%98%B6"><span class="nav-number">1.3.</span> <span class="nav-text">正则进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E5%88%86%E7%BB%84"><span class="nav-number">1.3.1.</span> <span class="nav-text">捕获分组</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E4%B8%ADPattern%E5%92%8CMatcher%E7%B1%BB%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">Java中Pattern和Matcher类使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pattern%E7%B1%BB"><span class="nav-number">2.1.</span> <span class="nav-text">Pattern类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Matcher%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">Matcher类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">使用示例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mask</p>
+  <div class="site-description" itemprop="description">在广阔的世界里 做一个不狭隘的人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2021003486号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-deaf"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mask</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

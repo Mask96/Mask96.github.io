@@ -185,6 +185,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/20/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/20/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">Go基础数据类型与基本语法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-20 19:42:59 / 修改时间：20:02:59" itemprop="dateCreated datePublished" datetime="2021-10-20T19:42:59+08:00">2021-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据与变量"><a href="#数据与变量" class="headerlink" title="数据与变量"></a>数据与变量</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>go是静态类型数据结构，但是也可以不声明类型通过编译器来判断。但是最好显示的声明类型。</p>
+<p>1    布尔型<br>布尔型的值只可以是常量 true 或者 false。一个简单的例子：<code>var b bool = true</code>。<br>2    数字类型<br>整型 int 和浮点型 float32、float64，Go 语言支持整型和浮点型数字，并且支持复数，其中位的运算采用补码。<br><code>var i int = 3</code><br><code>var f float32 = 0.111</code><br>3    字符串类型:<br>字符串就是一串固定长度的字符连接起来的字符序列。Go 的字符串是由单个字节连接起来的。Go 语言的字符串的字节使用 UTF-8 编码标识 Unicode 文本。<br><code>var s string = &quot;too&quot;</code><br>4 数组类型：<br>数组可以存储不同类型的数据</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> beatles [<span class="number">4</span>]<span class="keyword">string</span></span><br><span class="line">beatles[<span class="number">0</span>] = <span class="string">&quot;John&quot;</span></span><br><span class="line">beatles[<span class="number">1</span>] = <span class="string">&quot;Pual&quot;</span></span><br><span class="line">beatles[<span class="number">2</span>] = <span class="string">&quot;John2&quot;</span></span><br><span class="line">beatles[<span class="number">3</span>] = <span class="string">&quot;John3&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="变量声明方式"><a href="#变量声明方式" class="headerlink" title="变量声明方式"></a>变量声明方式</h2><p>注：不能在函数外使用简短变量声明<br>变量声明方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s <span class="keyword">string</span> = <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s = <span class="string">&quot;Hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t <span class="keyword">string</span></span><br><span class="line">t = <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 简短声明变量</span></span><br><span class="line">u := <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/18/dump-SQL%E4%B8%AD%E5%A4%8D%E5%88%B6%E8%A1%A8%E7%BB%93%E6%9E%84%E6%88%96%E6%95%B0%E6%8D%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -248,6 +322,101 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93rz-sz%E7%9A%84%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93rz-sz%E7%9A%84%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">服务器文件传输rz/sz的相关配置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-23 19:43:59" itemprop="dateCreated datePublished" datetime="2021-03-23T19:43:59+08:00">2021-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-20 19:47:49" itemprop="dateModified" datetime="2021-10-20T19:47:49+08:00">2021-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在沙盒环境部署服务时，需要在服务器上进行替换jar包并重新启动的操作。而服务器是通过跳板机登录的，不太方便使用scp命令。所以这里使用rz（文件上传），sz filename （文件下载）命令来执行相关操作。</p>
+<h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><p>工具：iterm2，brew</p>
+<h1 id="配置操作"><a href="#配置操作" class="headerlink" title="配置操作"></a>配置操作</h1><h2 id="安装lrzsz（需先安装brew）"><a href="#安装lrzsz（需先安装brew）" class="headerlink" title="安装lrzsz（需先安装brew）"></a>安装lrzsz（需先安装brew）</h2><p>brew install lrzsz</p>
+<p>注意：这里需要注意你的brew将包安装的地址，是/usr/local/bin还是/opt/homebrew/bin/，在bin目录下有sz、rz等文件。</p>
+<h2 id="下载-iterm2-send-zmodem-sh-和-iterm2-recv-zmodem-sh"><a href="#下载-iterm2-send-zmodem-sh-和-iterm2-recv-zmodem-sh" class="headerlink" title="下载 iterm2-send-zmodem.sh 和 iterm2-recv-zmodem.sh"></a>下载 iterm2-send-zmodem.sh 和 iterm2-recv-zmodem.sh</h2><p>下载 iterm2-send-zmodem.sh 和 iterm2-recv-zmodem.sh保存到Mac的/usr/local/bin或是/opt/homebrew/bin/路径下。根据lrzsz路径判断。</p>
+<p>下载路径1 Github：<a target="_blank" rel="noopener" href="https://github.com/mmastrac/iterm2-zmodem">https://github.com/mmastrac/iterm2-zmodem</a><br>下载路径2 网盘： <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/14047z_CW5g6PPNP0xyyOkg%EF%BC%88wt30%EF%BC%89">https://pan.baidu.com/s/14047z_CW5g6PPNP0xyyOkg（wt30）</a><br>下载路径3 直接创建两个文件并编辑。</p>
+<p>iterm2-recv-zmodem.sh</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Author: Matt Mastracci (matthew@mastracci.com)</span></span><br><span class="line"><span class="comment"># AppleScript from http://stackoverflow.com/questions/4309087/cancel-button-on-osascript-in-a-bash-script</span></span><br><span class="line"><span class="comment"># licensed under cc-wiki with attribution required </span></span><br><span class="line"><span class="comment"># Remainder of script public domain</span></span><br><span class="line"></span><br><span class="line">osascript -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to version&#x27;</span> &gt; /dev/null 2&gt;&amp;1 &amp;&amp; NAME=iTerm2 || NAME=iTerm</span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$NAME</span> = <span class="string">&quot;iTerm&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    FILE=`osascript -e <span class="string">&#x27;tell application &quot;iTerm&quot; to activate&#x27;</span> -e <span class="string">&#x27;tell application &quot;iTerm&quot; to set thefile to choose folder with prompt &quot;Choose a folder to place received files in&quot;&#x27;</span> -e <span class="string">&quot;do shell script (\&quot;echo \&quot;&amp;(quoted form of POSIX path of thefile as Unicode text)&amp;\&quot;\&quot;)&quot;</span>`</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    FILE=`osascript -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to activate&#x27;</span> -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to set thefile to choose folder with prompt &quot;Choose a folder to place received files in&quot;&#x27;</span> -e <span class="string">&quot;do shell script (\&quot;echo \&quot;&amp;(quoted form of POSIX path of thefile as Unicode text)&amp;\&quot;\&quot;)&quot;</span>`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$FILE</span> = <span class="string">&quot;&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> Cancelled.</span><br><span class="line">    <span class="comment"># Send ZModem cancel</span></span><br><span class="line">    <span class="built_in">echo</span> -e \\x18\\x18\\x18\\x18\\x18</span><br><span class="line">    sleep 1</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    <span class="built_in">echo</span> \<span class="comment"># Cancelled transfer</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$FILE</span>&quot;</span></span><br><span class="line">    /opt/homebrew/bin/rz -E -e -b</span><br><span class="line">    sleep 1</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    <span class="built_in">echo</span> \<span class="comment"># Sent \-\&gt; $FILE</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+
+<p>iterm2-send-zmodem.sh</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Author: Matt Mastracci (matthew@mastracci.com)</span></span><br><span class="line"><span class="comment"># AppleScript from http://stackoverflow.com/questions/4309087/cancel-button-on-osascript-in-a-bash-script</span></span><br><span class="line"><span class="comment"># licensed under cc-wiki with attribution required </span></span><br><span class="line"><span class="comment"># Remainder of script public domain</span></span><br><span class="line"></span><br><span class="line">osascript -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to version&#x27;</span> &gt; /dev/null 2&gt;&amp;1 &amp;&amp; NAME=iTerm2 || NAME=iTerm</span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$NAME</span> = <span class="string">&quot;iTerm&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    FILE=`osascript -e <span class="string">&#x27;tell application &quot;iTerm&quot; to activate&#x27;</span> -e <span class="string">&#x27;tell application &quot;iTerm&quot; to set thefile to choose file with prompt &quot;Choose a file to send&quot;&#x27;</span> -e <span class="string">&quot;do shell script (\&quot;echo \&quot;&amp;(quoted form of POSIX path of thefile as Unicode text)&amp;\&quot;\&quot;)&quot;</span>`</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    FILE=`osascript -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to activate&#x27;</span> -e <span class="string">&#x27;tell application &quot;iTerm2&quot; to set thefile to choose file with prompt &quot;Choose a file to send&quot;&#x27;</span> -e <span class="string">&quot;do shell script (\&quot;echo \&quot;&amp;(quoted form of POSIX path of thefile as Unicode text)&amp;\&quot;\&quot;)&quot;</span>`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$FILE</span> = <span class="string">&quot;&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> Cancelled.</span><br><span class="line">    <span class="comment"># Send ZModem cancel</span></span><br><span class="line">    <span class="built_in">echo</span> -e \\x18\\x18\\x18\\x18\\x18</span><br><span class="line">    sleep 1</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    <span class="built_in">echo</span> \<span class="comment"># Cancelled transfer</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    /opt/homebrew/bin/sz <span class="string">&quot;<span class="variable">$FILE</span>&quot;</span> -e -b</span><br><span class="line">    sleep 1</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">    <span class="built_in">echo</span> \<span class="comment"># Received $FILE</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+
+<p>注意：文档中else后的路径根据lrzsz地址填写。</p>
+<h2 id="给两个sh添加权限"><a href="#给两个sh添加权限" class="headerlink" title="给两个sh添加权限"></a>给两个sh添加权限</h2><p>cd /opt/homebrew/bin</p>
+<p>chmod +x iterm2-send-zmodem.sh</p>
+<p>chmod +x iterm2-recv-zmodem.sh</p>
+<h2 id="设置iterm2的触发器（triggers）"><a href="#设置iterm2的触发器（triggers）" class="headerlink" title="设置iterm2的触发器（triggers）"></a>设置iterm2的触发器（triggers）</h2><p>在iterm2中的“Preferences”面板-&gt;Profiles选项卡-&gt;Advanced-&gt;Triggers（点击Edit便可）</p>
+<p>Regular expression: **B0100<br>    Action: Run Silent Coprocess<br>    Parameters: /usr/local/bin/iterm2-send-zmodem.sh<br>Regular expression: **B00000000000000<br>    Action: Run Silent Coprocess<br>    Parameters: /usr/local/bin/iterm2-recv-zmodem.sh<br>添加后如图：<br><img src="/image/16347304425454.jpg"></p>
+<p>勾选了 instant 就不须要重启items2了，而后就能够传输文件了。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>sz filename (发送文件到客户端,zmodem接收可以自行启动)<br>rz (从客户端上传文件到linux服务端)</p>
+
       
     </div>
 
@@ -848,168 +1017,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/02/Vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Mask">
-      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="/">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/02/Vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">Vue路由传参方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-02 18:02:54" itemprop="dateCreated datePublished" datetime="2019-08-02T18:02:54+08:00">2019-08-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-19 11:50:30" itemprop="dateModified" datetime="2021-10-19T11:50:30+08:00">2021-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>最近在开发中使用vue框架，而通过路由Vue Router可以创建单页应用，将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们。不同页面的跳转其实是不同组件的跳转（不同.vue的跳转）。<br>需求场景如下：在一个页面中有一个Element的Table，表格中展示不同的应用信息，需要点击应用后可以跳转到该应用详情页面。<br>问题拆分：可以大致分为几个部分，Element的Table的点击事件–点击后执行路由跳转–跳转的同时将点击的appname进行传递–详情页面获取到appname进行查询操作。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/02/Vue%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%8F%82%E6%96%B9%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/07/26/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8JPA%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Mask">
-      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="/">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/26/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8JPA%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">SpringBoot中使用JPA访问数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-26 10:51:07" itemprop="dateCreated datePublished" datetime="2019-07-26T10:51:07+08:00">2019-07-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-19 14:34:00" itemprop="dateModified" datetime="2021-10-19T14:34:00+08:00">2021-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SpringBoot中使用JPA访问数据库"><a href="#SpringBoot中使用JPA访问数据库" class="headerlink" title="SpringBoot中使用JPA访问数据库"></a>SpringBoot中使用JPA访问数据库</h1><h2 id="JPA概念"><a href="#JPA概念" class="headerlink" title="JPA概念"></a>JPA概念</h2><p>  jpa是Java Persistence API的简称，即为java持久层api，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中，简单来说就是将数据库中的关系表映射为java中的一个类，然后在java运行时，将这个类的实体对象持久化到数据库中。（这和使用android中的litepal很像）<br>  优点：持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/07/26/SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8JPA%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1079,20 +1086,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

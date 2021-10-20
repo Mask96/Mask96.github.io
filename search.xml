@@ -1504,6 +1504,7 @@
     <title>Go基础数据类型与基本语法</title>
     <url>/2021/10/20/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="数据与变量"><a href="#数据与变量" class="headerlink" title="数据与变量"></a>数据与变量</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>go是静态类型数据结构，但是也可以不声明类型通过编译器来判断。但是最好显示的声明类型。</p>
+<span id="more"></span>
 <p>1    布尔型<br>布尔型的值只可以是常量 true 或者 false。一个简单的例子：<code>var b bool = true</code>。<br>2    数字类型<br>整型 int 和浮点型 float32、float64，Go 语言支持整型和浮点型数字，并且支持复数，其中位的运算采用补码。<br><code>var i int = 3</code><br><code>var f float32 = 0.111</code><br>3    字符串类型:<br>字符串就是一串固定长度的字符连接起来的字符序列。Go 的字符串是由单个字节连接起来的。Go 语言的字符串的字节使用 UTF-8 编码标识 Unicode 文本。<br><code>var s string = &quot;too&quot;</code><br>4 数组类型：<br>数组可以存储不同类型的数据</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> beatles [<span class="number">4</span>]<span class="keyword">string</span></span><br><span class="line">beatles[<span class="number">0</span>] = <span class="string">&quot;John&quot;</span></span><br><span class="line">beatles[<span class="number">1</span>] = <span class="string">&quot;Pual&quot;</span></span><br><span class="line">beatles[<span class="number">2</span>] = <span class="string">&quot;John2&quot;</span></span><br><span class="line">beatles[<span class="number">3</span>] = <span class="string">&quot;John3&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -1522,6 +1523,8 @@
     <title>服务器文件传输rz/sz的相关配置</title>
     <url>/2021/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93rz-sz%E7%9A%84%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在沙盒环境部署服务时，需要在服务器上进行替换jar包并重新启动的操作。而服务器是通过跳板机登录的，不太方便使用scp命令。所以这里使用rz（文件上传），sz filename （文件下载）命令来执行相关操作。</p>
+<span id="more"></span>
+
 <h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><p>工具：iterm2，brew</p>
 <h1 id="配置操作"><a href="#配置操作" class="headerlink" title="配置操作"></a>配置操作</h1><h2 id="安装lrzsz（需先安装brew）"><a href="#安装lrzsz（需先安装brew）" class="headerlink" title="安装lrzsz（需先安装brew）"></a>安装lrzsz（需先安装brew）</h2><p>brew install lrzsz</p>
 <p>注意：这里需要注意你的brew将包安装的地址，是/usr/local/bin还是/opt/homebrew/bin/，在bin目录下有sz、rz等文件。</p>

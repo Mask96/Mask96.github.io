@@ -1501,7 +1501,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Go基础数据类型与基本语法</title>
+    <title>Go基础数据类型与流程控制</title>
     <url>/2021/10/20/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="数据与变量"><a href="#数据与变量" class="headerlink" title="数据与变量"></a>数据与变量</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>go是静态类型数据结构，但是也可以不声明类型通过编译器来判断。但是最好显示的声明类型。</p>
 <span id="more"></span>
@@ -1517,7 +1517,18 @@
 <h1 id="使用函数"><a href="#使用函数" class="headerlink" title="使用函数"></a>使用函数</h1><p>函数本身也是一个类型，可以在一个函数传递参数中 传递另外一个函数。</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	n, s := getPrize(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	fmt.Println(n) <span class="comment">// 3</span></span><br><span class="line">	fmt.Println(s) <span class="comment">// hello</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getPrize</span><span class="params">(i <span class="keyword">int</span>, j <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">int</span>, <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	s := <span class="string">&quot;hello&quot;</span></span><br><span class="line">	<span class="keyword">return</span> i + j, s</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h1 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h1>]]></content>
+<h1 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h1><h2 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h2><p>go和java一个区别就是，在go的if或者for语句中，条件都不用加小括号。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">	b := true</span><br><span class="line">	if b &#123;</span><br><span class="line">		fmt.Println(&quot;b is true&quot;)</span><br><span class="line">	&#125;else &#123;</span><br><span class="line">		fmt.Println(&quot;b is false&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">func switchTest() &#123;</span><br><span class="line">	i :=2</span><br><span class="line">	switch i &#123;</span><br><span class="line">	case 1:</span><br><span class="line">		fmt.Println(&quot;i is 1&quot;)</span><br><span class="line">	case 2:</span><br><span class="line">		fmt.Println(&quot;i is 2&quot;)</span><br><span class="line">	default:</span><br><span class="line">		fmt.Println(&quot;switch is done&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h2><p>在第三种方式中，第一个值为index，循环中的次数。第二个值为便利数组中的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">func forTest() &#123;</span><br><span class="line">	i := 0</span><br><span class="line">	for i &lt; 2 &#123;</span><br><span class="line">		i++</span><br><span class="line">		fmt.Println(&quot;i is &quot;, i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for j := 0; j &lt; 2; j++ &#123;</span><br><span class="line">		fmt.Println(&quot;j is &quot;, j)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	numbers := []int&#123;1, 2, 3, 4&#125;</span><br><span class="line">	for index, num := range numbers &#123;</span><br><span class="line">		fmt.Println(&quot; the index of loop is &quot;,index)</span><br><span class="line">		fmt.Println(&quot; this num is &quot;,num)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行后结果：<br><img src="/image/16352288253537.jpg"></p>
+<h2 id="defer语句"><a href="#defer语句" class="headerlink" title="defer语句"></a>defer语句</h2><p>defer在该函数执行结束返回前执行。通常用于执行清理操作或 确保操作。<br>如果一个函数中有多个defer，将按入栈方式 先进后出。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">func deferTest() &#123;</span><br><span class="line">	defer fmt.Println(&quot;func finish&quot;)</span><br><span class="line">	fmt.Println(&quot;start&quot;)</span><br><span class="line">	defer fmt.Println(&quot;defer 1&quot;)</span><br><span class="line">	defer fmt.Println(&quot;defer 2&quot;)</span><br><span class="line">	defer fmt.Println(&quot;defer 3&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果如下：<br><img src="/image/16352290763431.jpg"></p>
+]]></content>
       <categories>
         <category>go</category>
       </categories>

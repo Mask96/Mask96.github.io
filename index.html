@@ -185,6 +185,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/26/Go%E7%9A%84%E6%95%B0%E7%BB%84%E3%80%81%E5%88%87%E7%89%87%E3%80%81%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/26/Go%E7%9A%84%E6%95%B0%E7%BB%84%E3%80%81%E5%88%87%E7%89%87%E3%80%81%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">Go的数组、切片、结构体与指针</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-26 14:22:46 / 修改时间：15:35:17" itemprop="dateCreated datePublished" datetime="2021-10-26T14:22:46+08:00">2021-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数组、切片和映射"><a href="#数组、切片和映射" class="headerlink" title="数组、切片和映射"></a>数组、切片和映射</h1><h2 id="数组的定义"><a href="#数组的定义" class="headerlink" title="数组的定义"></a>数组的定义</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numsTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cheeses [<span class="number">2</span>]<span class="keyword">string</span></span><br><span class="line">	cheeses[<span class="number">0</span>] = <span class="string">&quot;first&quot;</span></span><br><span class="line">	cheeses[<span class="number">1</span>] = <span class="string">&quot;get two cheeses&quot;</span></span><br><span class="line">	<span class="comment">// first</span></span><br><span class="line">	fmt.Println(cheeses[<span class="number">0</span>])</span><br><span class="line">	<span class="comment">// get two cheeses</span></span><br><span class="line">	fmt.Println(cheeses[<span class="number">1</span>])</span><br><span class="line">	<span class="comment">// [first get two cheeses]</span></span><br><span class="line">	fmt.Println(cheeses)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果直接fmt打印数组，会将数组中所有值打印出来。<br>已经定义好数组长度的话，就不能再插入超过长度的值。设置<code>cheeses[2]</code>会报错</p>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><h3 id="切片新增"><a href="#切片新增" class="headerlink" title="切片新增"></a>切片新增</h3><p>因为数组定义后不能在更改长度的特性，引入切片的概念。<br>切片相当于一个数组的封装、但是添加了增加长度、删除、复制等的功能。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 切片</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">cupTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cheeses = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">2</span>)</span><br><span class="line">	cheeses[<span class="number">0</span>] = <span class="string">&quot;AA&quot;</span></span><br><span class="line">	cheeses[<span class="number">1</span>] = <span class="string">&quot;BB&quot;</span></span><br><span class="line">	cheeses = <span class="built_in">append</span>(cheeses, <span class="string">&quot;CC&quot;</span>)</span><br><span class="line">	<span class="comment">// [AA BB CC]</span></span><br><span class="line">	fmt.Println(cheeses)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义时通过内置make函数来定义切片、第一个参数为数据类型、第二个为原始长度。<br>append()方法会将切片的长度增加，并填充参数。该方法是不定参数函数，所以可以通过该函数一次添加多个参数。<br>append()方法会将切片的长度增加，就算没有定义<code>cheeses[1] = &quot;BB&quot;</code>，也会新增长度，不会把参数填充到index=1的位置。</p>
+<h3 id="切片删除"><a href="#切片删除" class="headerlink" title="切片删除"></a>切片删除</h3><p>如下是删除切片中index为2的元素</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cheeses = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	cheeses[<span class="number">0</span>] = <span class="string">&quot;Mariolles&quot;</span></span><br><span class="line">	cheeses[<span class="number">1</span>] = <span class="string">&quot;Époisses de Bourgogne&quot;</span></span><br><span class="line">	cheeses[<span class="number">2</span>] = <span class="string">&quot;Camembert&quot;</span></span><br><span class="line">	fmt.Println(<span class="built_in">len</span>(cheeses))</span><br><span class="line">	fmt.Println(cheeses)</span><br><span class="line">	cheeses = <span class="built_in">append</span>(cheeses[:<span class="number">2</span>], cheeses[<span class="number">2</span>+<span class="number">1</span>:]...)</span><br><span class="line">	fmt.Println(<span class="built_in">len</span>(cheeses))</span><br><span class="line">	fmt.Println(cheeses)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/image/16352318749270.jpg"></p>
+<h3 id="切片复制"><a href="#切片复制" class="headerlink" title="切片复制"></a>切片复制</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">copeTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cheeses = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">2</span>)</span><br><span class="line">	cheeses[<span class="number">0</span>] = <span class="string">&quot;Mariolles&quot;</span></span><br><span class="line">	cheeses[<span class="number">1</span>] = <span class="string">&quot;Époisses de Bourgogne&quot;</span></span><br><span class="line">	<span class="keyword">var</span> smellyCheeses = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="built_in">copy</span>(smellyCheeses, cheeses)</span><br><span class="line">	fmt.Println(smellyCheeses)</span><br><span class="line">	<span class="comment">// [Mariolles Époisses de Bourgogne]</span></span><br><span class="line"></span><br><span class="line">&lt;!--只复制cheese中index1之后的--&gt;</span><br><span class="line">	<span class="keyword">var</span> smellyCheeses2 = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="built_in">copy</span>(smellyCheeses2, cheeses[<span class="number">1</span>:])</span><br><span class="line">	fmt.Println(smellyCheeses2)</span><br><span class="line">	<span class="comment">// [Époisses de Bourgogne ]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>映射相当于go中的Map，是一个k-v格式的数据结构。映射可以不指定长度、随意增加减少长度。<br>初始化与赋值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mapTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> players = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	players[<span class="string">&quot;cook&quot;</span>] = <span class="number">32</span></span><br><span class="line">	players[<span class="string">&quot;key2&quot;</span>] = <span class="number">27</span></span><br><span class="line">	players[<span class="string">&quot;stokes&quot;</span>] = <span class="number">26</span></span><br><span class="line">	fmt.Println(players[<span class="string">&quot;cook&quot;</span>]) <span class="comment">//32</span></span><br><span class="line">	fmt.Println(players[<span class="string">&quot;key2&quot;</span>]) <span class="comment">//27</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过make进行初始化，key为string类型、value为int类型。</p>
+<p>删除映射中k-v对，通过内置的delete方法进行删除。如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deleteTest</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> players = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	players[<span class="string">&quot;cook&quot;</span>] = <span class="number">32</span></span><br><span class="line">	players[<span class="string">&quot;bairstow&quot;</span>] = <span class="number">27</span></span><br><span class="line">	players[<span class="string">&quot;stokes&quot;</span>] = <span class="number">26</span></span><br><span class="line">	<span class="built_in">delete</span>(players, <span class="string">&quot;cook&quot;</span>)</span><br><span class="line">	fmt.Println(players)</span><br><span class="line">	<span class="comment">// map[bairstow:27 stokes:26]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/20/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -216,7 +297,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-26 14:19:02" itemprop="dateModified" datetime="2021-10-26T14:19:02+08:00">2021-10-26</time>
+                <time title="修改时间：2021-10-26 14:20:45" itemprop="dateModified" datetime="2021-10-26T14:20:45+08:00">2021-10-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -926,90 +1007,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/22/Vue%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Mask">
-      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="/">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/22/Vue%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">Vue基础笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-22 16:03:08" itemprop="dateCreated datePublished" datetime="2019-08-22T16:03:08+08:00">2019-08-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-19 11:54:48" itemprop="dateModified" datetime="2021-10-19T11:54:48+08:00">2021-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="VUE起步"><a href="#VUE起步" class="headerlink" title="VUE起步"></a>VUE起步</h1><p>vue是一个基于MVVM模式的前端框架，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。这个框架的中文文档就很好了，这里只是记录一些本人学习和使用vue时的备忘和笔记。</p>
-<blockquote>
-<p>官方文档：<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/">https://cn.vuejs.org/v2/guide/</a></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/22/Vue%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1079,7 +1076,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

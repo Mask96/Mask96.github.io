@@ -1698,7 +1698,10 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy https://agent.baidu.com:8118</span><br><span class="line">git config --global http.proxy http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>
 <p>是不是很聪明</p>
 <p>到出https http代理的方式  curl wget等也可正常运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export https_proxy=https://agent.baidu.com:8118</span><br><span class="line">export http_proxy=http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export https_proxy=https://agent.baidu.com:8118</span><br><span class="line">export http_proxy=http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>
+
+<h1 id="终极大法"><a href="#终极大法" class="headerlink" title="终极大法"></a>终极大法</h1><p><a href="https://ikuuu.co/auth/register?code=ZRmh">https://ikuuu.co/auth/register?code=ZRmh</a><br>懂得都懂</p>
+]]></content>
       <categories>
         <category>Linux</category>
       </categories>

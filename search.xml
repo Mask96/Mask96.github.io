@@ -1687,7 +1687,8 @@
     <url>/2021/11/12/%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3Chrome%E7%AD%89%E8%AE%BF%E9%97%AEGoogle%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="Chrome级别"><a href="#Chrome级别" class="headerlink" title="Chrome级别"></a>Chrome级别</h1><ol>
 <li>在<a href="https://github.com/FelisCatus/SwitchyOmega/releases%E4%B8%8B%E8%BD%BDSwitchyOmega">https://github.com/FelisCatus/SwitchyOmega/releases下载SwitchyOmega</a></li>
-<li>chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展<br><img src="/image/16366997208734.jpg"><br>选择新建情景模式<br><img src="/image/16366997790495.jpg"></li>
+<li>chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展<span id="more"></span>
+<img src="/image/16366997208734.jpg"><br>选择新建情景模式<br><img src="/image/16366997790495.jpg"></li>
 </ol>
 <p>输入情景模式名称，选择PAC情景模式，点击创建<br><img src="/image/16366997529988.jpg"></p>
 <p>输入PAC网址：<code>http://pac.internal.baidu.com/bdnew.pac</code>，然后点击立即更新情景模式<br><img src="/image/16366998137723.jpg"></p>

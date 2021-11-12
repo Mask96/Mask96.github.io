@@ -1652,12 +1652,9 @@
 <span id="more"></span>
 
 <h1 id="播客叫什么"><a href="#播客叫什么" class="headerlink" title="播客叫什么"></a>播客叫什么</h1><p>一个无意义相关的词。<br>虚妄之言</p>
-<h1 id="第一期聊什么"><a href="#第一期聊什么" class="headerlink" title="第一期聊什么"></a>第一期聊什么</h1><h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><p>mask、少爷<br>立冬、初雪、吃火锅</p>
-<h2 id="为什么要做音频节目"><a href="#为什么要做音频节目" class="headerlink" title="为什么要做音频节目"></a>为什么要做音频节目</h2><p>记录生活、偶尔输出、绝不评判<br>之前做过的fm</p>
-<h2 id="为什么要叫这个名字"><a href="#为什么要叫这个名字" class="headerlink" title="为什么要叫这个名字"></a>为什么要叫这个名字</h2><p>都是随便说说<br>不一定对</p>
-<h2 id="怎么理解虚无主义"><a href="#怎么理解虚无主义" class="headerlink" title="怎么理解虚无主义"></a>怎么理解虚无主义</h2><p>快乐的阈值</p>
-<h2 id="最近推荐一首歌"><a href="#最近推荐一首歌" class="headerlink" title="最近推荐一首歌"></a>最近推荐一首歌</h2><p>北京的冬天 老狼</p>
-<h1 id="一些其他的想法"><a href="#一些其他的想法" class="headerlink" title="一些其他的想法"></a>一些其他的想法</h1><p>录制时需要一点环境音，果壳之前的第一期开头开易拉罐的声音就很不错，可以持续形成定式。<br>燃香打火机声音。</p>
+<h1 id="第一期聊什么"><a href="#第一期聊什么" class="headerlink" title="第一期聊什么"></a>第一期聊什么</h1><p>P1自我介绍，mask、少爷、立冬、初雪、吃火锅<br>P2为什么要做音频节目，记录生活、偶尔输出、绝不评判、之前做过的fm<br>P3为什么要叫这个名字，都是随便说说、不一定对<br>P4怎么理解虚无主义，快乐的阈值<br>P5最近推荐一首歌：北京的冬天 老狼</p>
+<p>一些其他的想法<br>录制时需要一点环境音，果壳之前的第一期开头开易拉罐的声音就很不错，可以持续形成定式。<br>燃香打火机声音。</p>
+<h1 id="一些选题"><a href="#一些选题" class="headerlink" title="一些选题"></a>一些选题</h1><p>【合作】买书如同恋爱，都是主观的选择。<br>【合作】年度flag都还在吗</p>
 ]]></content>
       <categories>
         <category>播客</category>
@@ -1669,12 +1666,44 @@
   <entry>
     <title>Go的Goroutine并发以及通道</title>
     <url>/2021/11/01/Go%E7%9A%84Goroutine%E5%B9%B6%E5%8F%91%E4%BB%A5%E5%8F%8A%E9%80%9A%E9%81%93/</url>
-    <content><![CDATA[<h1 id="Goroutine并发"><a href="#Goroutine并发" class="headerlink" title="Goroutine并发"></a>Goroutine并发</h1>]]></content>
+    <content><![CDATA[<h1 id="Goroutine并发"><a href="#Goroutine并发" class="headerlink" title="Goroutine并发"></a>Goroutine并发</h1><h2 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h2><p>上面是并发，下面是并行。<br><img src="/image/16363743893511.jpg"></p>
+<span id="more"></span>
+
+<p>并行(parallel)：指在同一时刻，有多条指令在多个处理器上同时执行。所以无论从微观还是从宏观来看，二者都是一起执行的<br><img src="/image/16363742964656.jpg"><br>并发(concurrency)：指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。<br><img src="/image/16363743310665.jpg"></p>
+<h2 id="使用Goroutine处理并发操作"><a href="#使用Goroutine处理并发操作" class="headerlink" title="使用Goroutine处理并发操作"></a>使用Goroutine处理并发操作</h2><p>Goroutine类似与Java的线程，但是在go中不需要对Goroutine进行线程管理，创建Goroutine占用的资源很少，可以创建几千个，而且创建和销毁的效率都很高。<br>实例如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">slowFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	time.Sleep(time.Second * <span class="number">2</span>)</span><br><span class="line">	fmt.Println(<span class="string">&quot;slowFunc() finished&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> slowFunc()</span><br><span class="line">	fmt.Println(<span class="string">&quot;I am now shown straightaway!&quot;</span>)</span><br><span class="line">	time.Sleep(time.Second * <span class="number">3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="通道"><a href="#通道" class="headerlink" title="通道"></a>通道</h1><p>通道是Goroutine之间通信的方式。所以Goroutine之间不是通过共享内存来通信，而是通过通信来共享内存。</p>
+]]></content>
       <categories>
         <category>go</category>
       </categories>
       <tags>
         <tag>go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过代理解决Chrome等访问Google问题</title>
+    <url>/2021/11/12/%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3Chrome%E7%AD%89%E8%AE%BF%E9%97%AEGoogle%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="Chrome级别"><a href="#Chrome级别" class="headerlink" title="Chrome级别"></a>Chrome级别</h1><ol>
+<li>在<a href="https://github.com/FelisCatus/SwitchyOmega/releases%E4%B8%8B%E8%BD%BDSwitchyOmega">https://github.com/FelisCatus/SwitchyOmega/releases下载SwitchyOmega</a></li>
+<li>chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展<br><img src="/image/16366997208734.jpg"><br>选择新建情景模式<br><img src="/image/16366997790495.jpg"></li>
+</ol>
+<p>输入情景模式名称，选择PAC情景模式，点击创建<br><img src="/image/16366997529988.jpg"></p>
+<p>输入PAC网址：<code>http://pac.internal.baidu.com/bdnew.pac</code>，然后点击立即更新情景模式<br><img src="/image/16366998137723.jpg"></p>
+<h1 id="系统级别（推荐）"><a href="#系统级别（推荐）" class="headerlink" title="系统级别（推荐）"></a>系统级别（推荐）</h1><p>另外如果想同时支持多个浏览器翻墙代理，可以直接把代理配置在系统网络上，进行如下操作即可<br>选择  系统偏好设置 → 网络→ 选择已链接网络→ 高级（如下图）<br><img src="/image/16367000256151.jpg"></p>
+<p>选择 代理tab，勾选自动代理设置，右侧url填写 <a href="http://pac.internal.baidu.com/bdnew.pac">http://pac.internal.baidu.com/bdnew.pac</a> 即可 （如下图，注意设置了这种模式不需要再设置chrome翻墙插件，pac代理只对部分url进行代理，所以没有性能影响）<br><img src="/image/16367000144361.jpg"></p>
+<h1 id="终端层面"><a href="#终端层面" class="headerlink" title="终端层面"></a>终端层面</h1><p>很遗憾，上述脚本只支持http代理，对于终端上的类似curl和wget等命令是不支持的，怎么办呢？<br>这里找一种git翻墙的方式<br>我们查看<a href="http://pac.internal.baidu.com/bdnew.pac%E6%96%87%E4%BB%B6%EF%BC%8C%E5%8F%91%E7%8E%B0%E7%BF%BB%E5%A2%99%E7%9A%84%E4%BB%A3%E7%90%86%E5%9C%B0%E5%9D%80%E4%B8%BA">http://pac.internal.baidu.com/bdnew.pac文件，发现翻墙的代理地址为</a><br><code>agent.baidu.com:8118</code></p>
+<p>所以我们可以给git设置代理的方式实现git翻墙</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy https://agent.baidu.com:8118</span><br><span class="line">git config --global http.proxy http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>
+<p>是不是很聪明</p>
+<p>到出https http代理的方式  curl wget等也可正常运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export https_proxy=https://agent.baidu.com:8118</span><br><span class="line">export http_proxy=http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>

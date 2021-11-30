@@ -1755,4 +1755,40 @@
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>go性能分析pprof</title>
+    <url>/2021/11/30/go%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90pprof/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Go 有非常多好用的工具，pprof 可以用来分析一个程序的性能。pprof 有以下 4 种类型：</p>
+<p>CPU profiling（CPU 性能分析）：这是最常使用的一种类型。用于分析函数或方法的执行耗时；<br>Memory profiling：这种类型也常使用。用于分析程序的内存占用情况；<br>Block profiling：这是 Go 独有的，用于记录 goroutine 在等待共享资源花费的时间；<br>Mutex profiling：与 Block profiling 类似，但是只记录因为锁竞争导致的等待或延迟。</p>
+<span id="more"></span>
+
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="step1-开启"><a href="#step1-开启" class="headerlink" title="step1:开启"></a>step1:开启</h2><p>在main中添加</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;log&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    _ <span class="string">&quot;net/http/pprof&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// for perf performance evaluation</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		err := http.ListenAndServe(<span class="string">&quot;:9990&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="built_in">panic</span>(err)</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开放一个9990端口用作监控</p>
+<h2 id="step2-触发"><a href="#step2-触发" class="headerlink" title="step2:触发"></a>step2:触发</h2><p>在go程序部署的机器上执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">## 获取应用当前的内存情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/heap&#x27;  -o mem.prof</span><br><span class="line"></span><br><span class="line">## 采集应用60s内的cpu使用情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/profile?seconds=120&#x27;  -o cpu.prof</span><br><span class="line"></span><br><span class="line">## 采集应用10s内的goroutine调度与执行情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/trace?seconds=10&#x27;  -o r.trace</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">`curl -sK -v http://localhost:9990/debug/pprof/heap &gt; heap.out`</span><br></pre></td></tr></table></figure>
+<p>将heap.out传到本地</p>
+<h2 id="step3-分析"><a href="#step3-分析" class="headerlink" title="step3:分析"></a>step3:分析</h2><p>启动 PProf 可视化界面，在本地执行以下命令<br><code>go tool pprof -http=:8080 heap.out</code><br>注意：如果出现 Could not execute dot; may need to install graphviz.，就是提示你要安装 graphviz 了 （<code>brew install graphviz</code>）</p>
+<p>有两点需要说一下:<br>直接在web界面选择flame graph可以观察火焰图<br>可以使用-base x.prof来做对比, 通常是看两个时间点的内存(图中会有-符号)<br>针对trace内容可以使用需要使用trace工具:<br><code>go tool trace -http :7777 ./r.trace</code></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>火焰图分析：x轴为占用比例，y轴为调用深度<br>1.表现为该go程序的cpu会偶发的飘升到300%多，所以从cpu的火焰图开始分析<br><img src="/image/16382645672878.jpg"></p>
+<ul>
+<li><p>confloader（必要）：扫描配置文件，这块cpu重构后优化<br><img src="/image/16382647545706.jpg"></p>
+</li>
+<li><p>nodata_checker：分析其中占用较大模块，其中<code>glog.Infof</code>日志打印可以优化、json拼装部分也可以优化。</p>
+</li>
+<li><p>runtime：在程序中协程开启较多，上下文切换有代价。</p>
+</li>
+<li><p>GC：如图可见cpu消耗较大的部分为gc说明是有频繁的垃圾回收，是否有频繁创建大对象的操作，可以分析内存性能。</p>
+</li>
+</ul>
+<p>2.获取meu的火焰图如下：<br>对象数量占用火焰图：<br><img src="/image/16382649977980.jpg"><br>可以看到主要内存大部分仍然为configureManager。重构后解决。</p>
+<p>对象内存大小火焰图：<br><img src="/image/16382650905306.jpg"><br>同上，其次是和namespace调用的占用较大。</p>
+]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
+      </tags>
+  </entry>
 </search>

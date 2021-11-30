@@ -20,27 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Chrome级别 在https:&#x2F;&#x2F;github.com&#x2F;FelisCatus&#x2F;SwitchyOmega&#x2F;releases下载SwitchyOmega chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展">
+  <meta name="description" content="简介Go 有非常多好用的工具，pprof 可以用来分析一个程序的性能。pprof 有以下 4 种类型： CPU profiling（CPU 性能分析）：这是最常使用的一种类型。用于分析函数或方法的执行耗时；Memory profiling：这种类型也常使用。用于分析程序的内存占用情况；Block profiling：这是 Go 独有的，用于记录 goroutine 在等待共享资源花费的时间；Mut">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过代理解决Chrome等访问Google问题">
-<meta property="og:url" content="http://example.com/2021/11/12/%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3Chrome%E7%AD%89%E8%AE%BF%E9%97%AEGoogle%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="go性能分析pprof">
+<meta property="og:url" content="http://example.com/2021/11/30/go%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90pprof/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="Chrome级别 在https:&#x2F;&#x2F;github.com&#x2F;FelisCatus&#x2F;SwitchyOmega&#x2F;releases下载SwitchyOmega chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展">
+<meta property="og:description" content="简介Go 有非常多好用的工具，pprof 可以用来分析一个程序的性能。pprof 有以下 4 种类型： CPU profiling（CPU 性能分析）：这是最常使用的一种类型。用于分析函数或方法的执行耗时；Memory profiling：这种类型也常使用。用于分析程序的内存占用情况；Block profiling：这是 Go 独有的，用于记录 goroutine 在等待共享资源花费的时间；Mut">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image/16366997208734.jpg">
-<meta property="og:image" content="http://example.com/image/16366997790495.jpg">
-<meta property="og:image" content="http://example.com/image/16366997529988.jpg">
-<meta property="og:image" content="http://example.com/image/16366998137723.jpg">
-<meta property="og:image" content="http://example.com/image/16367000256151.jpg">
-<meta property="og:image" content="http://example.com/image/16367000144361.jpg">
-<meta property="article:published_time" content="2021-11-12T06:43:59.000Z">
-<meta property="article:modified_time" content="2021-11-12T07:01:13.685Z">
+<meta property="og:image" content="http://example.com/image/16382645672878.jpg">
+<meta property="og:image" content="http://example.com/image/16382647545706.jpg">
+<meta property="og:image" content="http://example.com/image/16382649977980.jpg">
+<meta property="og:image" content="http://example.com/image/16382650905306.jpg">
+<meta property="article:published_time" content="2021-11-30T06:31:04.000Z">
+<meta property="article:modified_time" content="2021-11-30T09:42:58.804Z">
 <meta property="article:author" content="Mask">
-<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image/16366997208734.jpg">
+<meta name="twitter:image" content="http://example.com/image/16382645672878.jpg">
 
-<link rel="canonical" href="http://example.com/2021/11/12/%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3Chrome%E7%AD%89%E8%AE%BF%E9%97%AEGoogle%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="http://example.com/2021/11/30/go%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90pprof/">
 
 
 <script id="page-configurations">
@@ -53,7 +51,7 @@
   };
 </script>
 
-  <title>通过代理解决Chrome等访问Google问题 | /</title>
+  <title>go性能分析pprof | /</title>
   
 
 
@@ -196,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/12/%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3Chrome%E7%AD%89%E8%AE%BF%E9%97%AEGoogle%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/30/go%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90pprof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -209,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          通过代理解决Chrome等访问Google问题
+          go性能分析pprof
         </h1>
 
         <div class="post-meta">
@@ -220,7 +218,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-12 14:43:59 / 修改时间：15:01:13" itemprop="dateCreated datePublished" datetime="2021-11-12T14:43:59+08:00">2021-11-12</time>
+              <time title="创建时间：2021-11-30 14:31:04 / 修改时间：17:42:58" itemprop="dateCreated datePublished" datetime="2021-11-30T14:31:04+08:00">2021-11-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,7 +226,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                  <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
                 </span>
             </span>
 
@@ -250,23 +248,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Chrome级别"><a href="#Chrome级别" class="headerlink" title="Chrome级别"></a>Chrome级别</h1><ol>
-<li>在<a target="_blank" rel="noopener" href="https://github.com/FelisCatus/SwitchyOmega/releases%E4%B8%8B%E8%BD%BDSwitchyOmega">https://github.com/FelisCatus/SwitchyOmega/releases下载SwitchyOmega</a></li>
-<li>chrome打开：开启开发者模式，把扩下载的crx拖到页面，安装扩展<span id="more"></span>
-<img src="/image/16366997208734.jpg"><br>选择新建情景模式<br><img src="/image/16366997790495.jpg"></li>
-</ol>
-<p>输入情景模式名称，选择PAC情景模式，点击创建<br><img src="/image/16366997529988.jpg"></p>
-<p>输入PAC网址：<code>http://pac.internal.baidu.com/bdnew.pac</code>，然后点击立即更新情景模式<br><img src="/image/16366998137723.jpg"></p>
-<h1 id="系统级别（推荐）"><a href="#系统级别（推荐）" class="headerlink" title="系统级别（推荐）"></a>系统级别（推荐）</h1><p>另外如果想同时支持多个浏览器翻墙代理，可以直接把代理配置在系统网络上，进行如下操作即可<br>选择  系统偏好设置 → 网络→ 选择已链接网络→ 高级（如下图）<br><img src="/image/16367000256151.jpg"></p>
-<p>选择 代理tab，勾选自动代理设置，右侧url填写 <a target="_blank" rel="noopener" href="http://pac.internal.baidu.com/bdnew.pac">http://pac.internal.baidu.com/bdnew.pac</a> 即可 （如下图，注意设置了这种模式不需要再设置chrome翻墙插件，pac代理只对部分url进行代理，所以没有性能影响）<br><img src="/image/16367000144361.jpg"></p>
-<h1 id="终端层面"><a href="#终端层面" class="headerlink" title="终端层面"></a>终端层面</h1><p>很遗憾，上述脚本只支持http代理，对于终端上的类似curl和wget等命令是不支持的，怎么办呢？<br>这里找一种git翻墙的方式<br>我们查看<a target="_blank" rel="noopener" href="http://pac.internal.baidu.com/bdnew.pac%E6%96%87%E4%BB%B6%EF%BC%8C%E5%8F%91%E7%8E%B0%E7%BF%BB%E5%A2%99%E7%9A%84%E4%BB%A3%E7%90%86%E5%9C%B0%E5%9D%80%E4%B8%BA">http://pac.internal.baidu.com/bdnew.pac文件，发现翻墙的代理地址为</a><br><code>agent.baidu.com:8118</code></p>
-<p>所以我们可以给git设置代理的方式实现git翻墙</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy https://agent.baidu.com:8118</span><br><span class="line">git config --global http.proxy http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>
-<p>是不是很聪明</p>
-<p>到出https http代理的方式  curl wget等也可正常运行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export https_proxy=https://agent.baidu.com:8118</span><br><span class="line">export http_proxy=http://agent.baidu.com:8118</span><br></pre></td></tr></table></figure>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Go 有非常多好用的工具，pprof 可以用来分析一个程序的性能。pprof 有以下 4 种类型：</p>
+<p>CPU profiling（CPU 性能分析）：这是最常使用的一种类型。用于分析函数或方法的执行耗时；<br>Memory profiling：这种类型也常使用。用于分析程序的内存占用情况；<br>Block profiling：这是 Go 独有的，用于记录 goroutine 在等待共享资源花费的时间；<br>Mutex profiling：与 Block profiling 类似，但是只记录因为锁竞争导致的等待或延迟。</p>
+<span id="more"></span>
 
-<h1 id="终极大法"><a href="#终极大法" class="headerlink" title="终极大法"></a>终极大法</h1><p><a target="_blank" rel="noopener" href="https://ikuuu.co/auth/register?code=ZRmh">https://ikuuu.co/auth/register?code=ZRmh</a><br>懂得都懂</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="step1-开启"><a href="#step1-开启" class="headerlink" title="step1:开启"></a>step1:开启</h2><p>在main中添加</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;log&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    _ <span class="string">&quot;net/http/pprof&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// for perf performance evaluation</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		err := http.ListenAndServe(<span class="string">&quot;:9990&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="built_in">panic</span>(err)</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开放一个9990端口用作监控</p>
+<h2 id="step2-触发"><a href="#step2-触发" class="headerlink" title="step2:触发"></a>step2:触发</h2><p>在go程序部署的机器上执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## 获取应用当前的内存情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/heap&#x27;  -o mem.prof</span><br><span class="line"></span><br><span class="line">## 采集应用60s内的cpu使用情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/profile?seconds=120&#x27;  -o cpu.prof</span><br><span class="line"></span><br><span class="line">## 采集应用10s内的goroutine调度与执行情况</span><br><span class="line">curl &#x27;127.0.0.1:9990/debug/pprof/trace?seconds=10&#x27;  -o r.trace</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">`curl -sK -v http://localhost:9990/debug/pprof/heap &gt; heap.out`</span><br></pre></td></tr></table></figure>
+<p>将heap.out传到本地</p>
+<h2 id="step3-分析"><a href="#step3-分析" class="headerlink" title="step3:分析"></a>step3:分析</h2><p>启动 PProf 可视化界面，在本地执行以下命令<br><code>go tool pprof -http=:8080 heap.out</code><br>注意：如果出现 Could not execute dot; may need to install graphviz.，就是提示你要安装 graphviz 了 （<code>brew install graphviz</code>）</p>
+<p>有两点需要说一下:<br>直接在web界面选择flame graph可以观察火焰图<br>可以使用-base x.prof来做对比, 通常是看两个时间点的内存(图中会有-符号)<br>针对trace内容可以使用需要使用trace工具:<br><code>go tool trace -http :7777 ./r.trace</code></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>火焰图分析：x轴为占用比例，y轴为调用深度<br>1.表现为该go程序的cpu会偶发的飘升到300%多，所以从cpu的火焰图开始分析<br><img src="/image/16382645672878.jpg"></p>
+<ul>
+<li><p>confloader（必要）：扫描配置文件，这块cpu重构后优化<br><img src="/image/16382647545706.jpg"></p>
+</li>
+<li><p>nodata_checker：分析其中占用较大模块，其中<code>glog.Infof</code>日志打印可以优化、json拼装部分也可以优化。</p>
+</li>
+<li><p>runtime：在程序中协程开启较多，上下文切换有代价。</p>
+</li>
+<li><p>GC：如图可见cpu消耗较大的部分为gc说明是有频繁的垃圾回收，是否有频繁创建大对象的操作，可以分析内存性能。</p>
+</li>
+</ul>
+<p>2.获取meu的火焰图如下：<br>对象数量占用火焰图：<br><img src="/image/16382649977980.jpg"><br>可以看到主要内存大部分仍然为configureManager。重构后解决。</p>
+<p>对象内存大小火焰图：<br><img src="/image/16382650905306.jpg"><br>同上，其次是和namespace调用的占用较大。</p>
 
     </div>
 
@@ -276,7 +282,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/go/" rel="tag"># go</a>
           </div>
 
         
@@ -285,13 +291,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/11/05/21-11-05%E5%85%B3%E4%BA%8E%E6%92%AD%E5%AE%A2%E7%9A%84%E6%9D%82%E8%AE%B0/" rel="prev" title="21-11-05关于播客的杂记">
-      <i class="fa fa-chevron-left"></i> 21-11-05关于播客的杂记
+    <a href="/2021/11/30/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/" rel="prev" title="linux常用命令合集">
+      <i class="fa fa-chevron-left"></i> linux常用命令合集
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/11/30/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/" rel="next" title="linux常用命令合集">
-      linux常用命令合集 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -355,7 +358,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chrome%E7%BA%A7%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">Chrome级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BA%A7%E5%88%AB%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">系统级别（推荐）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E5%B1%82%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text">终端层面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%88%E6%9E%81%E5%A4%A7%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">终极大法</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-%E5%BC%80%E5%90%AF"><span class="nav-number">2.1.</span> <span class="nav-text">step1:开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-%E8%A7%A6%E5%8F%91"><span class="nav-number">2.2.</span> <span class="nav-text">step2:触发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step3-%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">step3:分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

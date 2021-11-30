@@ -1654,7 +1654,7 @@
 <h1 id="播客叫什么"><a href="#播客叫什么" class="headerlink" title="播客叫什么"></a>播客叫什么</h1><p>一个无意义相关的词。<br>虚妄之言</p>
 <h1 id="第一期聊什么"><a href="#第一期聊什么" class="headerlink" title="第一期聊什么"></a>第一期聊什么</h1><p>P1自我介绍，mask、少爷、立冬、初雪、吃火锅<br>P2为什么要做音频节目，记录生活、偶尔输出、绝不评判、之前做过的fm<br>P3为什么要叫这个名字，都是随便说说、不一定对<br>P4怎么理解虚无主义，快乐的阈值<br>P5最近推荐一首歌：北京的冬天 老狼</p>
 <p>一些其他的想法<br>录制时需要一点环境音，果壳之前的第一期开头开易拉罐的声音就很不错，可以持续形成定式。<br>燃香打火机声音。</p>
-<h1 id="一些选题"><a href="#一些选题" class="headerlink" title="一些选题"></a>一些选题</h1><p>【合作】买书如同恋爱，都是主观的选择。<br>【合作】年度flag都还在吗</p>
+<h1 id="一些选题"><a href="#一些选题" class="headerlink" title="一些选题"></a>一些选题</h1><p>【合作】买书如同恋爱，都是主观的选择。<br>【合作】年度flag都还在吗<br>【单人】歌曲、李志<br>【单人】蛤蟆先生去看心理医生<br>【】</p>
 ]]></content>
       <categories>
         <category>播客</category>
@@ -1734,6 +1734,20 @@
 
 <h1 id="终极大法"><a href="#终极大法" class="headerlink" title="终极大法"></a>终极大法</h1><p><a href="https://ikuuu.co/auth/register?code=ZRmh">https://ikuuu.co/auth/register?code=ZRmh</a><br>懂得都懂</p>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux常用命令合集</title>
+    <url>/2021/11/30/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/</url>
+    <content><![CDATA[<h1 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h1><h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>.tar.gz文件：<br><code>tar -zxvf xxx.tar.gz</code></p>
+<p>.gz文件解压：<br><code>gzip -d xxx.gz</code></p>
+<h1 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h1><h2 id="cpu利用率查看"><a href="#cpu利用率查看" class="headerlink" title="cpu利用率查看"></a>cpu利用率查看</h2><p>1 定点查询某服务cpu利用率</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 查询pid （第二列值）</span><br><span class="line">ps aux | grep xxxx </span><br><span class="line">// 查询该pid的cpu利用率等</span><br><span class="line">top -p pid</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Linux</category>
       </categories>

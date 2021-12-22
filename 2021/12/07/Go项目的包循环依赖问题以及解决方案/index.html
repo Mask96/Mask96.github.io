@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是包循环依赖问题golang为了加速编译，不允许包循环引用。类似Java也会有不允许循环依赖的规定。规范的go包安排应该是单向的调用链，比如控制层-&gt;业务层-&gt;数据层。当有同层级的包需要互相引用的时候，可能会出现包循环依赖问题。 包循环依赖示例例如有两个包（a，b）互相依赖，如下：A包代码如下： 1234567891011121314package Aimport (	&quot;">
+  <meta name="description" content="什么是包循环依赖问题golang为了加速编译，不允许包循环引用。类似Java也会有不允许循环依赖的规定。规范的go包安排应该是单向的调用链，比如控制层-&gt;业务层-&gt;数据层。当有同层级的包需要互相引用的时候，可能会出现包循环依赖问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go项目的包循环依赖问题以及解决方案">
 <meta property="og:url" content="http://example.com/2021/12/07/Go%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%8C%85%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="什么是包循环依赖问题golang为了加速编译，不允许包循环引用。类似Java也会有不允许循环依赖的规定。规范的go包安排应该是单向的调用链，比如控制层-&gt;业务层-&gt;数据层。当有同层级的包需要互相引用的时候，可能会出现包循环依赖问题。 包循环依赖示例例如有两个包（a，b）互相依赖，如下：A包代码如下： 1234567891011121314package Aimport (	&quot;">
+<meta property="og:description" content="什么是包循环依赖问题golang为了加速编译，不允许包循环引用。类似Java也会有不允许循环依赖的规定。规范的go包安排应该是单向的调用链，比如控制层-&gt;业务层-&gt;数据层。当有同层级的包需要互相引用的时候，可能会出现包循环依赖问题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-07T03:40:06.000Z">
-<meta property="article:modified_time" content="2021-12-22T12:15:58.337Z">
+<meta property="article:modified_time" content="2021-12-22T12:18:20.204Z">
 <meta property="article:author" content="Mask">
 <meta property="article:tag" content="go">
 <meta name="twitter:card" content="summary">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 20:15:58" itemprop="dateModified" datetime="2021-12-22T20:15:58+08:00">2021-12-22</time>
+                <time title="修改时间：2021-12-22 20:18:20" itemprop="dateModified" datetime="2021-12-22T20:18:20+08:00">2021-12-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,6 +250,8 @@
 
       
         <h1 id="什么是包循环依赖问题"><a href="#什么是包循环依赖问题" class="headerlink" title="什么是包循环依赖问题"></a>什么是包循环依赖问题</h1><p>golang为了加速编译，不允许包循环引用。类似Java也会有不允许循环依赖的规定。规范的go包安排应该是单向的调用链，比如控制层-&gt;业务层-&gt;数据层。当有同层级的包需要互相引用的时候，可能会出现包循环依赖问题。</p>
+<span id="more"></span>
+
 <h2 id="包循环依赖示例"><a href="#包循环依赖示例" class="headerlink" title="包循环依赖示例"></a>包循环依赖示例</h2><p>例如有两个包（a，b）互相依赖，如下：<br>A包代码如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> A</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/hundred666/GoTest/B&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Foo</span><span class="params">(a <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> B.Add(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Minus</span><span class="params">(a <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> strings.Trim(a, <span class="string">&quot;\t&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>B包代码如下：</p>

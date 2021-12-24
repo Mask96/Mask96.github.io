@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用keys查询有时候需要从 Redis 实例成千上万的 key 中找出特定前缀的 key 列表来手动处理数据，可能是修改它的值，也可能是删除 key。这里就有一个问题，如何从海量的 key 中找出满足特定前缀的 key 列表来？ Redis 提供了一个简单暴力的指令 keys 用来列出所有满足特定正则字符串规则的 key。 12345678910redis-cli keys key67*  1)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis中scan的使用">
+<meta property="og:url" content="http://example.com/2021/12/24/Redis%E4%B8%ADscan%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="使用keys查询有时候需要从 Redis 实例成千上万的 key 中找出特定前缀的 key 列表来手动处理数据，可能是修改它的值，也可能是删除 key。这里就有一个问题，如何从海量的 key 中找出满足特定前缀的 key 列表来？ Redis 提供了一个简单暴力的指令 keys 用来列出所有满足特定正则字符串规则的 key。 12345678910redis-cli keys key67*  1)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-24T09:31:18.000Z">
+<meta property="article:modified_time" content="2021-12-24T09:40:57.795Z">
+<meta property="article:author" content="Mask">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/24/Redis%E4%B8%ADscan%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Redis中scan的使用 | /</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">/</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/24/Redis%E4%B8%ADscan%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis中scan的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-24 17:31:18 / 修改时间：17:40:57" itemprop="dateCreated datePublished" datetime="2021-12-24T17:31:18+08:00">2021-12-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用keys查询"><a href="#使用keys查询" class="headerlink" title="使用keys查询"></a>使用keys查询</h1><p>有时候需要从 Redis 实例成千上万的 key 中找出特定前缀的 key 列表来手动处理数据，可能是修改它的值，也可能是删除 key。这里就有一个问题，如何从海量的 key 中找出满足特定前缀的 key 列表来？</p>
+<p>Redis 提供了一个简单暴力的指令 keys 用来列出所有满足特定正则字符串规则的 key。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">redis-cli keys key67*</span><br><span class="line">  1) &quot;key6764&quot;</span><br><span class="line">  2) &quot;key6738&quot;</span><br><span class="line">  3) &quot;key6774&quot;</span><br><span class="line">  4) &quot;key673&quot;</span><br><span class="line">  5) &quot;key6710&quot;</span><br><span class="line">  6) &quot;key6759&quot;</span><br><span class="line">  7) &quot;key6715&quot;</span><br><span class="line">  8) &quot;key6746&quot;</span><br><span class="line">  9) &quot;key6796&quot;</span><br></pre></td></tr></table></figure>
+<p>这个指令使用非常简单，提供一个简单的正则字符串即可，但是有很明显的两个缺点。</p>
+<ol>
+<li>没有 offset、limit 参数，一次性吐出所有满足条件的 key，万一实例中有几百 w 个 key 满足条件，当你看到满屏的字符串刷的没有尽头时，你就知道难受了。</li>
+<li>keys 算法是遍历算法，复杂度是 O(n)，如果实例中有千万级以上的 key，这个指令就会导致 Redis 服务卡顿，所有读写 Redis 的其它的指令都会被延后甚至会超时报错，因为 Redis 是单线程程序，顺序执行所有指令，其它指令必须等到当前的 keys 指令执行完了才可以继续。</li>
+</ol>
+<p><strong>建议生产环境屏蔽keys命令</strong></p>
+<h1 id="使用scan查询"><a href="#使用scan查询" class="headerlink" title="使用scan查询"></a>使用scan查询</h1><p>Redis 为了解决这个问题，它在 2.8 版本中加入了指令——scan。</p>
+<p>scan 相比 keys 具备有以下特点:</p>
+<ul>
+<li>复杂度虽然也是 O(n)，但是它是通过游标分步进行的，不会阻塞线程;</li>
+<li>提供 limit 参数，可以控制每次返回结果的最大条数，limit 只是对增量式迭代命令的一种提示(hint)，返回的结果可多可少;</li>
+<li>同 keys 一样，它也提供模式匹配功能;</li>
+<li>服务器不需要为游标保存状态，游标的唯一状态就是 scan 返回给客户端的游标整数;</li>
+<li>返回的结果可能会有重复，需要客户端去重复，这点非常重要;</li>
+<li>遍历的过程中如果有数据修改，改动后的数据能不能遍历到是不确定的;</li>
+<li>单次返回的结果是空的并不意味着遍历结束，而要看返回的游标值是否为零</li>
+</ul>
+<h2 id="scan基础使用"><a href="#scan基础使用" class="headerlink" title="scan基础使用"></a>scan基础使用</h2><p><code>SCAN cursor [MATCH pattern] [COUNT count]</code></p>
+<p>初始执行scan命令例如scan 0。SCAN命令是一个基于游标的迭代器。<br>这意味着命令每次被调用都需要使用上一次这个调用返回的游标作为该次调用的游标参数，以此来延续之前的迭代过程。<br>当SCAN命令的游标参数被设置为0时，服务器将开始一次新的迭代，而当redis服务器向用户返回值为0的游标时，表示迭代已结束，这是唯一迭代结束的判定方式，而不能通过返回结果集是否为空判断迭代结束。</p>
+<p>scan 参数提供了三个参数，第一个是 cursor 整数值，第二个是 key 的正则模式，第三个是遍历的 limit hint。<br>第一次遍历时，cursor 值为 0，然后将返回结果中第一个整数值作为下一次遍历的 cursor。<br>一直遍历到返回的 cursor 值为 0 时结束。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">redis-cli scan 0 match key99* count 1000</span><br><span class="line">1) &quot;13912&quot;</span><br><span class="line">2)  1) &quot;key997&quot;</span><br><span class="line">    2) &quot;key9906&quot;</span><br><span class="line">    3) &quot;key9957&quot;</span><br><span class="line">    4) &quot;key9902&quot;</span><br><span class="line">    5) &quot;key9971&quot;</span><br><span class="line">    6) &quot;key9935&quot;</span><br><span class="line">    7) &quot;key9958&quot;</span><br><span class="line">    8) &quot;key9928&quot;</span><br><span class="line">    9) &quot;key9931&quot;</span><br><span class="line">   10) &quot;key9961&quot;</span><br><span class="line">   11) &quot;key9948&quot;</span><br><span class="line">   12) &quot;key9965&quot;</span><br><span class="line">   13) &quot;key9937&quot;</span><br><span class="line">   </span><br><span class="line">redis-cli scan 13912 match key99* count 1000</span><br><span class="line">1) &quot;5292&quot;</span><br><span class="line">2)  1) &quot;key996&quot;</span><br><span class="line">    2) &quot;key9960&quot;</span><br><span class="line">    3) &quot;key9973&quot;</span><br><span class="line">    4) &quot;key9978&quot;</span><br><span class="line">    5) &quot;key9927&quot;</span><br><span class="line">    6) &quot;key995&quot;</span><br><span class="line">    7) &quot;key9992&quot;</span><br><span class="line">    8) &quot;key9993&quot;</span><br><span class="line">    9) &quot;key9964&quot;</span><br><span class="line">   10) &quot;key9934&quot;</span><br></pre></td></tr></table></figure>
+<p>返回结果分为两个部分：第一部分即 1) 就是下一次迭代游标，第二部分即 2) 就是本次迭代结果集。</p>
+<p>从上面的过程可以看到虽然提供的 limit 是 1000，但是返回的结果只有 10 个左右。<br>因为这个 limit 不是限定返回结果的数量，而是限定服务器单次遍历的字典槽位数量(约等于)。<br>如果将 limit 设置为 10，你会发现返回结果是空的，但是游标值不为零，意味着遍历还没结束。</p>
+<h2 id="更多的-scan-指令"><a href="#更多的-scan-指令" class="headerlink" title="更多的 scan 指令"></a>更多的 scan 指令</h2><p>scan 指令是一系列指令，除了可以遍历所有的 key 之外，还可以对指定的容器集合进行遍历。</p>
+<p>zscan 遍历 zset 集合元素，<br>hscan 遍历 hash 字典的元素、<br>sscan 遍历 set 集合的元素。</p>
+<p>注意点：<br>SSCAN 命令、 HSCAN 命令和 ZSCAN 命令的第一个参数总是一个数据库键。<br>而 SCAN 命令则不需要在第一个参数提供任何数据库键 —— 因为它迭代的是当前数据库中的所有数据库键。</p>
+<h2 id="大-key-扫描"><a href="#大-key-扫描" class="headerlink" title="大 key 扫描"></a>大 key 扫描</h2><p>有时候会因为业务人员使用不当，在 Redis 实例中会形成很大的对象，比如一个很大的 hash，一个很大的 zset 这都是经常出现的。</p>
+<p>这样的对象对 Redis 的集群数据迁移带来了很大的问题，因为在集群环境下，如果某个 key 太大，会让数据导致迁移卡顿。</p>
+<p>另外在内存分配上，如果一个 key 太大，那么当它需要扩容时，会一次性申请更大的一块内存，这也会导致卡顿。</p>
+<p>如果这个大 key 被删除，内存会一次性回收，卡顿现象会再一次产生。</p>
+<p>在平时的业务开发中，要尽量避免大 key 的产生。</p>
+<p>如果你观察到 Redis 的内存大起大落，这极有可能是因为大 key 导致的，这时候你就需要定位出具体是那个 key，</p>
+<p>进一步定位出具体的业务来源，然后再改进相关业务代码设计。</p>
+<p><strong>那如何定位大 key 呢？</strong></p>
+<p>为了避免对线上 Redis 带来卡顿，这就要用到 scan 指令，对于扫描出来的每一个 key，使用 type 指令获得 key 的类型，</p>
+<p>然后使用相应数据结构的 size 或者 len 方法来得到它的大小，对于每一种类型，保留大小的前 N 名作为扫描结果展示出来。</p>
+<p>上面这样的过程需要编写脚本，比较繁琐，不过 Redis 官方已经在 redis-cli 指令中提供了这样的扫描功能，我们可以直接拿来即用。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">redis-cli  --bigkeys</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Scanning the entire keyspace to find biggest keys as well as</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> average sizes per key <span class="built_in">type</span>.  You can use -i 0.1 to sleep 0.1 sec</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> per 100 SCAN commands (not usually needed).</span></span><br><span class="line"></span><br><span class="line">[00.00%] Biggest string found so far &#x27;key316&#x27; with 3 bytes</span><br><span class="line">[00.00%] Biggest string found so far &#x27;key7806&#x27; with 4 bytes</span><br><span class="line">[12.79%] Biggest zset   found so far &#x27;salary&#x27; with 1 members</span><br><span class="line">[13.19%] Biggest string found so far &#x27;counter:__rand_int__&#x27; with 6 bytes</span><br><span class="line">[13.50%] Biggest hash   found so far &#x27;websit&#x27; with 2 fields</span><br><span class="line">[14.37%] Biggest set    found so far &#x27;bbs&#x27; with 3 members</span><br><span class="line">[14.67%] Biggest hash   found so far &#x27;website&#x27; with 3 fields</span><br><span class="line">[30.41%] Biggest list   found so far &#x27;mylist&#x27; with 100000 items</span><br><span class="line">[95.53%] Biggest zset   found so far &#x27;page_rank&#x27; with 3 members</span><br><span class="line"></span><br><span class="line">-------- summary -------</span><br><span class="line"></span><br><span class="line">Sampled 10019 keys in the keyspace!</span><br><span class="line">Total key length in bytes is 68990 (avg len 6.89)</span><br><span class="line"></span><br><span class="line">Biggest string found &#x27;counter:__rand_int__&#x27; has 6 bytes</span><br><span class="line">Biggest   list found &#x27;mylist&#x27; has 100000 items</span><br><span class="line">Biggest    set found &#x27;bbs&#x27; has 3 members</span><br><span class="line">Biggest   hash found &#x27;website&#x27; has 3 fields</span><br><span class="line">Biggest   zset found &#x27;page_rank&#x27; has 3 members</span><br><span class="line"></span><br><span class="line">10011 strings with 38919 bytes (99.92% of keys, avg size 3.89)</span><br><span class="line">3 lists with 100003 items (00.03% of keys, avg size 33334.33)</span><br><span class="line">1 sets with 3 members (00.01% of keys, avg size 3.00)</span><br><span class="line">2 hashs with 5 fields (00.02% of keys, avg size 2.50)</span><br><span class="line">2 zsets with 4 members (00.02% of keys, avg size 2.00)</span><br></pre></td></tr></table></figure>
+<p>如果你担心这个指令会大幅抬升 Redis 的 ops 导致线上报警，还可以增加一个休眠参数。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">redis-cli  --bigkeys -i 0.1</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Scanning the entire keyspace to find biggest keys as well as</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> average sizes per key <span class="built_in">type</span>.  You can use -i 0.1 to sleep 0.1 sec</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> per 100 SCAN commands (not usually needed).</span></span><br><span class="line"></span><br><span class="line">[00.00%] Biggest string found so far &#x27;key316&#x27; with 3 bytes</span><br><span class="line">[00.00%] Biggest string found so far &#x27;key7806&#x27; with 4 bytes</span><br><span class="line">[12.79%] Biggest zset   found so far &#x27;salary&#x27; with 1 members</span><br><span class="line">[13.19%] Biggest string found so far &#x27;counter:__rand_int__&#x27; with 6 bytes</span><br><span class="line">[13.50%] Biggest hash   found so far &#x27;websit&#x27; with 2 fields</span><br><span class="line">[14.37%] Biggest set    found so far &#x27;bbs&#x27; with 3 members</span><br><span class="line">[14.67%] Biggest hash   found so far &#x27;website&#x27; with 3 fields</span><br><span class="line">[30.41%] Biggest list   found so far &#x27;mylist&#x27; with 100000 items</span><br><span class="line">[95.53%] Biggest zset   found so far &#x27;page_rank&#x27; with 3 members</span><br><span class="line"></span><br><span class="line">-------- summary -------</span><br><span class="line"></span><br><span class="line">Sampled 10019 keys in the keyspace!</span><br><span class="line">Total key length in bytes is 68990 (avg len 6.89)</span><br><span class="line"></span><br><span class="line">Biggest string found &#x27;counter:__rand_int__&#x27; has 6 bytes</span><br><span class="line">Biggest   list found &#x27;mylist&#x27; has 100000 items</span><br><span class="line">Biggest    set found &#x27;bbs&#x27; has 3 members</span><br><span class="line">Biggest   hash found &#x27;website&#x27; has 3 fields</span><br><span class="line">Biggest   zset found &#x27;page_rank&#x27; has 3 members</span><br><span class="line"></span><br><span class="line">10011 strings with 38919 bytes (99.92% of keys, avg size 3.89)</span><br><span class="line">3 lists with 100003 items (00.03% of keys, avg size 33334.33)</span><br><span class="line">1 sets with 3 members (00.01% of keys, avg size 3.00)</span><br><span class="line">2 hashs with 5 fields (00.02% of keys, avg size 2.50)</span><br><span class="line">2 zsets with 4 members (00.02% of keys, avg size 2.00)</span><br></pre></td></tr></table></figure>
+<p>上面这个指令每隔 100 条 scan 指令就会休眠 0.1s，ops 就不会剧烈抬升，但是扫描的时间会变长。</p>
+<p>需要注意的是，这个bigkeys得到的最大，不一定是最大。</p>
+<p>说明原因前，首先说明bigkeys的原理，非常简单，通过scan命令遍历，各种不同数据结构的key，分别通过不同的命令得到最大的key：</p>
+<ul>
+<li>如果是string结构，通过strlen判断；</li>
+<li>如果是list结构，通过llen判断；</li>
+<li>如果是hash结构，通过hlen判断；</li>
+<li>如果是set结构，通过scard判断；</li>
+<li>如果是sorted set结构，通过zcard判断。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/07/Go%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%8C%85%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="Go项目的包循环依赖问题以及解决方案">
+      <i class="fa fa-chevron-left"></i> Go项目的包循环依赖问题以及解决方案
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTU1NC8yMjA2NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8keys%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.</span> <span class="nav-text">使用keys查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8scan%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.</span> <span class="nav-text">使用scan查询</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#scan%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">scan基础使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E7%9A%84-scan-%E6%8C%87%E4%BB%A4"><span class="nav-number">2.2.</span> <span class="nav-text">更多的 scan 指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7-key-%E6%89%AB%E6%8F%8F"><span class="nav-number">2.3.</span> <span class="nav-text">大 key 扫描</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mask</p>
+  <div class="site-description" itemprop="description">在广阔的世界里 做一个不狭隘的人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2021003486号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-deaf"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mask</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

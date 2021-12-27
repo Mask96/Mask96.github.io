@@ -1844,6 +1844,7 @@
     <title>Redis中scan的使用</title>
     <url>/2021/12/24/Redis%E4%B8%ADscan%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="使用keys查询"><a href="#使用keys查询" class="headerlink" title="使用keys查询"></a>使用keys查询</h1><p>有时候需要从 Redis 实例成千上万的 key 中找出特定前缀的 key 列表来手动处理数据，可能是修改它的值，也可能是删除 key。这里就有一个问题，如何从海量的 key 中找出满足特定前缀的 key 列表来？</p>
+<span id="more"></span>
 <p>Redis 提供了一个简单暴力的指令 keys 用来列出所有满足特定正则字符串规则的 key。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli keys key67*</span><br><span class="line">  1) &quot;key6764&quot;</span><br><span class="line">  2) &quot;key6738&quot;</span><br><span class="line">  3) &quot;key6774&quot;</span><br><span class="line">  4) &quot;key673&quot;</span><br><span class="line">  5) &quot;key6710&quot;</span><br><span class="line">  6) &quot;key6759&quot;</span><br><span class="line">  7) &quot;key6715&quot;</span><br><span class="line">  8) &quot;key6746&quot;</span><br><span class="line">  9) &quot;key6796&quot;</span><br></pre></td></tr></table></figure>
 <p>这个指令使用非常简单，提供一个简单的正则字符串即可，但是有很明显的两个缺点。</p>
@@ -1902,6 +1903,32 @@
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>踩坑记录-go中使用forRange指针取值问题</title>
+    <url>/2021/12/27/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95-go%E4%B8%AD%E4%BD%BF%E7%94%A8forRange%E6%8C%87%E9%92%88%E5%8F%96%E5%80%BC%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>for range 遍历是go语言中常用的循环结构之一，但是在使用时要注意range要注意遍历取出的值只初始化一次，地址唯一，在使用指针时候可能会出现预期之外的错误。<br>使用时需要注意这一问题，在最近工程中就踩了这个坑。记录一下爬坑内容。</p>
+<span id="more"></span>
+
+<h1 id="Go指针"><a href="#Go指针" class="headerlink" title="Go指针"></a>Go指针</h1><p>Go 语言中有指针类型，没有指针的计算，这在一定程度上削弱了指针的功能，但也减少了指针的复杂度，给使用者带了更好的使用体验。在Go 中，类型 <code>*T</code> 是指向类型T的值的指针，&amp;符号会生成一个指向其作用对象的指针，*符号表示指针指向的底层的值。如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> p *<span class="keyword">int</span>      <span class="comment">// 定义一个指针p </span></span><br><span class="line">i := <span class="number">42</span>         <span class="comment">// 初始化一个整数类型 i </span></span><br><span class="line">p = &amp;i          <span class="comment">// p指针指向i,或者说将 i 的指针赋值给p  </span></span><br><span class="line">fmt.Println(*p) <span class="comment">// 通过指针 p 读取 i</span></span><br><span class="line">*p = <span class="number">21</span>         <span class="comment">// 通过指针 p 设置 i</span></span><br></pre></td></tr></table></figure>
+<p>有时候当变量值很大，在函数中传来传去，就会占用大量的内存空间。指针中存了指向变量值的地址，在一定程度上可以使用指针来代替变量值，这样在函数参数传递、各种逻辑计算中，就可以节省大量空间。</p>
+<h1 id="踩坑demo"><a href="#踩坑demo" class="headerlink" title="踩坑demo"></a>踩坑demo</h1><p>如果我们要再range中使用指针的话，如以下Demo；</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	input := []<span class="keyword">string</span>&#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line">	<span class="keyword">var</span> res []*<span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> input &#123;</span><br><span class="line">		res = <span class="built_in">append</span>(res, &amp;v)</span><br><span class="line">		fmt.Printf(<span class="string">&quot;v 指针 %p\n&quot;</span>, &amp;v)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 遍历查看结果集</span></span><br><span class="line">	<span class="keyword">for</span> _, value := <span class="keyword">range</span> res&#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;value--&gt;:&quot;</span>, *value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;!--输出结果如下--&gt;</span><br><span class="line">v 指针 <span class="number">0x14000010240</span></span><br><span class="line">v 指针 <span class="number">0x14000010240</span></span><br><span class="line">v 指针 <span class="number">0x14000010240</span></span><br><span class="line">value--&gt;: c</span><br><span class="line">value--&gt;: c</span><br><span class="line">value--&gt;: c</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们期望的结果是输出a,b,c。而输出的结果为c,c,c。<br>为了判断为何出现这种情况，我们可以把地址也打出来，发现v的地址没有发送过变化。<br>问题正是出在这里，在for range语句中，v变量用于保存迭代input数组所得的值，但是v只被声明了一次，此后都是将迭代input出的值赋值给v，v变量的内存地址始终未变。所以在res中添加的三次都是同一个地址，在最后一次遍历时将c值存放在这个地址，所以res中的所有值都是c。</p>
+<h1 id="避坑方法"><a href="#避坑方法" class="headerlink" title="避坑方法"></a>避坑方法</h1><h2 id="使用中间变量"><a href="#使用中间变量" class="headerlink" title="使用中间变量"></a>使用中间变量</h2><p>引入一个中间变量，每次迭代都重新声明一个变量temp</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> _, v := <span class="keyword">range</span> input &#123;</span><br><span class="line">	temp := v</span><br><span class="line">	res = <span class="built_in">append</span>(res, temp)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样会有一定的内存开销。</p>
+<h2 id="使用下标，引用数据的内存"><a href="#使用下标，引用数据的内存" class="headerlink" title="使用下标，引用数据的内存"></a>使用下标，引用数据的内存</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">	<span class="keyword">for</span> k, _ := <span class="keyword">range</span> input &#123;</span><br><span class="line">		res = <span class="built_in">append</span>(res, &amp;input[k])</span><br><span class="line">		fmt.Printf(<span class="string">&quot;v 指针 %p\n&quot;</span>, &amp;input[k])</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&lt;!--输出结果--&gt;</span><br><span class="line">v 指针 <span class="number">0x14000060180</span></span><br><span class="line">v 指针 <span class="number">0x14000060190</span></span><br><span class="line">v 指针 <span class="number">0x140000601a0</span></span><br><span class="line">value--&gt;: a</span><br><span class="line">value--&gt;: b</span><br><span class="line">value--&gt;: c</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Go 语言中的指针在一定程度上可以节省内存的占用，但在使用时一定要注意前后语言环境中是否有变动，以免造成引用同值的锅。<br>特别注意在range时使用指针。</p>
+]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>爬坑记录</tag>
       </tags>
   </entry>
 </search>

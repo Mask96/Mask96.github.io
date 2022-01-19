@@ -1978,4 +1978,41 @@
         <tag>Git</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Git暂存区</title>
+    <url>/2022/01/19/Git%E6%9A%82%E5%AD%98%E5%8C%BA/</url>
+    <content><![CDATA[<p>本篇来讨论git的核心，暂存区。首先上一张图。<br><img src="/image/16425628669947.jpg"></p>
+<span id="more"></span>
+
+<p>左侧是工作区，也就是我们本地电脑上的文件，中间的Index就是我们讨论的暂存区，右侧是HEAD。HEAD是一个头指针，我会在下一篇博客中讨论HEAD，此处你先理解为HEAD就是git版本库。</p>
+<p><strong>上面的这张图，非常非常地重要，如果我下面讨论的东西你有不明白的，这张图可能都会给你答案。</strong></p>
+<p>其实，git的绝大部分的操作都是在将文件在工作区、暂存区和版本库中移来移去，就拿上一篇博客中使用的<code>git add</code>和<code>git commit</code>来说吧，<code>git add</code>是把文件从工作区复制到暂存区，<code>git commit</code>又把文件从暂存区复制到或提交到了版本库。</p>
+<p>下面通过一些简单的场景，把上面的命令都串一遍。<br>首先，通过<code>git init</code>命令初始化一个空的版本库，然后添加两个新的文件，分别是a.txt和b.txt。此时，工作区有两个文件，暂存区没有文件，版本库也没有文件。</p>
+<h1 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add a.txt b.txt</span><br></pre></td></tr></table></figure>
+<p>上面的命令将a.txt和b.txt文件从工作区复制到了暂存区。这时三个区域的目录结构是这样的</p>
+<ul>
+<li>工作区：a.txt , b.txt</li>
+<li>暂存区：a.txt , b.txt</li>
+<li>版本库：空</li>
+</ul>
+<h1 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;新增了a.txt和b.txt文件&#x27;</span><br></pre></td></tr></table></figure>
+<p>上面的命令将暂存区的所有文件复制到版本库。这时三个区域的目录结构就一样了，都包含a.txt 和 b.txt。</p>
+<h1 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h1><p><code>git checkout --&lt;file&gt;</code>命令是用暂存区的某个文件来覆盖工作区，经常用于撤销一些修改，这个命令比较危险，因为会修改工作区，且无法撤销。假设我们现在需要正在编辑a.txt，并且假设需要写两段话，写完第一段时，我们可以通过<code>git add a.txt</code>将a.txt复制到暂存区，这样的话，如果在写第二段时写错了，我们可以直接通过<code>git checkout --a.txt</code>来回到第一段完成时的样子。<br>也就是说，<code>git checkout --&lt;file&gt;</code>是用来使工作区回到上次操作git add时的样子。</p>
+<h1 id="git-checkout-HEAD"><a href="#git-checkout-HEAD" class="headerlink" title="git checkout HEAD"></a>git checkout HEAD</h1><p><code>git checkout HEAD &lt;file&gt;</code>命令是用版本库来同时覆盖暂存区和工作区，用来彻底撤销一个修改，这个命令更加危险，因为它会同时修改工作区和暂存区，且无法撤销。还假设你想在a.txt中写两段话，写完第一段时，使用<code>git add a.txt</code>命令先备份到暂存区，然后接着写第二段，写着写着发现思路全错了，就可以通过<code>git checkout HEAD a.txt</code>将工作区和暂存区中a.txt的修改都撤销掉，回到上次操作完git commit时的样子。这个命令要慎用。</p>
+<h1 id="git-reset-HEAD"><a href="#git-reset-HEAD" class="headerlink" title="git reset HEAD"></a>git reset HEAD</h1><p><code>git reset HEAD &lt;file&gt;</code>命令通常用来撤销首次执行git add的操作。假设你新增了一个c.txt文件，并通过<code>git add c.txt</code>将此文件复制到了暂存区，但你很快就发现其实这个文件没必要提交，你可以使用<code>git reset HEAD c.txt</code>命令，它的本质是使用版本库来覆盖暂存区，由于版本库还没有c.txt，所以，覆盖后，暂存区也就没有了c.txt，从而实现了对git add命令的撤销。</p>
+<h1 id="git-rm-–cached"><a href="#git-rm-–cached" class="headerlink" title="git rm –cached"></a>git rm –cached</h1><p><code>git rm --cached &lt;file&gt;</code>命令是将一个文件从暂存区删除。那么这有啥用呢？其实还是挺有用的。假设你有一个已经提交到版本库的文件，你发现这个文件其实不应该提交上去（例如配置文件，每个人的都不一样，经常造成冲突），但又不能直接删掉，假设这个文件的名字叫做user.config，你可以这么操作：</p>
+<ol>
+<li>通过<code>git rm --cached user.config</code>命令将此文件从暂存区删除</li>
+<li>通过修改.gitignore文件，把user.config加到文件中，使git忽略这个文件</li>
+<li>通过<code>git commit -m &#39;XXX&#39;</code>命令，用暂存区覆盖版本库。由于暂存区没了这个文件，覆盖后，版本库也就没了这个文件，这个文件就被这么从版本库删掉了，但是它还留在你的工作区。</li>
+</ol>
+<p>是不是有点绕？没关系，多看看最上面的那张图，答案都在那里。</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
 </search>

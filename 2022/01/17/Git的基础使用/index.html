@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="新人刚入职遇到的第一个问题可能就是如何使用Git来和同学们一起协同管理代码。这里将准备从最基础的使用，和一些git的原理来归纳下Git的上手过程，争取让新同学看完就可以不用再困惑git的相关问题。 下载安装。访问这个地址https:&#x2F;&#x2F;git-scm.com&#x2F;downloads，下载对应环境下的git安装包，下载安装。 创建git仓库创建git仓库有两种形式，一种是直接在本地初始化一个新的git仓">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git开始使用">
+<meta property="og:url" content="http://example.com/2022/01/17/Git%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="新人刚入职遇到的第一个问题可能就是如何使用Git来和同学们一起协同管理代码。这里将准备从最基础的使用，和一些git的原理来归纳下Git的上手过程，争取让新同学看完就可以不用再困惑git的相关问题。 下载安装。访问这个地址https:&#x2F;&#x2F;git-scm.com&#x2F;downloads，下载对应环境下的git安装包，下载安装。 创建git仓库创建git仓库有两种形式，一种是直接在本地初始化一个新的git仓">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-17T09:29:28.000Z">
+<meta property="article:modified_time" content="2022-01-19T02:54:46.929Z">
+<meta property="article:author" content="Mask">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/01/17/Git%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git开始使用 | /</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">/</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/17/Git%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git开始使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-17 17:29:28" itemprop="dateCreated datePublished" datetime="2022-01-17T17:29:28+08:00">2022-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-19 10:54:46" itemprop="dateModified" datetime="2022-01-19T10:54:46+08:00">2022-01-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>新人刚入职遇到的第一个问题可能就是如何使用Git来和同学们一起协同管理代码。这里将准备从最基础的使用，和一些git的原理来归纳下Git的上手过程，争取让新同学看完就可以不用再困惑git的相关问题。</p>
+<h1 id="下载安装。"><a href="#下载安装。" class="headerlink" title="下载安装。"></a>下载安装。</h1><p>访问这个地址<a target="_blank" rel="noopener" href="https://git-scm.com/downloads%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84git%E5%AE%89%E8%A3%85%E5%8C%85%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E3%80%82">https://git-scm.com/downloads，下载对应环境下的git安装包，下载安装。</a></p>
+<h1 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h1><p>创建git仓库有两种形式，一种是直接在本地初始化一个新的git仓库，另一种是从某个git服务器上把一个git仓库克隆到本地，我们常用到的git服务器包括github（开源的）和gitlab（公司内部的）。</p>
+<h2 id="在本地初始化一个git仓库"><a href="#在本地初始化一个git仓库" class="headerlink" title="在本地初始化一个git仓库"></a>在本地初始化一个git仓库</h2><p>如果你使用的是windows，打开一个你准备作为git仓库的文件夹，右键选择菜单“git bash here”。如果你使用的是mac或Linux，打开一个终端并cd到一个准备作为git仓库的文件夹，然后输入命令git init，就会创建一个.git文件夹，这个文件夹所在的根目录，就是我们的git仓库。一个git仓库已经搞定了，非常简单吧。</p>
+<h2 id="从git克隆一个git仓库到本地"><a href="#从git克隆一个git仓库到本地" class="headerlink" title="从git克隆一个git仓库到本地"></a>从git克隆一个git仓库到本地</h2><p>如果你是git的初学者，并且也只在本地使用git的话，可以忽略这各部分，因为git init就能满足你了。</p>
+<p>我们以一个github上的仓库为例。要想把一个github上的仓库克隆到本地，大概分为这么几步：</p>
+<ol>
+<li>在本机的用户目录中生成一个ssh key用于和git服务器建立连接</li>
+<li>把本地的ssh key添加到github的账户中。至此，本地与github服务器的连接已经建立了</li>
+<li>使用git clone [url]命令来克隆一个git仓库。<br>当然，ssh配置的操作只执行一次就好，之后github已经完成了对你身份的认证。</li>
+</ol>
+<h2 id="配置ssh步骤："><a href="#配置ssh步骤：" class="headerlink" title="配置ssh步骤："></a>配置ssh步骤：</h2><p>在用户目录下执行创建ssh命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir .ssh</span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+<p>首先，通过mkdir .ssh来创建一个文件夹（windows文件管理器不允许创建以.开头的文件夹，所以建议通过此命令来创建）。然后进入.ssh文件夹，并通过ssh-keygen命令来创建了一个ssh key。运行这个命令后，如果提示你输入文件名，你就输入id_rsa，如果提示你输入密码，你就输入密码。不想使用密码的话，直接回车就行。这时会生成两个文件，分别是id_rsa和id_rsa.pub。<br>然后在github的设置页面，从左侧的列表中找到“SSH and GPG keys ”，打开后，在页面的右上角点击“new ssh key”按钮，会出现一个表单，title栏随便填写一个名称，并把id_rsa.pub中的内容复制到key栏，点击“add ssh key”按钮，本地和github服务器的连接就建立好了。</p>
+<h1 id="设置名字和邮箱"><a href="#设置名字和邮箱" class="headerlink" title="设置名字和邮箱"></a>设置名字和邮箱</h1><p>在我们提交代码之前，我们需要先让git知道自己是谁，通过git config配置用户和邮箱。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name [your name]</span><br><span class="line">git config --global user.email [your email]</span><br></pre></td></tr></table></figure>
+
+<h1 id="进行一次提交"><a href="#进行一次提交" class="headerlink" title="进行一次提交"></a>进行一次提交</h1><p>接下来我们进行一些git的常用操作。以下的所有操作，都是基于git init命令在本地初始化的一个空仓库。</p>
+<h2 id="git-status命令"><a href="#git-status命令" class="headerlink" title="git status命令"></a>git status命令</h2><p>git status命令会显示当前git仓库的状态，包括：你当前位于哪个分支，你的哪些文件有改动，以及接下来建议你做哪些操作。</p>
+<p>在git仓库的目录中新建一个文件hello.txt，内容为hello,git。然后在git bash中输入下面的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line"></span><br><span class="line">===================</span><br><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">	hello.txt</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use &quot;git add&quot; to track)</span><br></pre></td></tr></table></figure>
+<p>git告诉我们，当前位于master分支，有一个未跟踪的文件hello.txt，并且通过git add命令可以使这个文件被提交。</p>
+<h2 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h2><p>git add命令将文件加入到暂存区。你目前可以先理解为，git add之后，就将该文件加入了提交列表。<br>下面使用git add命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add hello.txt</span><br><span class="line">// git add . 为提交所有文件改动</span><br></pre></td></tr></table></figure>
+<p>然后再一次执行<code>git status</code>，会得到以下输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">	new file:   hello.txt</span><br></pre></td></tr></table></figure>
+<p>git又告诉我们，hello.txt将会被提交，但我们可以通过<code>git rm --cached &lt;file&gt;</code>命令来把hello.txt移出提交列表。</p>
+<h2 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h2><p>git commit命令用来进行一次提交。下面我们就来进行一次提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;新增了hello.txt文件&#x27;</span><br><span class="line">==================</span><br><span class="line">[master (root-commit) 68116ea] 新增了hello.txt文件</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 hello.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p>git log 命令用于查看提交历史。下面来试一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br><span class="line">===================</span><br><span class="line">commit 68116eadebf69f3c7e585ce2d09da8741f8a7812</span><br><span class="line">Author: xxx &lt;xxx@menhoo.com&gt;</span><br><span class="line">Date:   Fri Jun 9 21:23:52 2017 +0800</span><br><span class="line"></span><br><span class="line">    新增了hello.txt文件</span><br></pre></td></tr></table></figure>
+
+<p>关于git的简单操作，今天就介绍到这里。下一篇将会深入介绍git的暂存区，以及相关命令。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/27/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95-go%E4%B8%AD%E4%BD%BF%E7%94%A8forRange%E6%8C%87%E9%92%88%E5%8F%96%E5%80%BC%E9%97%AE%E9%A2%98/" rel="prev" title="踩坑记录-go中使用forRange指针取值问题">
+      <i class="fa fa-chevron-left"></i> 踩坑记录-go中使用forRange指针取值问题
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTU1NC8yMjA2NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">下载安装。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAgit%E4%BB%93%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">创建git仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%80%E4%B8%AAgit%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">在本地初始化一个git仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Egit%E5%85%8B%E9%9A%86%E4%B8%80%E4%B8%AAgit%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-number">2.2.</span> <span class="nav-text">从git克隆一个git仓库到本地</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEssh%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.3.</span> <span class="nav-text">配置ssh步骤：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%90%8D%E5%AD%97%E5%92%8C%E9%82%AE%E7%AE%B1"><span class="nav-number">3.</span> <span class="nav-text">设置名字和邮箱</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E8%A1%8C%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4"><span class="nav-number">4.</span> <span class="nav-text">进行一次提交</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#git-status%E5%91%BD%E4%BB%A4"><span class="nav-number">4.1.</span> <span class="nav-text">git status命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-add"><span class="nav-number">4.2.</span> <span class="nav-text">git add</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-commit"><span class="nav-number">4.3.</span> <span class="nav-text">git commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-log"><span class="nav-number">4.4.</span> <span class="nav-text">git log</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Mask</p>
+  <div class="site-description" itemprop="description">在广阔的世界里 做一个不狭隘的人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2021003486号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-deaf"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mask</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

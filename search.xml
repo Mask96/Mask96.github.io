@@ -1935,6 +1935,8 @@
     <title>Git开始使用</title>
     <url>/2022/01/17/Git%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>新人刚入职遇到的第一个问题可能就是如何使用Git来和同学们一起协同管理代码。这里将准备从最基础的使用，和一些git的原理来归纳下Git的上手过程，争取让新同学看完就可以不用再困惑git的相关问题。</p>
+<span id="more"></span>
+
 <h1 id="下载安装。"><a href="#下载安装。" class="headerlink" title="下载安装。"></a>下载安装。</h1><p>访问这个地址<a href="https://git-scm.com/downloads%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84git%E5%AE%89%E8%A3%85%E5%8C%85%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E3%80%82">https://git-scm.com/downloads，下载对应环境下的git安装包，下载安装。</a></p>
 <h1 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h1><p>创建git仓库有两种形式，一种是直接在本地初始化一个新的git仓库，另一种是从某个git服务器上把一个git仓库克隆到本地，我们常用到的git服务器包括github（开源的）和gitlab（公司内部的）。</p>
 <h2 id="在本地初始化一个git仓库"><a href="#在本地初始化一个git仓库" class="headerlink" title="在本地初始化一个git仓库"></a>在本地初始化一个git仓库</h2><p>如果你使用的是windows，打开一个你准备作为git仓库的文件夹，右键选择菜单“git bash here”。如果你使用的是mac或Linux，打开一个终端并cd到一个准备作为git仓库的文件夹，然后输入命令git init，就会创建一个.git文件夹，这个文件夹所在的根目录，就是我们的git仓库。一个git仓库已经搞定了，非常简单吧。</p>

@@ -1932,7 +1932,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Git开始使用</title>
+    <title>【Git基础 1】开始使用</title>
     <url>/2022/01/17/Git%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>新人刚入职遇到的第一个问题可能就是如何使用Git来和同学们一起协同管理代码。这里将准备从最基础的使用，和一些git的原理来归纳下Git的上手过程，争取让新同学看完就可以不用再困惑git的相关问题。</p>
 <span id="more"></span>
@@ -1979,7 +1979,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Git暂存区</title>
+    <title>【Git基础 2】暂存区</title>
     <url>/2022/01/19/Git%E6%9A%82%E5%AD%98%E5%8C%BA/</url>
     <content><![CDATA[<p>本篇来讨论git的核心，暂存区。首先上一张图。<br><img src="/image/16425628669947.jpg"></p>
 <span id="more"></span>
@@ -2013,6 +2013,26 @@
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux下后台启动java程序</title>
+    <url>/2022/02/08/Linux%E4%B8%8B%E5%90%8E%E5%8F%B0%E5%90%AF%E5%8A%A8java%E7%A8%8B%E5%BA%8F/</url>
+    <content><![CDATA[<p>在Linux中运行java时，期望是后台执行，并且不随命令窗口的关闭而停止。</p>
+<span id="more"></span>
+
+<p>以下列举各类启动的情况：</p>
+<h1 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h1><p><code>java -jar XXX.jar</code><br>特点：当前ssh窗口被锁定，可按CTRL + C打断程序运行，或直接关闭窗口，程序退出<br>那如何让窗口不锁定？</p>
+<h1 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h1><p><code>java -jar XXX.jar &amp;</code><br>&amp;代表在后台运行。<br>特定：当前ssh窗口不被锁定，但是当窗口关闭时，程序中止运行。<br>继续改进，如何让窗口关闭时，程序仍然运行？</p>
+<h1 id="方式三"><a href="#方式三" class="headerlink" title="方式三"></a>方式三</h1><p><code>nohup java -jar XXX.jar &amp;</code><br>nohup 意思是不挂断运行命令,当账户退出或终端关闭时,程序仍然运行<br>当用 nohup 命令执行作业时，缺省情况下该作业的所有输出被重定向到nohup.out的文件中，除非另外指定了输出文件。<br><img src="/image/16442898551788.jpg"></p>
+<h1 id="方式四"><a href="#方式四" class="headerlink" title="方式四"></a>方式四</h1><p><code>nohup java -jar XXX.jar &gt;temp.txt &amp;</code></p>
+<p>解释下 &gt;temp.txt：<br>command &gt;out.file<br>command &gt;out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
 </search>

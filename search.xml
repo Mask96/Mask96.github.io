@@ -2035,4 +2035,43 @@
         <tag>Java</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Linux中crontab实现定时任务</title>
+    <url>/2022/02/09/Linux%E4%B8%ADcrontab%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<p>在Linux中内置了一个定时任务列表，可以使用这个功能实现定时接口调用、日志清理、数据备份等功能。</p>
+<span id="more"></span>
+<h1 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h1><h2 id="使用命令如下："><a href="#使用命令如下：" class="headerlink" title="使用命令如下："></a>使用命令如下：</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">crontab [-u username]　　　　//省略用户表表示操作当前用户的crontab</span><br><span class="line">    -e      (编辑工作表)</span><br><span class="line">    -l      (列出工作表里的命令)</span><br><span class="line">    -r      (删除工作作)</span><br></pre></td></tr></table></figure>
+<p>查询列表如下：<br><img src="/image/16444098354126.jpg"></p>
+<h2 id="使用步骤："><a href="#使用步骤：" class="headerlink" title="使用步骤："></a>使用步骤：</h2><ol>
+<li>编写要执行的.sh文件</li>
+<li>任务列表中添加<code>* * * * * sh xxx.sh</code>来执行任务。</li>
+</ol>
+<h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><ul>
+<li>/var/spool/cron/ 目录下存放的是每个用户包括root的crontab任务，每个任务以创建者的名字命名</li>
+<li>/etc/crontab 这个文件负责调度各种管理和维护任务。</li>
+<li>/etc/cron.d/ 这个目录用来存放任何要执行的crontab文件或脚本。</li>
+<li>我们还可以把脚本放在/etc/cron.hourly、/etc/cron.daily、/etc/cron.weekly、/etc/cron.monthly目录中，让它每小时/天/星期、月执行一次。</li>
+</ul>
+<h1 id="cron时间格式"><a href="#cron时间格式" class="headerlink" title="cron时间格式"></a>cron时间格式</h1><p><code>f1 f2 f3 f4 f5 program</code><br>crontab的命令构成为 时间+动作，其时间有分、时、日、月、周五种，操作符有：</p>
+<ol>
+<li><ul>
+<li>取值范围内的所有数字</li>
+</ul>
+</li>
+<li>/ 每过多少个数字</li>
+<li><ul>
+<li>从X到Z</li>
+</ul>
+</li>
+<li>，散列数字</li>
+</ol>
+<p>使用示例：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;!--每一分钟执行一次 /bin/ls：--&gt;</span><br><span class="line">* * * * * /bin/ls</span><br><span class="line"></span><br><span class="line">&lt;!--在 12 月内, 每天的早上 6 点到 12 点，每隔 3 个小时 0 分钟执行一次 /usr/bin/backup：--&gt;</span><br><span class="line">0 6-12/3 * 12 * /usr/bin/backup</span><br><span class="line"></span><br><span class="line">&lt;!--周一到周五每天下午 5:00 寄一封信给 alex@domain.name：--&gt;</span><br><span class="line">0 17 * * 1-5 mail -s &quot;hi&quot; alex@domain.name &lt; /tmp/maildata</span><br><span class="line"></span><br><span class="line">&lt;!--每月每天的午夜 0 点 20 分, 2 点 20 分, 4 点 20 分....执行 echo &quot;haha&quot;：--&gt;</span><br><span class="line">20 0-23/2 * * * echo &quot;haha&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
 </search>

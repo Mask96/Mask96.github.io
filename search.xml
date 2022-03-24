@@ -2140,4 +2140,66 @@
         <tag>爬坑记录</tag>
       </tags>
   </entry>
+  <entry>
+    <title>iterm2快捷键配置</title>
+    <url>/2022/03/24/iterm2%E5%BF%AB%E6%8D%B7%E9%94%AE%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>Iterm2 常用快捷键设置，包括光标的单词移动，整行移动，撤销等。</p>
+<span id="more"></span>
+
+<p>To jump between words and start/end of lines in iTerm2 follow these steps:</p>
+<ul>
+<li>iTerm2 -&gt; Preferences (⌘ + ,)</li>
+<li>Open the “Keys” tab</li>
+<li>Add the following Global Shortcut Keys</li>
+</ul>
+<p><strong>Move cursor one word left</strong></p>
+<ul>
+<li>Keyboard Combination: ⌥ + ←</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x1b 0x62</code></li>
+</ul>
+<p><strong>Move cursor one word right</strong></p>
+<ul>
+<li>Keyboard Combination: ⌥ + →</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x1b 0x66</code></li>
+</ul>
+<p><strong>Move cursor to beginning of line</strong></p>
+<ul>
+<li>Keyboard Combination: ⌘ + ←</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x01</code></li>
+</ul>
+<p><strong>Move cursor to end of line</strong></p>
+<ul>
+<li>Keyboard Combination: ⌘ + →</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x05</code></li>
+</ul>
+<p><strong>Delete word</strong></p>
+<ul>
+<li>Keyboard Combination: ⌥ + ←Delete</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x1b 0x08</code></li>
+</ul>
+<p><strong>Delete line</strong></p>
+<ul>
+<li>Keyboard Combination: ⌘ + ←Delete</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x15</code></li>
+</ul>
+<p><strong>Undo</strong></p>
+<ul>
+<li>Keyboard Combination: ⌘ + z</li>
+<li>Action: Send Hex Code</li>
+<li>Code: <code>0x1f</code></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
 </search>

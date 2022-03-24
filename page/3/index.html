@@ -185,6 +185,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mask">
+      <meta itemprop="description" content="在广阔的世界里 做一个不狭隘的人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="/">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/" class="post-title-link" itemprop="url">devops-sentinel测试环境异常停止复盘</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-05 16:29:01" itemprop="dateCreated datePublished" datetime="2020-08-05T16:29:01+08:00">2020-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-19 11:48:24" itemprop="dateModified" datetime="2021-10-19T11:48:24+08:00">2021-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一-异常状况"><a href="#一-异常状况" class="headerlink" title="一. 异常状况"></a>一. 异常状况</h1><p>日志停止，不再有新日志产生。<br>influxDB中无新数据写入。</p>
+<h1 id="二-问题分析-amp-解决"><a href="#二-问题分析-amp-解决" class="headerlink" title="二. 问题分析&amp;解决"></a>二. 问题分析&amp;解决</h1><ol>
+<li><p>系统结构<br> 系统主要分为两个任务，sla量测点健康检查和应用健康检查。两个任务分别通过两个定时任务每分钟启动一次，定时任务是生产者，获取待消费的Entity放入一个容量为1的阻塞队列。<br> 该系统为生产者消费者模式，分别通容量为1的阻塞队列来传递Entity。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/05/devops-sentinel%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E5%BC%82%E5%B8%B8%E5%81%9C%E6%AD%A2%E5%A4%8D%E7%9B%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/03/03/JS%E6%A0%A1%E9%AA%8C-js%E4%B8%AD%E5%88%A4%E6%96%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%8C%85%E5%90%AB%E5%8F%A6%E4%B8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1006,7 +1089,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
